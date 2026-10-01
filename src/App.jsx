@@ -39,10 +39,11 @@ const translations = {
     lang: "ES",
     language: "Idioma",
     nav: {
-      services: "Servicios",
-      sectors: "Sectores",
+      automate: "Automatizar",
+      examples: "Ejemplos",
       process: "Cómo funciona",
       pricing: "Precios",
+      sectors: "Sectores",
       panel: "Panel",
       faq: "Preguntas",
       contact: "Contacto",
@@ -50,95 +51,182 @@ const translations = {
     },
     hero: {
       eyebrow: "IA · AUTOMATIZACIÓN · TECNOLOGÍA",
-      title1: "Tu negocio puede trabajar",
-      title2: "de forma más inteligente.",
-      text:
-        "ZAYVERO crea sistemas con Inteligencia Artificial que ayudan a las empresas a responder clientes, organizar oportunidades, gestionar citas y automatizar procesos.",
-      primary: "Descubre qué puedes automatizar →",
-      secondary: "Explorar soluciones",
-      note: "Diseñamos la tecnología alrededor de tu negocio.",
+      title:
+        "Automatizamos tu negocio para que pierdas menos clientes y vendas más.",
+      subtitle:
+        "ZAYVERO SOLUTIONS implementa inteligencia artificial y automatizaciones para ayudarte a responder clientes, gestionar leads y optimizar procesos de negocio.",
+      primary: "Quiero automatizar mi negocio",
+      secondary: "Hablar por WhatsApp",
+      note:
+        "Analizamos tu negocio y detectamos oportunidades de automatización.",
       videoFallback: "Tu navegador no puede reproducir este video.",
     },
-    trust: [
-      "Inteligencia Artificial",
-      "Automatización",
-      "WhatsApp",
-      "CRM",
-      "Procesos digitales",
-    ],
     problem: {
       label: "EL PROBLEMA",
-      title:
-        "Las oportunidades pueden perderse mientras tu equipo está ocupado haciendo otras cosas.",
-      description:
-        "Respuestas tardías, información dispersa y tareas repetitivas pueden hacer que un negocio dependa demasiado del trabajo manual.",
+      title: "¿Cuántos clientes estás perdiendo sin darte cuenta?",
+      description: "Señales de que tu negocio necesita automatización:",
       cards: [
         {
-          icon: "⏱️",
-          title: "Respuestas tardías",
+          icon: "💬",
+          title: "Mensajes sin respuesta rápida",
           text:
-            "Un cliente pregunta, pero nadie está disponible para responder.",
+            "Clientes que escriben por WhatsApp y no reciben una respuesta a tiempo.",
         },
         {
           icon: "🎯",
           title: "Leads sin seguimiento",
           text:
-            "Personas interesadas quedan sin una próxima acción definida.",
+            "Personas interesadas que se pierden porque nadie les da seguimiento.",
+        },
+        {
+          icon: "📅",
+          title: "Citas gestionadas a mano",
+          text:
+            "Reservas y citas coordinadas manualmente, con errores y olvidos.",
+        },
+        {
+          icon: "🗂️",
+          title: "Información dispersa",
+          text:
+            "Datos de clientes repartidos entre chats, notas y hojas sueltas.",
         },
         {
           icon: "🔁",
-          title: "Trabajo repetitivo",
+          title: "Tareas repetitivas",
           text:
-            "El equipo dedica tiempo a tareas que pueden convertirse en procesos automáticos.",
+            "Tu equipo pierde horas en trabajo repetitivo que una automatización puede hacer.",
+        },
+        {
+          icon: "🌙",
+          title: "Consultas fuera de horario",
+          text:
+            "Tu negocio recibe mensajes de noche y fines de semana sin nadie que atienda.",
+        },
+      ],
+      transition:
+        "Zayvero convierte esos procesos manuales en sistemas automatizados.",
+    },
+    services: {
+      label: "LO QUE PODEMOS AUTOMATIZAR",
+      title: "Sistemas que trabajan por tu negocio.",
+      description:
+        "Diseñamos cada automatización según el proceso que quieras mejorar.",
+      items: [
+        [
+          "WhatsApp con IA",
+          "Responde preguntas frecuentes y atiende clientes automáticamente.",
+        ],
+        [
+          "Captura y seguimiento de leads",
+          "Registra prospectos y realiza seguimientos automáticos.",
+        ],
+        [
+          "Reservas y citas",
+          "Automatiza solicitudes de citas, reservas y recopilación de datos.",
+        ],
+        [
+          "CRM y gestión de clientes",
+          "Centraliza información de clientes y oportunidades.",
+        ],
+        [
+          "Automatización de procesos",
+          "Conecta aplicaciones y elimina tareas repetitivas.",
+        ],
+        [
+          "IA para negocios",
+          "Utiliza inteligencia artificial para mejorar atención y operaciones.",
+        ],
+      ],
+    },
+    examples: {
+      label: "EJEMPLOS",
+      title: "Así puede funcionar Zayvero en tu negocio",
+      description:
+        "Ejemplos conceptuales de flujos automatizados. Cada negocio recibe un sistema diseñado para su proceso.",
+      cases: [
+        {
+          sector: "CLÍNICAS",
+          client: "Hola, quiero una cita.",
+          auto: "Claro. ¿Qué día y horario prefieres?",
+          steps: [
+            "Captura datos",
+            "Registra paciente potencial",
+            "Notifica al equipo",
+            "Da seguimiento",
+          ],
+        },
+        {
+          sector: "RESTAURANTES",
+          client: "Hola, quiero reservar para 4 personas mañana.",
+          auto: "¡Perfecto! Déjame confirmar la disponibilidad.",
+          steps: [
+            "Captura cantidad de personas",
+            "Captura fecha y hora",
+            "Consulta disponibilidad",
+            "Registra reserva",
+            "Confirma al cliente",
+          ],
+        },
+        {
+          sector: "INMOBILIARIAS",
+          client: "Estoy buscando un apartamento de 2 habitaciones.",
+          auto: "¡Excelente! Cuéntame un poco más para ayudarte mejor.",
+          steps: [
+            "Captura presupuesto",
+            "Captura zona",
+            "Clasifica prospecto",
+            "Guarda información",
+            "Notifica al vendedor",
+          ],
         },
       ],
     },
     process: {
       label: "CÓMO FUNCIONA",
-      title:
-        "Conectamos cada paso de la conversación con tu negocio.",
+      title: "De tu proceso actual a un sistema automatizado.",
       description:
-        "Una automatización puede comenzar con un mensaje y terminar con una oportunidad organizada para tu equipo.",
+        "Un método claro, sin tecnicismos y sin interrumpir tu operación.",
       steps: [
-        ["01", "Cliente", "Escribe por WhatsApp o web."],
-        ["02", "IA", "Comprende y responde."],
-        ["03", "Datos", "La información queda registrada."],
+        ["01", "Analizamos", "Entendemos cómo funciona actualmente tu negocio."],
+        ["02", "Detectamos", "Encontramos tareas repetitivas y oportunidades de automatización."],
+        ["03", "Automatizamos", "Diseñamos e implementamos el flujo adecuado."],
+        ["04", "Optimizamos", "Medimos el funcionamiento y mejoramos el sistema."],
       ],
     },
-    services: {
-      label: "SOLUCIONES",
-      title: "Sistemas que trabajan detrás de tu negocio.",
+    difference: {
+      label: "DIFERENCIACIÓN",
+      title:
+        "No se trata solo de usar IA. Se trata de hacer que tu negocio funcione mejor.",
+      text:
+        "Combinamos inteligencia artificial, automatización y herramientas empresariales para crear sistemas adaptados a las necesidades reales de cada negocio.",
+      points: [
+        "Automatizaciones personalizadas",
+        "Integración con herramientas existentes",
+        "Procesos más rápidos",
+        "Menos tareas manuales",
+        "Mejor seguimiento de clientes",
+        "Atención automatizada",
+      ],
+    },
+    ctaMid: {
+      title: "Descubre qué puedes automatizar en tu negocio.",
+      text:
+        "Cuéntanos cómo funciona actualmente tu negocio y encontraremos oportunidades donde la automatización pueda ayudarte.",
+      button: "Solicitar diagnóstico",
+    },
+    sectors: {
+      label: "SECTORES",
+      title: "Diseñado para negocios que quieren crecer",
       description:
-        "Desde atención al cliente hasta seguimiento comercial, diseñamos automatizaciones según el proceso que quieras mejorar.",
+        "Soluciones de automatización adaptadas a la forma de trabajar de cada sector.",
       items: [
-        [
-          "Recepcionista IA",
-          "Atiende consultas, responde preguntas frecuentes y ayuda a gestionar solicitudes incluso fuera del horario laboral.",
-        ],
-        [
-          "WhatsApp con IA",
-          "Responde automáticamente, entiende lo que necesita cada cliente y captura sus datos.",
-        ],
-        [
-          "Citas automáticas",
-          "Permite que tus clientes soliciten y coordinen citas sin depender de una persona disponible.",
-        ],
-        [
-          "Recuperación de leads",
-          "Da seguimiento a personas que mostraron interés pero dejaron de responder.",
-        ],
-        [
-          "CRM inteligente",
-          "Centraliza tus prospectos y ayuda a tu equipo a saber quién necesita atención.",
-        ],
-        [
-          "Automatización empresarial",
-          "Conectamos formularios, WhatsApp, CRM, IA y otras herramientas en un mismo flujo.",
-        ],
-        [
-          "Creación de páginas web",
-          "Diseñamos páginas web modernas y rápidas que presentan tu negocio y convierten visitas en clientes.",
-        ],
+        ["🏥", "Clínicas", "Citas, recordatorios y seguimiento de pacientes."],
+        ["🍽️", "Restaurantes", "Reservas y atención automática de clientes."],
+        ["🏠", "Inmobiliarias", "Captura y clasificación de prospectos."],
+        ["🔧", "Talleres", "Gestión de citas de servicio y seguimiento."],
+        ["🏗️", "Contratistas", "Cotizaciones y seguimiento de proyectos."],
+        ["🛒", "Tiendas online", "Atención y recuperación de carritos."],
+        ["🏢", "PyMEs", "Automatización de procesos administrativos."],
       ],
     },
     pricing: {
@@ -199,97 +287,6 @@ const translations = {
       },
       footnote:
         "Precios de lanzamiento. Cada negocio es diferente: escríbenos y diseñamos el alcance exacto para el tuyo.",
-    },
-    sectors: {
-      label: "PARA QUIÉN",
-      title: "Automatización para diferentes tipos de negocios.",
-      description:
-        "No utilizamos una solución idéntica para todos. Primero entendemos cómo funciona el negocio y luego diseñamos el sistema.",
-      items: [
-        ["🏥", "Clínicas", "Pacientes, citas y seguimiento."],
-        ["🍽️", "Restaurantes", "Reservas, consultas y atención."],
-        ["🏠", "Inmobiliarias", "Captación y clasificación de prospectos."],
-        ["💈", "Barberías y salones", "Agendamiento y recordatorios."],
-        ["🔧", "Talleres", "Solicitudes, cotizaciones y seguimiento."],
-        ["🛒", "Tiendas", "Consultas, clientes y ventas."],
-      ],
-    },
-    caseStudy: {
-      label: "EJEMPLO",
-      title: "Así puede verse una automatización en una clínica.",
-      description:
-        "Este es un ejemplo conceptual de cómo una conversación puede convertirse en un proceso organizado.",
-      tag: "CASO DE USO",
-      title2: "Recepción de pacientes",
-      text:
-        "En lugar de depender exclusivamente de una persona para responder cada mensaje, una automatización puede recopilar la información inicial y enviarla al sistema correspondiente.",
-      button: "Quiero algo así →",
-      steps: [
-        ["💬", "El paciente escribe", "“Quiero una cita para mañana.”"],
-        ["🤖", "La IA conversa", "Recopila la información necesaria."],
-        [
-          "📊",
-          "El lead queda registrado",
-          "Nombre, teléfono, servicio e interés.",
-        ],
-        [
-          "🎯",
-          "El equipo recibe contexto",
-          "La oportunidad queda lista para continuar.",
-        ],
-      ],
-    },
-    beforeAfter: {
-      label: "EL CAMBIO",
-      title: "De procesos manuales a flujos conectados.",
-      before: "Antes",
-      after: "Con automatización",
-      beforeItems: [
-        "Mensajes esperando respuesta.",
-        "Información repartida entre diferentes herramientas.",
-        "Seguimientos manuales.",
-        "Tareas repetitivas.",
-      ],
-      afterItems: [
-        "Respuestas automáticas cuando corresponde.",
-        "Información organizada.",
-        "Seguimientos programados.",
-        "Procesos conectados.",
-      ],
-    },
-    method: {
-      label: "MÉTODO ZAYVERO",
-      title: "Primero entendemos. Después automatizamos.",
-      items: [
-        [
-          "01 — ANALIZAMOS",
-          "Entendemos tu proceso",
-          "Identificamos tareas repetitivas, puntos de fricción y oportunidades de automatización.",
-        ],
-        [
-          "02 — DISEÑAMOS",
-          "Creamos el flujo",
-          "Diseñamos una solución basada en cómo realmente funciona tu empresa.",
-        ],
-        [
-          "03 — CONECTAMOS",
-          "Integramos herramientas",
-          "Conectamos IA, WhatsApp, CRM, formularios y otros sistemas para crear un proceso completo.",
-        ],
-        [
-          "04 — ACOMPAÑAMOS",
-          "Damos seguimiento",
-          "Monitoreamos el sistema, ajustamos lo necesario y te acompañamos mientras tu negocio crece.",
-        ],
-      ],
-    },
-    difference: {
-      label: "ZAYVERO",
-      title:
-        "No se trata de añadir más tecnología. Se trata de hacer que la tecnología trabaje para tu negocio.",
-      text:
-        "Construimos automatizaciones con un objetivo claro: ayudarte a gestionar mejor las conversaciones, oportunidades y procesos que forman parte de tu operación.",
-      pills: ["🤖 IA", "💬 WhatsApp", "📊 CRM", "📅 Citas", "🎯 Leads", "⚙️ Automatización"],
     },
     panel: {
       label: "PANEL COMERCIAL",
@@ -367,32 +364,36 @@ const translations = {
     },
     faq: {
       label: "PREGUNTAS FRECUENTES",
-      title: "Lo que necesitas saber antes de empezar.",
+      title: "Preguntas frecuentes",
       items: [
         [
-          "¿Tengo que cambiar las herramientas que ya utiliza mi negocio?",
-          "No necesariamente. Primero revisamos tus procesos y las herramientas actuales para determinar qué se puede conectar y qué conviene ajustar.",
+          "¿Zayvero trabaja con cualquier negocio?",
+          "Sí. Las soluciones se adaptan al proceso y a las necesidades de cada empresa, sin importar su tamaño o sector.",
         ],
         [
-          "¿La automatización puede atender fuera del horario laboral?",
-          "Según el sistema diseñado, puede responder consultas frecuentes y recopilar solicitudes fuera del horario. Los casos que requieran intervención humana pueden derivarse al equipo.",
+          "¿Necesito cambiar las herramientas que ya utilizo?",
+          "No necesariamente. Cuando es posible, integramos las herramientas que ya usas dentro de la automatización.",
         ],
         [
-          "¿La solución se adapta a mi tipo de negocio?",
-          "Sí. El alcance se define a partir de tus clientes, tareas, canales de atención y herramientas existentes.",
+          "¿La automatización reemplaza a mis empleados?",
+          "No. El objetivo es automatizar las tareas repetitivas para que tu equipo se concentre en tareas de mayor valor.",
         ],
         [
-          "¿Cómo comenzamos?",
-          "Cuéntanos qué proceso deseas mejorar. Revisaremos tu necesidad y conversaremos sobre un alcance inicial y los próximos pasos.",
+          "¿Puedo automatizar WhatsApp?",
+          "Sí. Es posible automatizar respuestas y atención por WhatsApp, dependiendo de la configuración y las herramientas utilizadas.",
+        ],
+        [
+          "¿Cuánto cuesta una automatización?",
+          "Depende del proceso, las integraciones y el alcance. Cuéntanos tu caso y preparamos una propuesta a medida.",
         ],
       ],
     },
-    cta: {
-      label: "EMPECEMOS",
-      title: "¿Qué parte de tu negocio estás haciendo manualmente?",
-      text:
-        "Cuéntanos cómo funciona actualmente tu negocio y descubramos qué procesos pueden convertirse en automatizaciones.",
-      button: "Escríbenos por WhatsApp →",
+    ctaFinal: {
+      label: "CONTACTO",
+      title: "Tu negocio ya tiene suficientes tareas manuales.",
+      subtitle: "Hablemos sobre qué podemos automatizar.",
+      primary: "Hablar con Zayvero",
+      secondary: "Solicitar diagnóstico",
     },
     contact: {
       label: "CONTACTO",
@@ -454,111 +455,198 @@ const translations = {
     },
     whatsappAria: "Escríbenos por WhatsApp",
   },
-
   en: {
     lang: "EN",
     language: "Language",
     nav: {
-      services: "Services",
-      sectors: "Industries",
+      automate: "Automate",
+      examples: "Examples",
       process: "How it works",
       pricing: "Pricing",
-      panel: "Dashboard",
+      sectors: "Industries",
+      panel: "Panel",
       faq: "FAQ",
       contact: "Contact",
       cta: "Talk to ZAYVERO",
     },
     hero: {
       eyebrow: "AI · AUTOMATION · TECHNOLOGY",
-      title1: "Your business can work",
-      title2: "smarter.",
-      text:
-        "ZAYVERO builds Artificial Intelligence systems that help businesses respond to customers, organize opportunities, manage appointments and automate processes.",
-      primary: "Discover what you can automate →",
-      secondary: "Explore solutions",
-      note: "We design technology around your business.",
+      title:
+        "We automate your business so you lose fewer customers and sell more.",
+      subtitle:
+        "ZAYVERO SOLUTIONS implements artificial intelligence and automations to help you respond to customers, manage leads, and optimize business processes.",
+      primary: "I want to automate my business",
+      secondary: "Chat on WhatsApp",
+      note:
+        "We analyze your business and detect automation opportunities.",
       videoFallback: "Your browser cannot play this video.",
     },
-    trust: [
-      "Artificial Intelligence",
-      "Automation",
-      "WhatsApp",
-      "CRM",
-      "Digital processes",
-    ],
     problem: {
       label: "THE PROBLEM",
-      title:
-        "Opportunities can be lost while your team is busy doing other things.",
-      description:
-        "Slow responses, scattered information and repetitive tasks can make a business depend too much on manual work.",
+      title: "How many customers are you losing without realizing it?",
+      description: "Signs your business may need automation:",
       cards: [
         {
-          icon: "⏱️",
-          title: "Slow responses",
+          icon: "💬",
+          title: "Messages without quick replies",
           text:
-            "A customer asks a question, but nobody is available to respond.",
+            "Customers write on WhatsApp and don't get a timely response.",
         },
         {
           icon: "🎯",
           title: "Leads without follow-up",
           text:
-            "Interested people are left without a defined next action.",
+            "Interested people slip away because no one follows up.",
+        },
+        {
+          icon: "📅",
+          title: "Manually managed bookings",
+          text:
+            "Appointments and reservations coordinated by hand, with errors and forgotten slots.",
+        },
+        {
+          icon: "🗂️",
+          title: "Scattered information",
+          text:
+            "Customer data spread across chats, notes, and loose spreadsheets.",
         },
         {
           icon: "🔁",
-          title: "Repetitive work",
+          title: "Repetitive tasks",
           text:
-            "Your team spends time on tasks that can become automated processes.",
+            "Your team spends hours on repetitive work an automation could handle.",
+        },
+        {
+          icon: "🌙",
+          title: "After-hours inquiries",
+          text:
+            "Your business gets messages at night and on weekends with no one to respond.",
+        },
+      ],
+      transition:
+        "Zayvero turns those manual processes into automated systems.",
+    },
+    services: {
+      label: "WHAT WE CAN AUTOMATE",
+      title: "Systems that work for your business.",
+      description:
+        "We design each automation around the process you want to improve.",
+      items: [
+        [
+          "AI-powered WhatsApp",
+          "Answers FAQs and serves customers automatically.",
+        ],
+        [
+          "Lead capture and follow-up",
+          "Registers prospects and runs automatic follow-ups.",
+        ],
+        [
+          "Bookings and appointments",
+          "Automates appointment requests, reservations, and data collection.",
+        ],
+        [
+          "CRM and customer management",
+          "Centralizes customer information and opportunities.",
+        ],
+        [
+          "Process automation",
+          "Connects apps and eliminates repetitive tasks.",
+        ],
+        [
+          "AI for business",
+          "Uses artificial intelligence to improve service and operations.",
+        ],
+      ],
+    },
+    examples: {
+      label: "EXAMPLES",
+      title: "How Zayvero could work in your business",
+      description:
+        "Conceptual examples of automated flows. Each business gets a system designed for its process.",
+      cases: [
+        {
+          sector: "CLINICS",
+          client: "Hi, I'd like to book an appointment.",
+          auto: "Of course. What day and time do you prefer?",
+          steps: [
+            "Captures data",
+            "Registers potential patient",
+            "Notifies the team",
+            "Follows up",
+          ],
+        },
+        {
+          sector: "RESTAURANTS",
+          client: "Hi, I'd like to reserve for 4 people tomorrow.",
+          auto: "Perfect! Let me confirm availability.",
+          steps: [
+            "Captures party size",
+            "Captures date and time",
+            "Checks availability",
+            "Registers reservation",
+            "Confirms with the customer",
+          ],
+        },
+        {
+          sector: "REAL ESTATE",
+          client: "I'm looking for a 2-bedroom apartment.",
+          auto: "Excellent! Tell me a bit more so I can help.",
+          steps: [
+            "Captures budget",
+            "Captures area",
+            "Qualifies the prospect",
+            "Saves information",
+            "Notifies the agent",
+          ],
         },
       ],
     },
     process: {
       label: "HOW IT WORKS",
-      title:
-        "We connect every step of the conversation with your business.",
+      title: "From your current process to an automated system.",
       description:
-        "An automation can start with a message and end with an organized opportunity for your team.",
+        "A clear method, no jargon, no disruption to your operation.",
       steps: [
-        ["01", "Customer", "Writes through WhatsApp or web."],
-        ["02", "AI", "Understands and responds."],
-        ["03", "Data", "Information is recorded."],
+        ["01", "We analyze", "We understand how your business currently works."],
+        ["02", "We detect", "We find repetitive tasks and automation opportunities."],
+        ["03", "We automate", "We design and implement the right flow."],
+        ["04", "We optimize", "We measure performance and improve the system."],
       ],
     },
-    services: {
-      label: "SOLUTIONS",
-      title: "Systems working behind your business.",
+    difference: {
+      label: "WHY ZAYVERO",
+      title:
+        "It's not just about using AI. It's about making your business work better.",
+      text:
+        "We combine artificial intelligence, automation, and business tools to create systems tailored to each business's real needs.",
+      points: [
+        "Custom automations",
+        "Integration with your existing tools",
+        "Faster processes",
+        "Fewer manual tasks",
+        "Better customer follow-up",
+        "Automated customer service",
+      ],
+    },
+    ctaMid: {
+      title: "Discover what you can automate in your business.",
+      text:
+        "Tell us how your business currently works and we'll find opportunities where automation can help.",
+      button: "Request a diagnosis",
+    },
+    sectors: {
+      label: "INDUSTRIES",
+      title: "Built for businesses that want to grow",
       description:
-        "From customer service to sales follow-up, we design automations around the process you want to improve.",
+        "Automation solutions adapted to how each industry works.",
       items: [
-        [
-          "AI Receptionist",
-          "Answers questions, handles FAQs and helps manage requests even outside business hours.",
-        ],
-        [
-          "AI-powered WhatsApp",
-          "Responds automatically, understands customer needs and captures their information.",
-        ],
-        [
-          "Automated appointments",
-          "Allows customers to request and coordinate appointments without depending on an available employee.",
-        ],
-        [
-          "Lead recovery",
-          "Follows up with people who showed interest but stopped responding.",
-        ],
-        [
-          "Smart CRM",
-          "Centralizes prospects and helps your team know who needs attention.",
-        ],
-        [
-          "Business automation",
-          "Connects forms, WhatsApp, CRM, AI and other tools in one workflow.",
-        ],
-        [
-          "Website development",
-          "We design modern, fast websites that present your business and turn visitors into customers.",
-        ],
+        ["🏥", "Clinics", "Appointments, reminders, and patient follow-up."],
+        ["🍽️", "Restaurants", "Reservations and automatic customer service."],
+        ["🏠", "Real estate", "Prospect capture and qualification."],
+        ["🔧", "Repair shops", "Service appointment management and follow-up."],
+        ["🏗️", "Contractors", "Quotes and project follow-up."],
+        ["🛒", "Online stores", "Customer service and cart recovery."],
+        ["🏢", "SMBs", "Administrative process automation."],
       ],
     },
     pricing: {
@@ -619,97 +707,6 @@ const translations = {
       },
       footnote:
         "Launch pricing. Every business is different: contact us and we'll design the exact scope for yours.",
-    },
-    sectors: {
-      label: "WHO IT'S FOR",
-      title: "Automation for different types of businesses.",
-      description:
-        "We don't use the exact same solution for everyone. First we understand how your business works, then we design the system.",
-      items: [
-        ["🏥", "Clinics", "Patients, appointments and follow-up."],
-        ["🍽️", "Restaurants", "Reservations, questions and customer service."],
-        ["🏠", "Real estate", "Lead generation and prospect qualification."],
-        ["💈", "Barbershops & salons", "Scheduling and reminders."],
-        ["🔧", "Auto shops", "Requests, quotes and follow-up."],
-        ["🛒", "Retail", "Questions, customers and sales."],
-      ],
-    },
-    caseStudy: {
-      label: "EXAMPLE",
-      title: "What automation can look like in a clinic.",
-      description:
-        "This is a conceptual example of how a conversation can become an organized process.",
-      tag: "USE CASE",
-      title2: "Patient reception",
-      text:
-        "Instead of relying exclusively on one person to answer every message, an automation can collect initial information and send it to the appropriate system.",
-      button: "I want something like this →",
-      steps: [
-        ["💬", "The patient writes", "“I want an appointment tomorrow.”"],
-        ["🤖", "AI has the conversation", "It collects the necessary information."],
-        [
-          "📊",
-          "The lead is recorded",
-          "Name, phone, service and interest.",
-        ],
-        [
-          "🎯",
-          "The team receives context",
-          "The opportunity is ready for the next step.",
-        ],
-      ],
-    },
-    beforeAfter: {
-      label: "THE CHANGE",
-      title: "From manual processes to connected workflows.",
-      before: "Before",
-      after: "With automation",
-      beforeItems: [
-        "Messages waiting for a response.",
-        "Information spread across different tools.",
-        "Manual follow-ups.",
-        "Repetitive tasks.",
-      ],
-      afterItems: [
-        "Automatic responses when appropriate.",
-        "Organized information.",
-        "Scheduled follow-ups.",
-        "Connected processes.",
-      ],
-    },
-    method: {
-      label: "THE ZAYVERO METHOD",
-      title: "First we understand. Then we automate.",
-      items: [
-        [
-          "01 — ANALYZE",
-          "Understand your process",
-          "We identify repetitive tasks, friction points and automation opportunities.",
-        ],
-        [
-          "02 — DESIGN",
-          "Build the workflow",
-          "We design a solution based on how your company actually works.",
-        ],
-        [
-          "03 — CONNECT",
-          "Integrate your tools",
-          "We connect AI, WhatsApp, CRM, forms and other systems into a complete process.",
-        ],
-        [
-          "04 — SUPPORT",
-          "Keep improving",
-          "We monitor the system, make adjustments and support you as your business grows.",
-        ],
-      ],
-    },
-    difference: {
-      label: "ZAYVERO",
-      title:
-        "It's not about adding more technology. It's about making technology work for your business.",
-      text:
-        "We build automations with a clear objective: helping you better manage the conversations, opportunities and processes that are part of your operation.",
-      pills: ["🤖 AI", "💬 WhatsApp", "📊 CRM", "📅 Appointments", "🎯 Leads", "⚙️ Automation"],
     },
     panel: {
       label: "SALES DASHBOARD",
@@ -785,32 +782,36 @@ const translations = {
     },
     faq: {
       label: "FREQUENTLY ASKED QUESTIONS",
-      title: "What you need to know before getting started.",
+      title: "Frequently asked questions",
       items: [
         [
-          "Do I have to change the tools my business already uses?",
-          "Not necessarily. We first review your current processes and tools to determine what can be connected and what should be adjusted.",
+          "Does Zayvero work with any business?",
+          "Yes. Our solutions adapt to each company's process and needs, regardless of size or industry.",
         ],
         [
-          "Can automation handle customers outside business hours?",
-          "Depending on the system designed, it can answer common questions and collect requests outside business hours. Cases requiring human intervention can be routed to your team.",
+          "Do I need to change the tools I already use?",
+          "Not necessarily. Whenever possible, we integrate the tools you already use into the automation.",
         ],
         [
-          "Does the solution adapt to my type of business?",
-          "Yes. The scope is defined around your customers, tasks, communication channels and existing tools.",
+          "Does automation replace my employees?",
+          "No. The goal is to automate repetitive tasks so your team can focus on higher-value work.",
         ],
         [
-          "How do we get started?",
-          "Tell us which process you want to improve. We'll review your needs and discuss an initial scope and next steps.",
+          "Can I automate WhatsApp?",
+          "Yes. It's possible to automate responses and customer service on WhatsApp, depending on the setup and tools used.",
+        ],
+        [
+          "How much does an automation cost?",
+          "It depends on the process, integrations, and scope. Tell us about your case and we'll prepare a tailored proposal.",
         ],
       ],
     },
-    cta: {
-      label: "LET'S START",
-      title: "Which part of your business are you still doing manually?",
-      text:
-        "Tell us how your business currently works and let's discover which processes can become automations.",
-      button: "Message us on WhatsApp →",
+    ctaFinal: {
+      label: "CONTACT",
+      title: "Your business already has enough manual tasks.",
+      subtitle: "Let's talk about what we can automate.",
+      primary: "Talk to Zayvero",
+      secondary: "Request a diagnosis",
     },
     contact: {
       label: "CONTACT",
@@ -872,15 +873,15 @@ const translations = {
     },
     whatsappAria: "Message us on WhatsApp",
   },
-
   pt: {
     lang: "PT",
     language: "Idioma",
     nav: {
-      services: "Serviços",
-      sectors: "Setores",
+      automate: "Automatizar",
+      examples: "Exemplos",
       process: "Como funciona",
       pricing: "Preços",
+      sectors: "Setores",
       panel: "Painel",
       faq: "Perguntas",
       contact: "Contato",
@@ -888,95 +889,182 @@ const translations = {
     },
     hero: {
       eyebrow: "IA · AUTOMAÇÃO · TECNOLOGIA",
-      title1: "Seu negócio pode trabalhar",
-      title2: "de forma mais inteligente.",
-      text:
-        "A ZAYVERO cria sistemas com Inteligência Artificial que ajudam empresas a responder clientes, organizar oportunidades, gerenciar agendamentos e automatizar processos.",
-      primary: "Descubra o que você pode automatizar →",
-      secondary: "Explorar soluções",
-      note: "Criamos a tecnologia ao redor do seu negócio.",
-      videoFallback: "Seu navegador não consegue reproduzir este vídeo.",
+      title:
+        "Automatizamos o seu negócio para você perder menos clientes e vender mais.",
+      subtitle:
+        "A ZAYVERO SOLUTIONS implementa inteligência artificial e automações para ajudar você a responder clientes, gerenciar leads e otimizar processos do negócio.",
+      primary: "Quero automatizar meu negócio",
+      secondary: "Falar pelo WhatsApp",
+      note:
+        "Analisamos o seu negócio e detectamos oportunidades de automação.",
+      videoFallback: "Seu navegador não pode reproduzir este vídeo.",
     },
-    trust: [
-      "Inteligência Artificial",
-      "Automação",
-      "WhatsApp",
-      "CRM",
-      "Processos digitais",
-    ],
     problem: {
       label: "O PROBLEMA",
-      title:
-        "Oportunidades podem ser perdidas enquanto sua equipe está ocupada fazendo outras coisas.",
-      description:
-        "Respostas demoradas, informações espalhadas e tarefas repetitivas podem fazer um negócio depender demais do trabalho manual.",
+      title: "Quantos clientes você está perdendo sem perceber?",
+      description: "Sinais de que o seu negócio pode precisar de automação:",
       cards: [
         {
-          icon: "⏱️",
-          title: "Respostas demoradas",
+          icon: "💬",
+          title: "Mensagens sem resposta rápida",
           text:
-            "Um cliente pergunta, mas ninguém está disponível para responder.",
+            "Clientes escrevem pelo WhatsApp e não recebem resposta a tempo.",
         },
         {
           icon: "🎯",
           title: "Leads sem acompanhamento",
           text:
-            "Pessoas interessadas ficam sem uma próxima ação definida.",
+            "Pessoas interessadas que se perdem porque ninguém faz acompanhamento.",
+        },
+        {
+          icon: "📅",
+          title: "Agendamentos manuais",
+          text:
+            "Reservas e consultas coordenadas manualmente, com erros e esquecimentos.",
+        },
+        {
+          icon: "🗂️",
+          title: "Informação dispersa",
+          text:
+            "Dados de clientes espalhados entre chats, notas e planilhas soltas.",
         },
         {
           icon: "🔁",
-          title: "Trabalho repetitivo",
+          title: "Tarefas repetitivas",
           text:
-            "A equipe dedica tempo a tarefas que podem se transformar em processos automáticos.",
+            "Sua equipe perde horas em trabalho repetitivo que uma automação pode fazer.",
+        },
+        {
+          icon: "🌙",
+          title: "Consultas fora do horário",
+          text:
+            "Seu negócio recebe mensagens à noite e nos fins de semana sem ninguém para atender.",
+        },
+      ],
+      transition:
+        "A Zayvero transforma esses processos manuais em sistemas automatizados.",
+    },
+    services: {
+      label: "O QUE PODEMOS AUTOMATIZAR",
+      title: "Sistemas que trabalham pelo seu negócio.",
+      description:
+        "Desenhamos cada automação de acordo com o processo que você quer melhorar.",
+      items: [
+        [
+          "WhatsApp com IA",
+          "Responde perguntas frequentes e atende clientes automaticamente.",
+        ],
+        [
+          "Captação e acompanhamento de leads",
+          "Registra prospects e realiza acompanhamentos automáticos.",
+        ],
+        [
+          "Reservas e agendamentos",
+          "Automatiza solicitações de consultas, reservas e coleta de dados.",
+        ],
+        [
+          "CRM e gestão de clientes",
+          "Centraliza informações de clientes e oportunidades.",
+        ],
+        [
+          "Automação de processos",
+          "Conecta aplicativos e elimina tarefas repetitivas.",
+        ],
+        [
+          "IA para negócios",
+          "Utiliza inteligência artificial para melhorar atendimento e operações.",
+        ],
+      ],
+    },
+    examples: {
+      label: "EXEMPLOS",
+      title: "Como a Zayvero pode funcionar no seu negócio",
+      description:
+        "Exemplos conceituais de fluxos automatizados. Cada negócio recebe um sistema desenhado para o seu processo.",
+      cases: [
+        {
+          sector: "CLÍNICAS",
+          client: "Olá, quero marcar uma consulta.",
+          auto: "Claro. Qual dia e horário você prefere?",
+          steps: [
+            "Captura dados",
+            "Registra potencial paciente",
+            "Notifica a equipe",
+            "Faz acompanhamento",
+          ],
+        },
+        {
+          sector: "RESTAURANTES",
+          client: "Olá, quero reservar para 4 pessoas amanhã.",
+          auto: "Perfeito! Deixe-me confirmar a disponibilidade.",
+          steps: [
+            "Captura número de pessoas",
+            "Captura data e hora",
+            "Consulta disponibilidade",
+            "Registra reserva",
+            "Confirma com o cliente",
+          ],
+        },
+        {
+          sector: "IMOBILIÁRIAS",
+          client: "Estou procurando um apartamento de 2 quartos.",
+          auto: "Excelente! Conte-me um pouco mais para ajudar melhor.",
+          steps: [
+            "Captura orçamento",
+            "Captura região",
+            "Qualifica o prospect",
+            "Salva informações",
+            "Notifica o corretor",
+          ],
         },
       ],
     },
     process: {
       label: "COMO FUNCIONA",
-      title:
-        "Conectamos cada etapa da conversa ao seu negócio.",
+      title: "Do seu processo atual a um sistema automatizado.",
       description:
-        "Uma automação pode começar com uma mensagem e terminar com uma oportunidade organizada para sua equipe.",
+        "Um método claro, sem jargões e sem interromper sua operação.",
       steps: [
-        ["01", "Cliente", "Escreve pelo WhatsApp ou site."],
-        ["02", "IA", "Entende e responde."],
-        ["03", "Dados", "As informações ficam registradas."],
+        ["01", "Analisamos", "Entendemos como o seu negócio funciona atualmente."],
+        ["02", "Detectamos", "Encontramos tarefas repetitivas e oportunidades de automação."],
+        ["03", "Automatizamos", "Desenhamos e implementamos o fluxo adequado."],
+        ["04", "Otimizamos", "Medimos o funcionamento e melhoramos o sistema."],
       ],
     },
-    services: {
-      label: "SOLUÇÕES",
-      title: "Sistemas que trabalham nos bastidores do seu negócio.",
+    difference: {
+      label: "DIFERENCIAL",
+      title:
+        "Não se trata apenas de usar IA. Trata-se de fazer seu negócio funcionar melhor.",
+      text:
+        "Combinamos inteligência artificial, automação e ferramentas empresariais para criar sistemas adaptados às necessidades reais de cada negócio.",
+      points: [
+        "Automações personalizadas",
+        "Integração com suas ferramentas atuais",
+        "Processos mais rápidos",
+        "Menos tarefas manuais",
+        "Melhor acompanhamento de clientes",
+        "Atendimento automatizado",
+      ],
+    },
+    ctaMid: {
+      title: "Descubra o que você pode automatizar no seu negócio.",
+      text:
+        "Conte-nos como o seu negócio funciona atualmente e encontraremos oportunidades onde a automação pode ajudar.",
+      button: "Solicitar diagnóstico",
+    },
+    sectors: {
+      label: "SETORES",
+      title: "Feito para negócios que querem crescer",
       description:
-        "Desde atendimento ao cliente até acompanhamento comercial, criamos automações de acordo com o processo que você deseja melhorar.",
+        "Soluções de automação adaptadas à forma de trabalhar de cada setor.",
       items: [
-        [
-          "Recepcionista IA",
-          "Atende consultas, responde perguntas frequentes e ajuda a gerenciar solicitações mesmo fora do horário comercial.",
-        ],
-        [
-          "WhatsApp com IA",
-          "Responde automaticamente, entende o que cada cliente precisa e coleta seus dados.",
-        ],
-        [
-          "Agendamentos automáticos",
-          "Permite que seus clientes solicitem e coordenem agendamentos sem depender de uma pessoa disponível.",
-        ],
-        [
-          "Recuperação de leads",
-          "Faz acompanhamento de pessoas que demonstraram interesse, mas pararam de responder.",
-        ],
-        [
-          "CRM inteligente",
-          "Centraliza seus prospects e ajuda sua equipe a saber quem precisa de atenção.",
-        ],
-        [
-          "Automação empresarial",
-          "Conectamos formulários, WhatsApp, CRM, IA e outras ferramentas em um único fluxo.",
-        ],
-        [
-          "Criação de sites",
-          "Criamos sites modernos e rápidos que apresentam seu negócio e transformam visitantes em clientes.",
-        ],
+        ["🏥", "Clínicas", "Consultas, lembretes e acompanhamento de pacientes."],
+        ["🍽️", "Restaurantes", "Reservas e atendimento automático de clientes."],
+        ["🏠", "Imobiliárias", "Captação e qualificação de prospects."],
+        ["🔧", "Oficinas", "Gestão de agendamentos de serviços e acompanhamento."],
+        ["🏗️", "Empreiteiros", "Orçamentos e acompanhamento de projetos."],
+        ["🛒", "Lojas online", "Atendimento e recuperação de carrinhos."],
+        ["🏢", "PMEs", "Automação de processos administrativos."],
       ],
     },
     pricing: {
@@ -1037,97 +1125,6 @@ const translations = {
       },
       footnote:
         "Preços de lançamento. Cada negócio é diferente: fale conosco e criamos o escopo exato para o seu.",
-    },
-    sectors: {
-      label: "PARA QUEM",
-      title: "Automação para diferentes tipos de negócios.",
-      description:
-        "Não usamos a mesma solução para todos. Primeiro entendemos como o negócio funciona e depois criamos o sistema.",
-      items: [
-        ["🏥", "Clínicas", "Pacientes, consultas e acompanhamento."],
-        ["🍽️", "Restaurantes", "Reservas, dúvidas e atendimento."],
-        ["🏠", "Imobiliárias", "Captação e qualificação de prospects."],
-        ["💈", "Barbearias e salões", "Agendamentos e lembretes."],
-        ["🔧", "Oficinas", "Solicitações, orçamentos e acompanhamento."],
-        ["🛒", "Lojas", "Dúvidas, clientes e vendas."],
-      ],
-    },
-    caseStudy: {
-      label: "EXEMPLO",
-      title: "Como uma automação pode funcionar em uma clínica.",
-      description:
-        "Este é um exemplo conceitual de como uma conversa pode se transformar em um processo organizado.",
-      tag: "CASO DE USO",
-      title2: "Recepção de pacientes",
-      text:
-        "Em vez de depender exclusivamente de uma pessoa para responder cada mensagem, uma automação pode coletar as informações iniciais e enviá-las ao sistema correspondente.",
-      button: "Quero algo assim →",
-      steps: [
-        ["💬", "O paciente escreve", "“Quero uma consulta amanhã.”"],
-        ["🤖", "A IA conversa", "Coleta as informações necessárias."],
-        [
-          "📊",
-          "O lead é registrado",
-          "Nome, telefone, serviço e interesse.",
-        ],
-        [
-          "🎯",
-          "A equipe recebe o contexto",
-          "A oportunidade fica pronta para continuar.",
-        ],
-      ],
-    },
-    beforeAfter: {
-      label: "A MUDANÇA",
-      title: "De processos manuais para fluxos conectados.",
-      before: "Antes",
-      after: "Com automação",
-      beforeItems: [
-        "Mensagens aguardando resposta.",
-        "Informações espalhadas por diferentes ferramentas.",
-        "Acompanhamentos manuais.",
-        "Tarefas repetitivas.",
-      ],
-      afterItems: [
-        "Respostas automáticas quando apropriado.",
-        "Informações organizadas.",
-        "Acompanhamentos programados.",
-        "Processos conectados.",
-      ],
-    },
-    method: {
-      label: "MÉTODO ZAYVERO",
-      title: "Primeiro entendemos. Depois automatizamos.",
-      items: [
-        [
-          "01 — ANALISAMOS",
-          "Entendemos seu processo",
-          "Identificamos tarefas repetitivas, pontos de atrito e oportunidades de automação.",
-        ],
-        [
-          "02 — PROJETAMOS",
-          "Criamos o fluxo",
-          "Projetamos uma solução baseada em como sua empresa realmente funciona.",
-        ],
-        [
-          "03 — CONECTAMOS",
-          "Integramos ferramentas",
-          "Conectamos IA, WhatsApp, CRM, formulários e outros sistemas para criar um processo completo.",
-        ],
-        [
-          "04 — ACOMPANHAMOS",
-          "Damos suporte",
-          "Monitoramos o sistema, fazemos ajustes e acompanhamos seu negócio enquanto ele cresce.",
-        ],
-      ],
-    },
-    difference: {
-      label: "ZAYVERO",
-      title:
-        "Não se trata de adicionar mais tecnologia. Trata-se de fazer a tecnologia trabalhar para o seu negócio.",
-      text:
-        "Criamos automações com um objetivo claro: ajudar você a gerenciar melhor as conversas, oportunidades e processos que fazem parte da sua operação.",
-      pills: ["🤖 IA", "💬 WhatsApp", "📊 CRM", "📅 Agendamentos", "🎯 Leads", "⚙️ Automação"],
     },
     panel: {
       label: "PAINEL COMERCIAL",
@@ -1205,32 +1202,36 @@ const translations = {
     },
     faq: {
       label: "PERGUNTAS FREQUENTES",
-      title: "O que você precisa saber antes de começar.",
+      title: "Perguntas frequentes",
       items: [
         [
-          "Preciso mudar as ferramentas que minha empresa já utiliza?",
-          "Não necessariamente. Primeiro analisamos seus processos e ferramentas atuais para determinar o que pode ser conectado e o que vale a pena ajustar.",
+          "A Zayvero trabalha com qualquer negócio?",
+          "Sim. As soluções se adaptam ao processo e às necessidades de cada empresa, independentemente do tamanho ou setor.",
         ],
         [
-          "A automação pode atender fora do horário comercial?",
-          "Dependendo do sistema criado, ela pode responder perguntas frequentes e coletar solicitações fora do horário. Casos que exigem intervenção humana podem ser encaminhados à equipe.",
+          "Preciso trocar as ferramentas que já utilizo?",
+          "Não necessariamente. Quando possível, integramos as ferramentas que você já usa na automação.",
         ],
         [
-          "A solução se adapta ao meu tipo de negócio?",
-          "Sim. O escopo é definido de acordo com seus clientes, tarefas, canais de atendimento e ferramentas existentes.",
+          "A automação substitui meus funcionários?",
+          "Não. O objetivo é automatizar as tarefas repetitivas para que sua equipe se concentre em tarefas de maior valor.",
         ],
         [
-          "Como começamos?",
-          "Conte-nos qual processo você deseja melhorar. Vamos analisar sua necessidade e conversar sobre um escopo inicial e os próximos passos.",
+          "Posso automatizar o WhatsApp?",
+          "Sim. É possível automatizar respostas e atendimento pelo WhatsApp, dependendo da configuração e das ferramentas utilizadas.",
+        ],
+        [
+          "Quanto custa uma automação?",
+          "Depende do processo, das integrações e do escopo. Conte-nos o seu caso e preparamos uma proposta sob medida.",
         ],
       ],
     },
-    cta: {
-      label: "VAMOS COMEÇAR",
-      title: "Qual parte do seu negócio você ainda faz manualmente?",
-      text:
-        "Conte-nos como seu negócio funciona atualmente e vamos descobrir quais processos podem se transformar em automações.",
-      button: "Fale conosco pelo WhatsApp →",
+    ctaFinal: {
+      label: "CONTATO",
+      title: "Seu negócio já tem tarefas manuais demais.",
+      subtitle: "Vamos conversar sobre o que podemos automatizar.",
+      primary: "Falar com a Zayvero",
+      secondary: "Solicitar diagnóstico",
     },
     contact: {
       label: "CONTATO",
@@ -1363,7 +1364,7 @@ export default function App() {
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/panel-comercial`
+        "        `${API_BASE}/api/panel-comercial`"
       );
 
       if (!response.ok) {
@@ -1473,7 +1474,7 @@ export default function App() {
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/panel/estado`,
+        "        `${API_BASE}/api/panel/estado`,",
         {
           method: "POST",
           headers: {
@@ -1732,52 +1733,31 @@ export default function App() {
             </a>
 
             <div className={`nav-links ${menuAbierto ? "open" : ""}`}>
-              <a
-                href="#servicios"
-                onClick={() => setMenuAbierto(false)}
-              >
-                {t.nav.services}
+              <a href="#automatizar" onClick={() => setMenuAbierto(false)}>
+                {t.nav.automate}
               </a>
-
-              <a
-                href="#sectores"
-                onClick={() => setMenuAbierto(false)}
-              >
-                {t.nav.sectors}
+              <a href="#ejemplos" onClick={() => setMenuAbierto(false)}>
+                {t.nav.examples}
               </a>
-
-              <a
-                href="#proceso"
-                onClick={() => setMenuAbierto(false)}
-              >
+              <a href="#proceso" onClick={() => setMenuAbierto(false)}>
                 {t.nav.process}
               </a>
-
-              <a
-                href="#precios"
-                onClick={() => setMenuAbierto(false)}
-              >
+              <a href="#precios" onClick={() => setMenuAbierto(false)}>
                 {t.nav.pricing}
               </a>
-
+              <a href="#sectores" onClick={() => setMenuAbierto(false)}>
+                {t.nav.sectors}
+              </a>
               <a
                 href="#panel-comercial"
                 onClick={() => setMenuAbierto(false)}
               >
                 {t.nav.panel}
               </a>
-
-              <a
-                href="#preguntas"
-                onClick={() => setMenuAbierto(false)}
-              >
+              <a href="#preguntas" onClick={() => setMenuAbierto(false)}>
                 {t.nav.faq}
               </a>
-
-              <a
-                href="#contacto"
-                onClick={() => setMenuAbierto(false)}
-              >
+              <a href="#contacto" onClick={() => setMenuAbierto(false)}>
                 {t.nav.contact}
               </a>
             </div>
@@ -1786,9 +1766,7 @@ export default function App() {
               {/* SELECTOR DE IDIOMA */}
               <select
                 value={idioma}
-                onChange={(e) =>
-                  cambiarIdioma(e.target.value)
-                }
+                onChange={(e) => cambiarIdioma(e.target.value)}
                 aria-label={t.language}
                 style={{
                   border: "1px solid rgba(148,163,184,.35)",
@@ -1816,19 +1794,11 @@ export default function App() {
               </a>
 
               <button
-                className={`menu-toggle ${
-                  menuAbierto ? "active" : ""
-                }`}
+                className={`menu-toggle ${menuAbierto ? "active" : ""}`}
                 type="button"
-                aria-label={
-                  menuAbierto
-                    ? "Cerrar menú"
-                    : "Abrir menú"
-                }
+                aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
                 aria-expanded={menuAbierto}
-                onClick={() =>
-                  setMenuAbierto((actual) => !actual)
-                }
+                onClick={() => setMenuAbierto((actual) => !actual)}
               >
                 <span></span>
                 <span></span>
@@ -1849,36 +1819,26 @@ export default function App() {
                 {t.hero.eyebrow}
               </div>
 
-              <h1>
-                {t.hero.title1}{" "}
-                <span className="gradient">
-                  {t.hero.title2}
-                </span>
-              </h1>
+              <h1>{t.hero.title}</h1>
 
-              <p className="hero-text">
-                {t.hero.text}
-              </p>
+              <p className="hero-text">{t.hero.subtitle}</p>
 
               <div className="hero-actions">
-                <a
-                  href="#contacto"
-                  className="primary"
-                >
+                <a href="#contacto" className="primary">
                   {t.hero.primary}
                 </a>
 
                 <a
-                  href="#servicios"
+                  href="https://wa.me/18496505777?text=Hola%20ZAYVERO%2C%20quiero%20automatizar%20mi%20negocio"
+                  target="_blank"
+                  rel="noreferrer"
                   className="secondary"
                 >
                   {t.hero.secondary}
                 </a>
               </div>
 
-              <div className="small-note">
-                {t.hero.note}
-              </div>
+              <div className="small-note">{t.hero.note}</div>
             </div>
 
             <div className="demo-wrap">
@@ -1896,8 +1856,7 @@ export default function App() {
                   width: "100%",
                   maxWidth: "340px",
                   borderRadius: "20px",
-                  boxShadow:
-                    "0 20px 60px rgba(17, 24, 39, 0.18)",
+                  boxShadow: "0 20px 60px rgba(17, 24, 39, 0.18)",
                   display: "block",
                   margin: "0 auto",
                   position: "relative",
@@ -1910,31 +1869,16 @@ export default function App() {
           </div>
         </section>
 
-        {/* TRUST */}
-        <div className="trust-bar">
-          <div className="container trust-inner">
-            {t.trust.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
-          </div>
-        </div>
-
         {/* =================================================
-            PROBLEM
+            PROBLEMA
             ================================================= */}
-        <section>
+        <section id="problema">
           <div className="container">
-            <div className="label">
-              {t.problem.label}
-            </div>
+            <div className="label">{t.problem.label}</div>
 
-            <h2 className="title">
-              {t.problem.title}
-            </h2>
+            <h2 className="title">{t.problem.title}</h2>
 
-            <p className="description">
-              {t.problem.description}
-            </p>
+            <p className="description">{t.problem.description}</p>
 
             <div className="problem-grid">
               {t.problem.cards.map((card) => (
@@ -1947,52 +1891,100 @@ export default function App() {
                 </div>
               ))}
             </div>
+
+            <div className="transition-banner">
+              <span className="transition-arrow">→</span>
+              <span>{t.problem.transition}</span>
+            </div>
           </div>
         </section>
 
         {/* =================================================
-            PROCESS
+            LO QUE PODEMOS AUTOMATIZAR
             ================================================= */}
-        <section
-          className="flow-section"
-          id="proceso"
-        >
+        <section id="automatizar">
           <div className="container">
-            <div className="label">
-              {t.process.label}
+            <div className="label">{t.services.label}</div>
+
+            <h2 className="title">{t.services.title}</h2>
+
+            <p className="description">{t.services.description}</p>
+
+            <div className="services">
+              {t.services.items.map(([title, description], index) => (
+                <div className="service" key={title}>
+                  <div className="service-icon">
+                    {iconosServicios[index]}
+                  </div>
+
+                  <h3>{title}</h3>
+
+                  <p>{description}</p>
+                </div>
+              ))}
             </div>
+          </div>
+        </section>
 
-            <h2 className="title">
-              {t.process.title}
-            </h2>
+        {/* =================================================
+            EJEMPLOS
+            ================================================= */}
+        <section id="ejemplos" className="examples">
+          <div className="container">
+            <div className="label">{t.examples.label}</div>
 
-            <p className="description">
-              {t.process.description}
-            </p>
+            <h2 className="title">{t.examples.title}</h2>
+
+            <p className="description">{t.examples.description}</p>
+
+            <div className="examples-grid">
+              {t.examples.cases.map((c) => (
+                <div className="example-card" key={c.sector}>
+                  <div className="example-sector">{c.sector}</div>
+
+                  <div className="chat">
+                    <div className="bubble bubble-client">{c.client}</div>
+                    <div className="bubble bubble-auto">{c.auto}</div>
+                  </div>
+
+                  <div className="example-steps">
+                    {c.steps.map((s) => (
+                      <div className="example-step" key={s}>
+                        <span className="step-check">✓</span>
+                        <span>{s}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            CÓMO FUNCIONA
+            ================================================= */}
+        <section className="flow-section" id="proceso">
+          <div className="container">
+            <div className="label">{t.process.label}</div>
+
+            <h2 className="title">{t.process.title}</h2>
+
+            <p className="description">{t.process.description}</p>
 
             <div className="flow">
               {t.process.steps.map((step, index) => (
-                <div
-                  key={step[0]}
-                  style={{
-                    display: "contents",
-                  }}
-                >
+                <div key={step[0]} style={{ display: "contents" }}>
                   <div className="flow-box">
-                    <div className="flow-number">
-                      {step[0]}
-                    </div>
+                    <div className="flow-number">{step[0]}</div>
 
                     <strong>{step[1]}</strong>
 
                     <span>{step[2]}</span>
                   </div>
 
-                  {index <
-                    t.process.steps.length - 1 && (
-                    <div className="flow-arrow">
-                      →
-                    </div>
+                  {index < t.process.steps.length - 1 && (
+                    <div className="flow-arrow">→</div>
                   )}
                 </div>
               ))}
@@ -2001,39 +1993,66 @@ export default function App() {
         </section>
 
         {/* =================================================
-            SERVICES
+            DIFERENCIACIÓN
             ================================================= */}
-        <section id="servicios">
+        <section id="diferencia">
           <div className="container">
-            <div className="label">
-              {t.services.label}
+            <div className="label">{t.difference.label}</div>
+
+            <h2 className="title">{t.difference.title}</h2>
+
+            <p className="description">{t.difference.text}</p>
+
+            <div className="diff-grid">
+              {t.difference.points.map((p) => (
+                <div className="diff-item" key={p}>
+                  <span className="diff-check">✓</span>
+                  <span>{p}</span>
+                </div>
+              ))}
             </div>
+          </div>
+        </section>
 
-            <h2 className="title">
-              {t.services.title}
-            </h2>
+        {/* =================================================
+            CTA INTERMEDIO
+            ================================================= */}
+        <section className="cta-mid">
+          <div className="container">
+            <div className="cta-box">
+              <h2>{t.ctaMid.title}</h2>
 
-            <p className="description">
-              {t.services.description}
-            </p>
+              <p>{t.ctaMid.text}</p>
 
-            <div className="services">
-              {t.services.items.map(
-                ([title, description], index) => (
-                  <div
-                    className="service"
-                    key={title}
-                  >
-                    <div className="service-icon">
-                      {iconosServicios[index]}
-                    </div>
+              <a href="#contacto" className="primary">
+                {t.ctaMid.button}
+              </a>
+            </div>
+          </div>
+        </section>
 
+        {/* =================================================
+            SECTORES
+            ================================================= */}
+        <section id="sectores">
+          <div className="container">
+            <div className="label">{t.sectors.label}</div>
+
+            <h2 className="title">{t.sectors.title}</h2>
+
+            <p className="description">{t.sectors.description}</p>
+
+            <div className="sectors">
+              {t.sectors.items.map(([icon, title, text]) => (
+                <div className="sector" key={title}>
+                  <div className="sector-icon">{icon}</div>
+
+                  <div>
                     <h3>{title}</h3>
-
-                    <p>{description}</p>
+                    <p>{text}</p>
                   </div>
-                )
-              )}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -2233,224 +2252,6 @@ export default function App() {
             >
               {t.pricing.footnote}
             </p>
-          </div>
-        </section>
-
-        {/* =================================================
-            SECTORS
-            ================================================= */}
-        <section id="sectores">
-          <div className="container">
-            <div className="label">
-              {t.sectors.label}
-            </div>
-
-            <h2 className="title">
-              {t.sectors.title}
-            </h2>
-
-            <p className="description">
-              {t.sectors.description}
-            </p>
-
-            <div className="sectors">
-              {t.sectors.items.map(
-                ([icon, title, text]) => (
-                  <div
-                    className="sector"
-                    key={title}
-                  >
-                    <div className="sector-icon">
-                      {icon}
-                    </div>
-
-                    <div>
-                      <h3>{title}</h3>
-                      <p>{text}</p>
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            CASE
-            ================================================= */}
-        <section>
-          <div className="container">
-            <div className="label">
-              {t.caseStudy.label}
-            </div>
-
-            <h2 className="title">
-              {t.caseStudy.title}
-            </h2>
-
-            <p className="description">
-              {t.caseStudy.description}
-            </p>
-
-            <div className="case">
-              <div className="case-left">
-                <span className="case-tag">
-                  {t.caseStudy.tag}
-                </span>
-
-                <h3>{t.caseStudy.title2}</h3>
-
-                <p>{t.caseStudy.text}</p>
-
-                <a
-                  href="#contacto"
-                  className="primary"
-                >
-                  {t.caseStudy.button}
-                </a>
-              </div>
-
-              <div className="case-flow">
-                {t.caseStudy.steps.map(
-                  ([icon, title, text]) => (
-                    <div
-                      className="case-step"
-                      key={title}
-                    >
-                      <div className="case-step-icon">
-                        {icon}
-                      </div>
-
-                      <div>
-                        <strong>{title}</strong>
-                        <span>{text}</span>
-                      </div>
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            BEFORE / AFTER
-            ================================================= */}
-        <section>
-          <div className="container">
-            <div className="label">
-              {t.beforeAfter.label}
-            </div>
-
-            <h2 className="title">
-              {t.beforeAfter.title}
-            </h2>
-
-            <div className="ba">
-              <div className="ba-box ba-before">
-                <h3>{t.beforeAfter.before}</h3>
-
-                <div className="list">
-                  {t.beforeAfter.beforeItems.map(
-                    (item) => (
-                      <div
-                        className="list-row"
-                        key={item}
-                      >
-                        <span className="bad">
-                          ✕
-                        </span>
-                        <span>{item}</span>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-
-              <div className="ba-box ba-after">
-                <h3>{t.beforeAfter.after}</h3>
-
-                <div className="list">
-                  {t.beforeAfter.afterItems.map(
-                    (item) => (
-                      <div
-                        className="list-row"
-                        key={item}
-                      >
-                        <span className="good">
-                          ✓
-                        </span>
-                        <span>{item}</span>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            METHOD
-            ================================================= */}
-        <section>
-          <div className="container">
-            <div className="label">
-              {t.method.label}
-            </div>
-
-            <h2 className="title">
-              {t.method.title}
-            </h2>
-
-            <div className="method">
-              {t.method.items.map(
-                ([num, title, text]) => (
-                  <div
-                    className="method-card"
-                    key={num}
-                  >
-                    <div className="method-num">
-                      {num}
-                    </div>
-
-                    <h3>{title}</h3>
-
-                    <p>{text}</p>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            DIFFERENCE
-            ================================================= */}
-        <section>
-          <div className="container">
-            <div className="difference-box">
-              <div className="label">
-                {t.difference.label}
-              </div>
-
-              <h2>{t.difference.title}</h2>
-
-              <p>{t.difference.text}</p>
-
-              <div className="pills">
-                {t.difference.pills.map(
-                  (pill) => (
-                    <span
-                      className="pill"
-                      key={pill}
-                    >
-                      {pill}
-                    </span>
-                  )
-                )}
-              </div>
-            </div>
           </div>
         </section>
 
@@ -4015,53 +3816,48 @@ export default function App() {
             ================================================= */}
         <section id="preguntas">
           <div className="container">
-            <div className="label">
-              {t.faq.label}
-            </div>
+            <div className="label">{t.faq.label}</div>
 
-            <h2 className="title">
-              {t.faq.title}
-            </h2>
+            <h2 className="title">{t.faq.title}</h2>
 
             <div className="faq-list">
-              {t.faq.items.map(
-                ([question, answer]) => (
-                  <div
-                    className="faq-item"
-                    key={question}
-                  >
-                    <h3>{question}</h3>
+              {t.faq.items.map(([question, answer]) => (
+                <div className="faq-item" key={question}>
+                  <h3>{question}</h3>
 
-                    <p>{answer}</p>
-                  </div>
-                )
-              )}
+                  <p>{answer}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* =================================================
-            CTA
+            CTA FINAL
             ================================================= */}
         <section className="cta">
           <div className="container">
             <div className="cta-box">
-              <div className="label">
-                {t.cta.label}
+              <div className="label">{t.ctaFinal.label}</div>
+
+              <h2>{t.ctaFinal.title}</h2>
+
+              <p>{t.ctaFinal.subtitle}</p>
+
+              <div className="cta-final-actions">
+                <a
+                  href="https://wa.me/18496505777?text=Hola%20ZAYVERO%2C%20quiero%20automatizar%20mi%20negocio"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="primary"
+                >
+                  {t.ctaFinal.primary}
+                </a>
+
+                <a href="#contacto" className="secondary">
+                  {t.ctaFinal.secondary}
+                </a>
               </div>
-
-              <h2>{t.cta.title}</h2>
-
-              <p>{t.cta.text}</p>
-
-              <a
-                href="https://wa.me/18496505777?text=Hola%20ZAYVERO%2C%20quiero%20automatizar%20mi%20negocio"
-                target="_blank"
-                rel="noreferrer"
-                className="primary"
-              >
-                {t.cta.button}
-              </a>
             </div>
           </div>
         </section>
