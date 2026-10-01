@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 // =====================================================
 // API_BASE: en producción usa el mismo servidor (rutas relativas);
@@ -32,121 +32,51 @@ const Icono = ({ children, color = "currentColor" }) => (
 );
 
 // =====================================================
-// PAGOS CON PAYPAL
-// Para activar el botón de pago:
-// 1) Crea tu cuenta PayPal Business (gratis) en paypal.com
-// 2) Entra a developer.paypal.com -> Apps & Credentials y copia tu "Client ID"
-// 3) Reemplaza el valor de PAYPAL_CLIENT_ID abajo con tu Client ID real.
-// Mientras el valor sea el de ejemplo, el botón de PayPal no se muestra
-// (la página sigue funcionando normal con el botón de contacto).
+// PAGOS CON PAYPAL (enlace de pago)
+// El cliente paga el depósito del 50% en la página segura de PayPal.
+// Para cambiar el enlace, edita PAYPAL_URL abajo.
 // =====================================================
-const PAYPAL_CLIENT_ID = "TU_CLIENT_ID_DE_PAYPAL_AQUI";
-const PAYPAL_ACTIVO = PAYPAL_CLIENT_ID !== "TU_CLIENT_ID_DE_PAYPAL_AQUI";
-const DEPOSITO_WEB_USD = "248.50"; // 50% de $497 para comenzar el proyecto
+const PAYPAL_URL = "https://www.paypal.com/ncp/payment/E4SBJKS984TYW";
 
-function cargarPayPalSDK() {
-  return new Promise((resolve, reject) => {
-    if (window.paypal) return resolve();
-    const s = document.createElement("script");
-    s.src =
-      "https://www.paypal.com/sdk/js?client-id=" +
-      encodeURIComponent(PAYPAL_CLIENT_ID) +
-      "&currency=USD&intent=capture";
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error("No se pudo cargar PayPal"));
-    document.head.appendChild(s);
-  });
-}
-
-// Botón de pago PayPal (depósito del 50%). Si el SDK falla por cualquier
-// razón, el botón simplemente no se muestra; la página nunca se rompe.
-function BotonPayPal({ monto, descripcion, textos }) {
-  const contRef = useRef(null);
-  const [estado, setEstado] = useState("cargando"); // cargando | listo | exito
-
-  useEffect(() => {
-    let activo = true;
-    (async () => {
-      try {
-        await cargarPayPalSDK();
-        if (!activo || !contRef.current || !window.paypal) return;
-        contRef.current.innerHTML = "";
-        window.paypal
-          .Buttons({
-            style: {
-              layout: "vertical",
-              color: "gold",
-              shape: "pill",
-              label: "pay",
-              height: 42,
-            },
-            createOrder: (data, actions) =>
-              actions.order.create({
-                purchase_units: [
-                  {
-                    amount: { value: monto, currency_code: "USD" },
-                    description: descripcion,
-                  },
-                ],
-              }),
-            onApprove: (data, actions) =>
-              actions.order.capture().then(() => {
-                if (activo) setEstado("exito");
-              }),
-            onError: () => {},
-            onCancel: () => {},
-          })
-          .render(contRef.current);
-        if (activo) setEstado("listo");
-      } catch {
-        /* Sin botón, sin errores visibles: la página sigue normal. */
-      }
-    })();
-    return () => {
-      activo = false;
-    };
-  }, [monto, descripcion]);
-
-  if (estado === "exito") {
-    return (
-      <div
-        style={{
-          background: "rgba(34,197,94,0.12)",
-          border: "1px solid #22c55e",
-          borderRadius: "12px",
-          padding: "16px",
-          textAlign: "center",
-          maxWidth: "320px",
-        }}
-      >
-        <div style={{ fontSize: "28px" }}>✅</div>
-        <div style={{ fontWeight: 800, color: "#fff", margin: "6px 0" }}>
-          {textos.paypalSuccessTitle}
-        </div>
-        <div
-          style={{
-            fontSize: "14px",
-            color: "#d1d5db",
-            marginBottom: "12px",
-          }}
-        >
-          {textos.paypalSuccessText}
-        </div>
-        <a
-          href={textos.paypalWhatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="secondary"
-          style={{ display: "inline-block", textDecoration: "none" }}
-        >
-          {textos.paypalWhatsapp}
-        </a>
-      </div>
-    );
-  }
-
+// Botón dorado estilo PayPal que abre el enlace de pago en pestaña nueva.
+function BotonPayPal({ textos }) {
   return (
-    <div ref={contRef} style={{ minWidth: "230px", maxWidth: "320px" }} />
+    <a
+      href={PAYPAL_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "8px",
+        background: "#FFC439",
+        color: "#003087",
+        fontWeight: 800,
+        fontSize: "15px",
+        padding: "12px 22px",
+        borderRadius: "999px",
+        textDecoration: "none",
+        minWidth: "230px",
+        maxWidth: "320px",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+      }}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="#003087"
+        aria-hidden="true"
+      >
+        <path d="M7.1 21l1.2-7.6h4.2c2.7 0 4.6-1.4 5.1-4.1.4-2.1-.4-3.6-2.1-4.4-.9-.5-2.1-.7-3.6-.7H6.2c-.4 0-.7.3-.8.7L3.6 20c-.1.5.3.9.8.9h2.7z" />
+        <path
+          d="M17.4 9.3c.1-.6.1-1.2 0-1.8-.4-2.1-2-3.3-4.4-3.3H8.9l-1.5 9.4h2.9l.6-3.6c.1-.4.4-.7.8-.7h2.1c1.9 0 3.1-.7 3.6-2z"
+          opacity=".6"
+        />
+      </svg>
+      {textos.paypalButton}
+    </a>
   );
 }
 
@@ -404,14 +334,7 @@ const translations = {
         suffix: "pago único.",
         button: "Cotizar mi web",
         paypalLabel: "¿Listo para empezar? Paga el 50% ($248.50) con tarjeta:",
-        paypalDesc: "Depósito 50% — Página web ZAYVERO",
-        paypalSoon: "💳 Pago con tarjeta en línea — próximamente",
-        paypalSuccessTitle: "¡Pago recibido!",
-        paypalSuccessText:
-          "Tu depósito de $248.50 fue procesado correctamente. Escríbenos por WhatsApp para comenzar tu proyecto hoy mismo.",
-        paypalWhatsapp: "Enviar comprobante por WhatsApp",
-        paypalWhatsappUrl:
-          "https://wa.me/18496505777?text=Hola%20ZAYVERO%2C%20acabo%20de%20pagar%20el%20dep%C3%B3sito%20de%20mi%20p%C3%A1gina%20web%20por%20PayPal",
+        paypalButton: "Pagar depósito con PayPal",
       },
       footnote:
         "Precios de lanzamiento. Cada negocio es diferente: escríbenos y diseñamos el alcance exacto para el tuyo.",
@@ -845,14 +768,7 @@ const translations = {
         suffix: "one-time payment.",
         button: "Get a web quote",
         paypalLabel: "Ready to start? Pay the 50% deposit ($248.50) by card:",
-        paypalDesc: "50% deposit — ZAYVERO website",
-        paypalSoon: "💳 Online card payment — coming soon",
-        paypalSuccessTitle: "Payment received!",
-        paypalSuccessText:
-          "Your $248.50 deposit was processed successfully. Message us on WhatsApp to start your project today.",
-        paypalWhatsapp: "Send receipt via WhatsApp",
-        paypalWhatsappUrl:
-          "https://wa.me/18496505777?text=Hi%20ZAYVERO%2C%20I%20just%20paid%20the%20deposit%20for%20my%20website%20via%20PayPal",
+        paypalButton: "Pay deposit with PayPal",
       },
       footnote:
         "Launch pricing. Every business is different: contact us and we'll design the exact scope for yours.",
@@ -1284,14 +1200,7 @@ const translations = {
         suffix: "pagamento único.",
         button: "Solicitar orçamento",
         paypalLabel: "Pronto para começar? Pague 50% de entrada ($248.50) com cartão:",
-        paypalDesc: "Entrada de 50% — Site ZAYVERO",
-        paypalSoon: "💳 Pagamento com cartão online — em breve",
-        paypalSuccessTitle: "Pagamento recebido!",
-        paypalSuccessText:
-          "Sua entrada de $248.50 foi processada com sucesso. Fale conosco pelo WhatsApp para começar seu projeto hoje mesmo.",
-        paypalWhatsapp: "Enviar comprovante pelo WhatsApp",
-        paypalWhatsappUrl:
-          "https://wa.me/18496505777?text=Ol%C3%A1%20ZAYVERO%2C%20acabei%20de%20pagar%20a%20entrada%20do%20meu%20site%20pelo%20PayPal",
+        paypalButton: "Pagar entrada com PayPal",
       },
       footnote:
         "Preços de lançamento. Cada negócio é diferente: fale conosco e criamos o escopo exato para o seu.",
@@ -4270,12 +4179,14 @@ export default function App() {
                 >
                   {t.pricing.web.button}
                 </a>
-                {PAYPAL_ACTIVO ? (
-                  <div
+                <div
                     style={{
                       borderTop:
                         "1px solid rgba(255,255,255,0.15)",
                       paddingTop: "12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
                     }}
                   >
                     <div
@@ -4288,23 +4199,8 @@ export default function App() {
                     >
                       {t.pricing.web.paypalLabel}
                     </div>
-                    <BotonPayPal
-                      monto={DEPOSITO_WEB_USD}
-                      descripcion={t.pricing.web.paypalDesc}
-                      textos={t.pricing.web}
-                    />
+                    <BotonPayPal textos={t.pricing.web} />
                   </div>
-                ) : (
-                  <div
-                    style={{
-                      fontSize: "12px",
-                      color: "#6b7280",
-                      textAlign: "center",
-                    }}
-                  >
-                    {t.pricing.web.paypalSoon}
-                  </div>
-                )}
               </div>
             </div>
 
