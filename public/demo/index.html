@@ -120,23 +120,78 @@
   .disc { margin-top:34px; text-align:center; color:#6b75a3; font-size:12.5px; max-width:640px; margin-left:auto; margin-right:auto; }
   .zayvero { margin-top:14px; text-align:center; color:#8f99c9; font-size:13px; }
   .zayvero b { background:linear-gradient(90deg,#60a5fa,#a78bfa); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  /* ===== Llamada de voz ===== */
+  .phone-col { display:flex; flex-direction:column; align-items:center; gap:16px; width:100%; }
+  .phone-col .phone { width:100%; }
+  .call-btn {
+    background:linear-gradient(135deg,#2563eb,#8b5cf6); color:#fff; border:none;
+    border-radius:999px; padding:15px 32px; font-size:16px; font-weight:800; cursor:pointer;
+    box-shadow:0 10px 30px rgba(99,102,241,.45);
+  }
+  .call-btn:hover { transform:translateY(-2px); }
+  .wa-head .icons button { background:none; border:none; font-size:18px; cursor:pointer; padding:0; }
+  .call-overlay {
+    position:fixed; inset:0; z-index:60; display:none;
+    background:rgba(4,7,20,.94); backdrop-filter:blur(8px);
+    align-items:center; justify-content:center; padding:22px;
+  }
+  .call-overlay.show { display:flex; animation:pop .3s ease; }
+  .call-card { text-align:center; max-width:400px; width:100%; }
+  .call-avatar {
+    width:112px; height:112px; border-radius:50%; margin:0 auto 18px;
+    background:linear-gradient(135deg,#2563eb,#8b5cf6);
+    display:flex; align-items:center; justify-content:center; font-size:56px;
+  }
+  .call-avatar.talking { animation:ring 1.3s ease-out infinite; }
+  @keyframes ring {
+    0% { box-shadow:0 0 0 0 rgba(96,165,250,.55); }
+    100% { box-shadow:0 0 0 30px rgba(96,165,250,0); }
+  }
+  .call-name { font-size:21px; font-weight:800; color:#fff; }
+  .call-timer { color:#9aa3cf; margin:6px 0 4px; font-size:15px; }
+  .call-status { color:#34d399; font-size:15.5px; min-height:24px; margin-bottom:14px; font-weight:600; }
+  .call-sub {
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);
+    border-radius:14px; padding:13px 15px; font-size:14.5px; min-height:70px;
+    color:#dbe4ff; margin-bottom:22px; line-height:1.5; text-align:left;
+  }
+  .hangup {
+    background:#ef4444; color:#fff; border:none; border-radius:999px;
+    padding:15px 44px; font-size:17px; font-weight:800; cursor:pointer;
+    box-shadow:0 10px 30px rgba(239,68,68,.35);
+  }
+  .call-note { margin-top:16px; color:#6b75a3; font-size:12.5px; }
+
+  /* ===== Selector de idioma ===== */
+  .lang-switch { display:inline-flex; gap:6px; margin:0 0 18px 12px; vertical-align:middle; }
+  .lang-switch button {
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.22); color:#b9c1e8;
+    border-radius:999px; padding:7px 15px; font-size:13px; font-weight:800; cursor:pointer;
+  }
+  .lang-switch button.on {
+    background:linear-gradient(135deg,#2563eb,#8b5cf6); color:#fff; border-color:transparent;
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <div class="demo-badge"><span class="dot"></span> Demostración en vivo</div>
-  <h1>Así atendería la <span class="grad">recepcionista IA</span> a los pacientes de OdontoLeón</h1>
-  <p class="sub">Esto es lo que vería un paciente al escribirle al WhatsApp de la clínica. La IA responde al instante, agenda citas y guarda cada paciente en el sistema — <b style="color:#fff">aunque sean las 3 de la mañana</b>.</p>
+  <div class="demo-badge"><span class="dot"></span> <span id="badgeText">Demostración en vivo</span></div>
+  <div class="lang-switch" id="langSwitch"><button data-l="es" class="on">ES</button><button data-l="en">EN</button><button data-l="pt">PT</button></div>
+  <h1 id="h1">Así atendería la <span class="grad">recepcionista IA</span> a los pacientes de OdontoLeón</h1>
+  <p class="sub" id="sub">Esto es lo que vería un paciente al escribirle al WhatsApp de la clínica. La IA responde al instante, agenda citas y guarda cada paciente en el sistema — <b style="color:#fff">aunque sean las 3 de la mañana</b>. También puedes <b style="color:#fff">llamarla</b> con el botón 📞 y hablar con ella por voz.</p>
 
-  <div class="stats">
+  <div class="stats" id="stats">
     <div class="stat">⚡ Responde en <b>segundos</b></div>
     <div class="stat">🌙 Atiende <b>24/7</b></div>
     <div class="stat">📅 <b>Agenda citas</b> sola</div>
+    <div class="stat">🎙️ Habla por <b>voz</b></div>
     <div class="stat">🚫 <b>Cero</b> llamadas perdidas</div>
   </div>
 
   <div class="stage">
+    <div class="phone-col">
     <div class="phone">
       <div class="screen">
         <div class="wa-head">
@@ -145,7 +200,7 @@
             <div class="wa-name">OdontoLeón</div>
             <div class="wa-status" id="waStatus">en línea · responde al instante</div>
           </div>
-          <div class="icons"><span>📹</span><span>📞</span></div>
+          <div class="icons"><span>📹</span><button id="callBtnHead" title="Llamar a la IA">📞</button></div>
         </div>
         <div class="chat" id="chat"></div>
         <div class="quick" id="quick"></div>
@@ -156,79 +211,438 @@
         <div class="reset-row"><button id="reset">↺ Reiniciar demostración</button></div>
       </div>
     </div>
+    <button class="call-btn" id="callBtn">📞 Llamar a la IA — habla con ella por voz</button>
+    </div>
 
     <div class="panel">
-      <h2>🧠 Lo que la IA está haciendo <span style="font-weight:400;font-size:13px;color:#9aa3cf">(mientras el paciente escribe)</span></h2>
-      <p class="hint">Esto es lo que el dueño del negocio ve del otro lado: cada conversación se convierte en datos y citas agendadas.</p>
+      <h2 id="panelH2">🧠 Lo que la IA está haciendo <span style="font-weight:400;font-size:13px;color:#9aa3cf">(mientras el paciente escribe)</span></h2>
+      <p class="hint" id="panelHint">Esto es lo que el dueño del negocio ve del otro lado: cada conversación se convierte en datos y citas agendadas.</p>
       <div id="ailog"><div class="log-empty" id="logEmpty">Interactúa con el chat y mira aquí la magia ✨<br/>La IA detecta intenciones, califica pacientes y agenda — todo automático.</div></div>
       <div class="crm" id="crm">
-        <h3>📋 Nuevo paciente guardado en el CRM</h3>
+        <h3 id="crmTitle">📋 Nuevo paciente guardado en el CRM</h3>
         <div>👤 <b id="crmName">—</b></div>
         <div>📱 <b id="crmPhone">—</b></div>
-        <div>💎 Tratamiento: <b id="crmService">—</b></div>
-        <div>📍 Sucursal: <b id="crmBranch">—</b></div>
-        <div>🗓️ Cita: <b id="crmWhen">—</b></div>
+        <div><span id="crmServiceLabel">💎 Tratamiento:</span> <b id="crmService">—</b></div>
+        <div><span id="crmBranchLabel">📍 Sucursal:</span> <b id="crmBranch">—</b></div>
+        <div><span id="crmWhenLabel">🗓️ Cita:</span> <b id="crmWhen">—</b></div>
       </div>
     </div>
   </div>
 
   <div class="cta">
-    <h2>¿Y si tu negocio atendiera así?</h2>
-    <p>Cada mensaje sin responder es un cliente que se va a la competencia. Una recepcionista IA atiende al instante, agenda y hace seguimiento — por menos de lo que cuesta un salario.</p>
-    <a class="btn-wa" href="https://wa.me/18496505777?text=Hola%20ZAYVERO%2C%20vi%20la%20demo%20de%20la%20recepcionista%20IA%20y%20quiero%20una%20para%20mi%20negocio">💬 Quiero una para mi negocio</a>
+    <h2 id="ctaH2">¿Y si tu negocio atendiera así?</h2>
+    <p id="ctaP">Cada mensaje sin responder es un cliente que se va a la competencia. Una recepcionista IA atiende al instante, agenda y hace seguimiento — por menos de lo que cuesta un salario.</p>
+    <a class="btn-wa" id="ctaBtn" href="https://wa.me/18496505777?text=Hola%20ZAYVERO%2C%20vi%20la%20demo%20de%20la%20recepcionista%20IA%20y%20quiero%20una%20para%20mi%20negocio">💬 Quiero una para mi negocio</a>
   </div>
 
-  <p class="disc">Demostración interactiva con fines ilustrativos, creada con información pública de OdontoLeón (sucursales, horarios y servicios de su sitio web). La versión real se configura con los datos, precios y disponibilidad de cada negocio. Ninguna cita de esta demo es real.</p>
-  <p class="zayvero">Hecho con 💙 por <b>ZAYVERO SOLUTIONS</b> · Automatización e IA para negocios</p>
+  <p class="disc" id="disc">Demostración interactiva con fines ilustrativos, creada con información pública de OdontoLeón (sucursales, horarios y servicios de su sitio web). La versión real se configura con los datos, precios y disponibilidad de cada negocio. Ninguna cita de esta demo es real.</p>
+  <p class="zayvero" id="zayveroLine">Hecho con 💙 por <b>ZAYVERO SOLUTIONS</b> · Automatización e IA para negocios</p>
 
 </div>
+
+<div class="call-overlay" id="callOverlay">
+  <div class="call-card">
+    <div class="call-avatar" id="callAvatar">🦷</div>
+    <div class="call-name" id="callName">OdontoLeón · Recepcionista IA</div>
+    <div class="call-timer" id="callTimer">00:00</div>
+    <div class="call-status" id="callStatus">Conectando…</div>
+    <div class="call-sub" id="callSub">Toca permitir cuando el navegador pida acceso al micrófono.</div>
+    <button class="hangup" id="hangup">📞 Colgar</button>
+    <div class="call-note" id="callNote">Demo de voz: hablas por el micrófono y la IA te responde en voz alta. Funciona mejor en Google Chrome.</div>
+  </div>
+</div>
+
 <script>
 (function(){
   "use strict";
-  var chat = document.getElementById('chat');
-  var quick = document.getElementById('quick');
-  var input = document.getElementById('input');
-  var ail = document.getElementById('ailog');
-  var logEmpty = document.getElementById('logEmpty');
 
-  var SERVICES = ["Limpieza dental","Ortodoncia (brackets / alineadores)","Blanqueamiento dental","Implantes dentales","Evaluación general","Odontopediatría (niños)"];
+  /* ================= TEXTOS POR IDIOMA ================= */
+  var STR = {
+  es: {
+    title: "Demo: Recepcionista IA de OdontoLeón | ZAYVERO",
+    badge: "Demostración en vivo",
+    h1: 'Así atendería la <span class="grad">recepcionista IA</span> a los pacientes de OdontoLeón',
+    sub: 'Esto es lo que vería un paciente al escribirle al WhatsApp de la clínica. La IA responde al instante, agenda citas y guarda cada paciente en el sistema — <b style="color:#fff">aunque sean las 3 de la mañana</b>. También puedes <b style="color:#fff">llamarla</b> con el botón 📞 y hablar con ella por voz.',
+    stats: ["⚡ Responde en <b>segundos</b>","🌙 Atiende <b>24/7</b>","📅 <b>Agenda citas</b> sola","🎙️ Habla por <b>voz</b>","🚫 <b>Cero</b> llamadas perdidas"],
+    waStatus: "en línea · responde al instante",
+    inputPh: "Escribe un mensaje",
+    reset: "↺ Reiniciar demostración",
+    panelH2: '🧠 Lo que la IA está haciendo <span style="font-weight:400;font-size:13px;color:#9aa3cf">(mientras el paciente escribe)</span>',
+    panelHint: "Esto es lo que el dueño del negocio ve del otro lado: cada conversación se convierte en datos y citas agendadas.",
+    logEmpty: "Interactúa con el chat y mira aquí la magia ✨<br/>La IA detecta intenciones, califica pacientes y agenda — todo automático.",
+    crmTitle: "📋 Nuevo paciente guardado en el CRM",
+    crmService: "💎 Tratamiento:", crmBranch: "📍 Sucursal:", crmWhen: "🗓️ Cita:",
+    ctaH2: "¿Y si tu negocio atendiera así?",
+    ctaP: "Cada mensaje sin responder es un cliente que se va a la competencia. Una recepcionista IA atiende al instante, agenda y hace seguimiento — por menos de lo que cuesta un salario.",
+    ctaBtn: "💬 Quiero una para mi negocio",
+    ctaWa: "Hola%20ZAYVERO%2C%20vi%20la%20demo%20de%20la%20recepcionista%20IA%20y%20quiero%20una%20para%20mi%20negocio",
+    disc: "Demostración interactiva con fines ilustrativos, creada con información pública de OdontoLeón (sucursales, horarios y servicios de su sitio web). La versión real se configura con los datos, precios y disponibilidad de cada negocio. Ninguna cita de esta demo es real.",
+    zayveroLine: "Hecho con 💙 por <b>ZAYVERO SOLUTIONS</b> · Automatización e IA para negocios",
+    callBtn: "📞 Llamar a la IA — habla con ella por voz",
+    callHeadTitle: "Llamar a la IA",
+    ovName: "OdontoLeón · Recepcionista IA",
+    ovConnecting: "Conectando…",
+    ovSub0: "Toca permitir cuando el navegador pida acceso al micrófono.",
+    ovHangup: "📞 Colgar",
+    ovNote: "Demo de voz: hablas por el micrófono y la IA te responde en voz alta. Funciona mejor en Google Chrome.",
+    vSpeaking: "🗣️ La IA está hablando…",
+    vListening: "🎙️ Te escucho… habla ahora",
+    vNoSupport: "📞 Para probar la llamada de voz, abre esta demo en <b>Google Chrome</b> (celular o computadora).",
+    vMicDenied: "Permiso de micrófono denegado. Actívalo para probar la llamada.",
+    vNoSR: "Tu navegador no soporta reconocimiento de voz. Prueba con Google Chrome.",
+    vInactive: "La llamada terminó por inactividad.",
+    vCallStarted: "📞 <b>Llamada de voz iniciada</b> — habla y la IA te responde en voz alta.",
+    vCallEnded: "📞 <b>Llamada terminada.</b> ¿Seguimos por aquí? 🙂",
+    vCallEndedMsg: "📞 Llamada terminada: ",
+    vGreet: "¡Hola! Soy la recepcionista virtual de OdontoLeón. ¿En qué te puedo ayudar hoy?",
+    recogLang: "es-DO",
+    voicePref: ["es-mx","es-us","es-do","es-co","es-ar","es-cl","es-es"],
+    dayNames: ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],
+    dayToday: "Hoy", dayTomorrow: "Mañana",
+    services: ["Limpieza dental","Ortodoncia (brackets / alineadores)","Blanqueamiento dental","Implantes dentales","Evaluación general","Odontopediatría (niños)"],
+    more: "ver más",
+    qBook: "📅 Agendar cita", qServices: "💎 Servicios", qHours: "🕐 Horarios", qHuman: "👩 Hablar con un humano",
+    qAnother: "Agendar otra cita", qSeeServices: "Ver servicios",
+    greet: "¡Hola! 👋 Soy el asistente virtual de <b>OdontoLeón</b> 🦷<br/>¿En qué te puedo ayudar hoy?",
+    greetQuick: ["qBook","qServices","qHours","qHuman"],
+    bkService: "¡Con gusto! 😊 ¿Para qué tratamiento te gustaría la cita?",
+    bkServiceMore: "Estos son nuestros tratamientos:",
+    bkServiceNo: "¿Cuál de estos tratamientos te interesa?",
+    bkBranch: "Perfecto, <b>{s}</b> ✨ ¿En cuál sucursal te queda mejor?",
+    bkBranchNo: "¿Cuál sucursal prefieres?",
+    bkDay: "Anotado: <b>{b}</b> 📍<br/>¿Qué día te viene mejor?",
+    bkDayNo: "¿Qué día prefieres?",
+    bkTime: "El <b>{d}</b> tenemos estos horarios disponibles:",
+    bkTimeAll: "Todos los horarios del día:",
+    bkTimeNo: "¿A qué hora te agendo?",
+    bkName: "¡Ya casi! 🙌 ¿Cuál es tu <b>nombre</b>?",
+    bkPhone: "Gracias, {n} 😊 ¿Cuál es tu número de <b>WhatsApp</b> para confirmarte la cita?",
+    bkPhoneNo: "¿Me confirmas tu número de WhatsApp? (solo números)",
+    bkDone: "✅ <b>¡Listo, {n}!</b><br/><br/>📋 Tu cita:<br/>💎 {s}<br/>📍 {b}<br/>🗓️ {d} · {t}<br/><br/>Te escribiremos al <b>{p}</b> para confirmar. ¡Te esperamos! 🦷✨",
+    bkDoneQuick: ["qAnother","qSeeServices","qHuman"],
+    pPrice: "Los precios dependen de cada caso, por eso la <b>evaluación</b> es el primer paso: ahí te dan tu plan exacto y las <b>opciones de pago flexibles</b> 💳<br/>¿Te agendo la evaluación?",
+    pPriceQ: ["qBook","qHuman"],
+    pServices: "Estos son nuestros tratamientos 💎<br/>• Odontología integral<br/>• Estética dental<br/>• Ortodoncia (brackets y alineadores invisibles)<br/>• Blanqueamiento dental<br/>• Implantes dentales<br/>• Odontopediatría (niños desde los 2 años)<br/>• Depilación láser<br/><br/>¿Cuál te interesa?",
+    pServicesQ: ["qBook","qHuman"],
+    pHours: "🕐 Nuestro horario:<br/><b>Lun–Vie:</b> 8:00 AM – 7:00 PM<br/><b>Sábado:</b> 8:00 AM – 4:00 PM<br/><b>Domingo:</b> cerrado<br/><br/>Y yo estoy aquí <b>24/7</b> para agendarte cuando quieras 😉",
+    pHoursQ: ["qBook","qServices"],
+    pLocation: "📍 Tenemos 2 sucursales:<br/><br/><b>Ensanche Julieta</b><br/>C/ Virgilio Díaz Ordóñez 50<br/>📞 809-534-5766<br/><br/><b>Prolongación 27</b><br/>Báez Plaza, Prol. 27 de Febrero 410<br/>📞 809-537-5766",
+    pLocationQ: ["qBook","qHours"],
+    pInsurance: "✅ Trabajamos con los <b>principales seguros médicos</b> del país. Escríbenos tu ARS por aquí y lo verificamos antes de tu cita, o agenda y lo confirmamos al llegar.",
+    pInsuranceQ: ["qBook","qHuman"],
+    pOrtho: "¡La ortodoncia es de nuestras especialidades! 😁 Tratamientos de <b>12 a 24 meses</b> en promedio, con brackets o alineadores invisibles. En tu evaluación te damos el plan personalizado.<br/>¿Te agendo?",
+    pOrthoQ: ["qBook","qHuman"],
+    pWhiten: "Nuestro blanqueamiento es <b>completamente indoloro</b> ✨ Usamos geles de alta calidad con tecnología LED que no daña el esmalte. ¿Te agendo una evaluación?",
+    pWhitenQ: ["qBook","qServices"],
+    pImplant: "Los implantes de titanio pueden durar <b>toda la vida</b> con el cuidado adecuado 💪 El proceso completo toma de 3 a 6 meses (en algunos casos, un solo día). ¿Agendamos tu evaluación?",
+    pImplantQ: ["qBook","qHuman"],
+    pEmerg: "🚨 Para emergencias tenemos línea <b>24 horas</b>:<br/>📞 <b>829-436-7662</b><br/><br/>Llama ahora mismo y te atendemos. ¿Es algo que necesita atención inmediata?",
+    pEmergQ: ["qBook"],
+    pHuman: "¡Claro! Un asesor de nuestro equipo te escribirá en horario laboral (Lun–Vie 8 AM–7 PM, Sáb 8 AM–4 PM) 👩‍💼<br/><br/>Si es urgente: 📞 829-436-7662 (24/7)",
+    pHumanQ: ["qBook","qServices"],
+    pCallNow: "📞 Línea de emergencias 24/7: <b>829-436-7662</b>",
+    pCallNowQ: ["qBook"],
+    pThanks: "¡Con gusto! 😊 Aquí estoy 24/7 cuando me necesites. ¡Que tengas un excelente día! 🦷✨",
+    pThanksQ: ["qBook","qServices"],
+    pFallback: "Puedo ayudarte con citas, servicios, horarios y más 🙂 Elige una opción:",
+    pFallbackQ: ["qBook","qServices","qHours","qHuman"],
+    lNew: "👋 Nuevo contacto", lNewD: "Paciente inició conversación. Respondido en segundos, sin espera.",
+    lBook: "🔍 Intención detectada", lBookD: "El paciente quiere <b>agendar una cita</b>. Iniciando flujo de reserva…",
+    lLead: "📋 Lead calificado", lLeadD: "Interés en: <b>{s}</b>.",
+    lTime: "📅 Horario seleccionado", lTimeD: "<b>{d} · {t}</b> — pidiendo datos del paciente…",
+    lSaved: "💾 Paciente guardado en el CRM", lSavedD: "Cita pre-agendada y lista para confirmación humana.",
+    lPrice: "💰 Objeción de precio", lPriceD: "Respondiendo con plan de financiamiento, sin perder al paciente.",
+    lEmerg: "🚨 Emergencia detectada", lEmergD: "Paciente con urgencia: se le dio la línea 24/7 de inmediato.",
+    lHuman: "🙋 Derivación a humano", lHumanD: "El paciente pidió atención personal. Se notifica al equipo.",
+    lUnknown: "❓ Mensaje no reconocido", lUnknownD: "La IA ofrece opciones claras en vez de dejar al paciente sin respuesta.",
+    lHello: "⚡ Respuesta inmediata", lHelloD: "La IA saludó al paciente en segundos, sin que nadie tuviera que estar pendiente."
+  },
+  en: {
+    title: "Demo: OdontoLeón AI Receptionist | ZAYVERO",
+    badge: "Live demo",
+    h1: 'How the <span class="grad">AI receptionist</span> would serve OdontoLeón patients',
+    sub: 'This is what a patient would see when messaging the clinic on WhatsApp. The AI replies instantly, books appointments and saves every patient in the system — <b style="color:#fff">even at 3 in the morning</b>. You can also <b style="color:#fff">call it</b> with the 📞 button and talk to it by voice.',
+    stats: ["⚡ Replies in <b>seconds</b>","🌙 Works <b>24/7</b>","📅 <b>Books appointments</b> alone","🎙️ Speaks by <b>voice</b>","🚫 <b>Zero</b> missed calls"],
+    waStatus: "online · replies instantly",
+    inputPh: "Type a message",
+    reset: "↺ Restart demo",
+    panelH2: '🧠 What the AI is doing <span style="font-weight:400;font-size:13px;color:#9aa3cf">(while the patient types)</span>',
+    panelHint: "This is what the business owner sees on the other side: every conversation becomes data and booked appointments.",
+    logEmpty: "Interact with the chat and watch the magic here ✨<br/>The AI detects intents, qualifies patients and books — all automatic.",
+    crmTitle: "📋 New patient saved to the CRM",
+    crmService: "💎 Treatment:", crmBranch: "📍 Location:", crmWhen: "🗓️ Appointment:",
+    ctaH2: "What if your business answered like this?",
+    ctaP: "Every unanswered message is a customer going to the competition. An AI receptionist answers instantly, books and follows up — for less than a salary costs.",
+    ctaBtn: "💬 I want one for my business",
+    ctaWa: "Hello%20ZAYVERO%2C%20I%20saw%20the%20AI%20receptionist%20demo%20and%20I%20want%20one%20for%20my%20business",
+    disc: "Interactive demo for illustration purposes, created with public OdontoLeón information (locations, hours and services from their website). The real version is configured with each business's data, prices and availability. No appointment in this demo is real.",
+    zayveroLine: "Made with 💙 by <b>ZAYVERO SOLUTIONS</b> · Automation and AI for business",
+    callBtn: "📞 Call the AI — talk to it by voice",
+    callHeadTitle: "Call the AI",
+    ovName: "OdontoLeón · AI Receptionist",
+    ovConnecting: "Connecting…",
+    ovSub0: "Tap allow when the browser asks for microphone access.",
+    ovHangup: "📞 Hang up",
+    ovNote: "Voice demo: you speak into the microphone and the AI answers out loud. Works best in Google Chrome.",
+    vSpeaking: "🗣️ The AI is speaking…",
+    vListening: "🎙️ I'm listening… speak now",
+    vNoSupport: "📞 To try the voice call, open this demo in <b>Google Chrome</b> (phone or computer).",
+    vMicDenied: "Microphone permission denied. Enable it to try the call.",
+    vNoSR: "Your browser doesn't support voice recognition. Try Google Chrome.",
+    vInactive: "The call ended due to inactivity.",
+    vCallStarted: "📞 <b>Voice call started</b> — speak and the AI answers out loud.",
+    vCallEnded: "📞 <b>Call ended.</b> Shall we continue here? 🙂",
+    vCallEndedMsg: "📞 Call ended: ",
+    vGreet: "Hi! I'm the OdontoLeón virtual receptionist. How can I help you today?",
+    recogLang: "en-US",
+    voicePref: ["en-us","en-gb"],
+    dayNames: ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+    dayToday: "Today", dayTomorrow: "Tomorrow",
+    services: ["Dental cleaning","Orthodontics (braces / aligners)","Teeth whitening","Dental implants","General evaluation","Pediatric dentistry (kids)"],
+    more: "see more",
+    qBook: "📅 Book appointment", qServices: "💎 Services", qHours: "🕐 Hours", qHuman: "👩 Talk to a human",
+    qAnother: "Book another appointment", qSeeServices: "See services",
+    greet: "Hi! 👋 I'm the <b>OdontoLeón</b> virtual assistant 🦷<br/>How can I help you today?",
+    greetQuick: ["qBook","qServices","qHours","qHuman"],
+    bkService: "With pleasure! 😊 What treatment would you like the appointment for?",
+    bkServiceMore: "These are our treatments:",
+    bkServiceNo: "Which of these treatments are you interested in?",
+    bkBranch: "Perfect, <b>{s}</b> ✨ Which location works best for you?",
+    bkBranchNo: "Which location do you prefer?",
+    bkDay: "Noted: <b>{b}</b> 📍<br/>Which day works best for you?",
+    bkDayNo: "Which day do you prefer?",
+    bkTime: "On <b>{d}</b> we have these times available:",
+    bkTimeAll: "All times for the day:",
+    bkTimeNo: "What time should I book you for?",
+    bkName: "Almost done! 🙌 What is your <b>name</b>?",
+    bkPhone: "Thanks, {n} 😊 What is your <b>WhatsApp</b> number to confirm the appointment?",
+    bkPhoneNo: "Can you confirm your WhatsApp number? (numbers only)",
+    bkDone: "✅ <b>Done, {n}!</b><br/><br/>📋 Your appointment:<br/>💎 {s}<br/>📍 {b}<br/>🗓️ {d} · {t}<br/><br/>We will message you at <b>{p}</b> to confirm. See you soon! 🦷✨",
+    bkDoneQuick: ["qAnother","qSeeServices","qHuman"],
+    pPrice: "Prices depend on each case, so the <b>evaluation</b> is the first step: there you get your exact plan and <b>flexible payment options</b> 💳<br/>Shall I book your evaluation?",
+    pPriceQ: ["qBook","qHuman"],
+    pServices: "These are our treatments 💎<br/>• General dentistry<br/>• Cosmetic dentistry<br/>• Orthodontics (braces and invisible aligners)<br/>• Teeth whitening<br/>• Dental implants<br/>• Pediatric dentistry (kids from age 2)<br/>• Laser hair removal<br/><br/>Which one interests you?",
+    pServicesQ: ["qBook","qHuman"],
+    pHours: "🕐 Our hours:<br/><b>Mon–Fri:</b> 8:00 AM – 7:00 PM<br/><b>Saturday:</b> 8:00 AM – 4:00 PM<br/><b>Sunday:</b> closed<br/><br/>And I'm here <b>24/7</b> to book you anytime 😉",
+    pHoursQ: ["qBook","qServices"],
+    pLocation: "📍 We have 2 locations:<br/><br/><b>Ensanche Julieta</b><br/>C/ Virgilio Díaz Ordóñez 50<br/>📞 809-534-5766<br/><br/><b>Prolongación 27</b><br/>Báez Plaza, Prol. 27 de Febrero 410<br/>📞 809-537-5766",
+    pLocationQ: ["qBook","qHours"],
+    pInsurance: "✅ We work with the country's <b>main health insurance</b> providers. Send us your insurer here and we'll verify it before your visit, or book and we'll confirm on arrival.",
+    pInsuranceQ: ["qBook","qHuman"],
+    pOrtho: "Orthodontics is one of our specialties! 😁 Treatments average <b>12 to 24 months</b>, with braces or invisible aligners. At your evaluation we give you a personalized plan.<br/>Shall I book you?",
+    pOrthoQ: ["qBook","qHuman"],
+    pWhiten: "Our whitening is <b>completely painless</b> ✨ We use high-quality gels with LED technology that doesn't damage enamel. Shall I book your evaluation?",
+    pWhitenQ: ["qBook","qServices"],
+    pImplant: "Titanium implants can last <b>a lifetime</b> with proper care 💪 The full process takes 3 to 6 months (in some cases, a single day). Shall we book your evaluation?",
+    pImplantQ: ["qBook","qHuman"],
+    pEmerg: "🚨 For emergencies we have a <b>24-hour</b> line:<br/>📞 <b>829-436-7662</b><br/><br/>Call right now and we'll take care of you. Is it something that needs immediate attention?",
+    pEmergQ: ["qBook"],
+    pHuman: "Of course! A member of our team will message you during business hours (Mon–Fri 8 AM–7 PM, Sat 8 AM–4 PM) 👩‍💼<br/><br/>If it's urgent: 📞 829-436-7662 (24/7)",
+    pHumanQ: ["qBook","qServices"],
+    pCallNow: "📞 24/7 emergency line: <b>829-436-7662</b>",
+    pCallNowQ: ["qBook"],
+    pThanks: "You're welcome! 😊 I'm here 24/7 whenever you need me. Have a great day! 🦷✨",
+    pThanksQ: ["qBook","qServices"],
+    pFallback: "I can help you with appointments, services, hours and more 🙂 Choose an option:",
+    pFallbackQ: ["qBook","qServices","qHours","qHuman"],
+    lNew: "👋 New contact", lNewD: "Patient started a conversation. Answered in seconds, no waiting.",
+    lBook: "🔍 Intent detected", lBookD: "The patient wants to <b>book an appointment</b>. Starting booking flow…",
+    lLead: "📋 Qualified lead", lLeadD: "Interest in: <b>{s}</b>.",
+    lTime: "📅 Time selected", lTimeD: "<b>{d} · {t}</b> — asking for patient details…",
+    lSaved: "💾 Patient saved to the CRM", lSavedD: "Appointment pre-booked, ready for human confirmation.",
+    lPrice: "💰 Price objection", lPriceD: "Answering with financing plan, without losing the patient.",
+    lEmerg: "🚨 Emergency detected", lEmergD: "Urgent patient: given the 24/7 line immediately.",
+    lHuman: "🙋 Handoff to human", lHumanD: "The patient asked for personal attention. Team notified.",
+    lUnknown: "❓ Unrecognized message", lUnknownD: "The AI offers clear options instead of leaving the patient hanging.",
+    lHello: "⚡ Instant reply", lHelloD: "The AI greeted the patient in seconds, with nobody on standby."
+  },
+  pt: {
+    title: "Demo: Recepcionista IA da OdontoLeón | ZAYVERO",
+    badge: "Demonstração ao vivo",
+    h1: 'Como a <span class="grad">recepcionista IA</span> atenderia os pacientes da OdontoLeón',
+    sub: 'É assim que um paciente seria atendido ao escrever para o WhatsApp da clínica. A IA responde na hora, agenda consultas e salva cada paciente no sistema — <b style="color:#fff">mesmo às 3 da manhã</b>. Você também pode <b style="color:#fff">ligar para ela</b> com o botão 📞 e falar por voz.',
+    stats: ["⚡ Responde em <b>segundos</b>","🌙 Atende <b>24/7</b>","📅 <b>Agenda consultas</b> sozinha","🎙️ Fala por <b>voz</b>","🚫 <b>Zero</b> chamadas perdidas"],
+    waStatus: "online · responde na hora",
+    inputPh: "Digite uma mensagem",
+    reset: "↺ Reiniciar demonstração",
+    panelH2: '🧠 O que a IA está fazendo <span style="font-weight:400;font-size:13px;color:#9aa3cf">(enquanto o paciente digita)</span>',
+    panelHint: "É isto que o dono do negócio vê do outro lado: cada conversa vira dados e consultas agendadas.",
+    logEmpty: "Interaja com o chat e veja a mágica aqui ✨<br/>A IA detecta intenções, qualifica pacientes e agenda — tudo automático.",
+    crmTitle: "📋 Novo paciente salvo no CRM",
+    crmService: "💎 Tratamento:", crmBranch: "📍 Unidade:", crmWhen: "🗓️ Consulta:",
+    ctaH2: "E se o seu negócio atendesse assim?",
+    ctaP: "Cada mensagem sem resposta é um cliente que vai para a concorrência. Uma recepcionista IA atende na hora, agenda e faz acompanhamento — por menos do que custa um salário.",
+    ctaBtn: "💬 Quero uma para o meu negócio",
+    ctaWa: "Ol%C3%A1%20ZAYVERO%2C%20vi%20a%20demo%20da%20recepcionista%20IA%20e%20quero%20uma%20para%20o%20meu%20neg%C3%B3cio",
+    disc: "Demonstração interativa para fins ilustrativos, criada com informações públicas da OdontoLeón (unidades, horários e serviços do site). A versão real é configurada com os dados, preços e disponibilidade de cada negócio. Nenhuma consulta desta demo é real.",
+    zayveroLine: "Feito com 💙 por <b>ZAYVERO SOLUTIONS</b> · Automação e IA para negócios",
+    callBtn: "📞 Ligar para a IA — fale com ela por voz",
+    callHeadTitle: "Ligar para a IA",
+    ovName: "OdontoLeón · Recepcionista IA",
+    ovConnecting: "Conectando…",
+    ovSub0: "Toque em permitir quando o navegador pedir acesso ao microfone.",
+    ovHangup: "📞 Desligar",
+    ovNote: "Demo de voz: você fala no microfone e a IA responde em voz alta. Funciona melhor no Google Chrome.",
+    vSpeaking: "🗣️ A IA está falando…",
+    vListening: "🎙️ Estou ouvindo… fale agora",
+    vNoSupport: "📞 Para testar a chamada de voz, abra esta demo no <b>Google Chrome</b> (celular ou computador).",
+    vMicDenied: "Permissão de microfone negada. Ative para testar a chamada.",
+    vNoSR: "Seu navegador não suporta reconhecimento de voz. Tente o Google Chrome.",
+    vInactive: "A chamada terminou por inatividade.",
+    vCallStarted: "📞 <b>Chamada de voz iniciada</b> — fale e a IA responde em voz alta.",
+    vCallEnded: "📞 <b>Chamada encerrada.</b> Continuamos por aqui? 🙂",
+    vCallEndedMsg: "📞 Chamada encerrada: ",
+    vGreet: "Olá! Sou a recepcionista virtual da OdontoLeón. Como posso ajudar você hoje?",
+    recogLang: "pt-BR",
+    voicePref: ["pt-br","pt-pt"],
+    dayNames: ["domingo","segunda","terça","quarta","quinta","sexta","sábado"],
+    dayToday: "Hoje", dayTomorrow: "Amanhã",
+    services: ["Limpeza dental","Ortodontia (aparelho / alinhadores)","Clareamento dental","Implantes dentários","Avaliação geral","Odontopediatria (crianças)"],
+    more: "ver mais",
+    qBook: "📅 Agendar consulta", qServices: "💎 Serviços", qHours: "🕐 Horários", qHuman: "👩 Falar com um humano",
+    qAnother: "Agendar outra consulta", qSeeServices: "Ver serviços",
+    greet: "Olá! 👋 Sou a assistente virtual da <b>OdontoLeón</b> 🦷<br/>Como posso ajudar você hoje?",
+    greetQuick: ["qBook","qServices","qHours","qHuman"],
+    bkService: "Com prazer! 😊 Para qual tratamento você gostaria de agendar?",
+    bkServiceMore: "Estes são nossos tratamentos:",
+    bkServiceNo: "Qual destes tratamentos te interessa?",
+    bkBranch: "Perfeito, <b>{s}</b> ✨ Qual unidade fica melhor para você?",
+    bkBranchNo: "Qual unidade você prefere?",
+    bkDay: "Anotado: <b>{b}</b> 📍<br/>Qual dia fica melhor para você?",
+    bkDayNo: "Qual dia você prefere?",
+    bkTime: "Na <b>{d}</b> temos estes horários disponíveis:",
+    bkTimeAll: "Todos os horários do dia:",
+    bkTimeNo: "Para que horas agendo?",
+    bkName: "Quase lá! 🙌 Qual é o seu <b>nome</b>?",
+    bkPhone: "Obrigado, {n} 😊 Qual é o seu número de <b>WhatsApp</b> para confirmar a consulta?",
+    bkPhoneNo: "Pode confirmar seu número de WhatsApp? (só números)",
+    bkDone: "✅ <b>Pronto, {n}!</b><br/><br/>📋 Sua consulta:<br/>💎 {s}<br/>📍 {b}<br/>🗓️ {d} · {t}<br/><br/>Vamos te escrever no <b>{p}</b> para confirmar. Até logo! 🦷✨",
+    bkDoneQuick: ["qAnother","qSeeServices","qHuman"],
+    pPrice: "Os preços dependem de cada caso, por isso a <b>avaliação</b> é o primeiro passo: nela você recebe seu plano exato e as <b>opções de pagamento flexíveis</b> 💳<br/>Agendo sua avaliação?",
+    pPriceQ: ["qBook","qHuman"],
+    pServices: "Estes são nossos tratamentos 💎<br/>• Odontologia integral<br/>• Estética dental<br/>• Ortodontia (aparelho e alinhadores invisíveis)<br/>• Clareamento dental<br/>• Implantes dentários<br/>• Odontopediatria (crianças a partir de 2 anos)<br/>• Depilação a laser<br/><br/>Qual te interessa?",
+    pServicesQ: ["qBook","qHuman"],
+    pHours: "🕐 Nosso horário:<br/><b>Seg–Sex:</b> 8:00 AM – 7:00 PM<br/><b>Sábado:</b> 8:00 AM – 4:00 PM<br/><b>Domingo:</b> fechado<br/><br/>E eu estou aqui <b>24/7</b> para agendar quando você quiser 😉",
+    pHoursQ: ["qBook","qServices"],
+    pLocation: "📍 Temos 2 unidades:<br/><br/><b>Ensanche Julieta</b><br/>C/ Virgilio Díaz Ordóñez 50<br/>📞 809-534-5766<br/><br/><b>Prolongación 27</b><br/>Báez Plaza, Prol. 27 de Febrero 410<br/>📞 809-537-5766",
+    pLocationQ: ["qBook","qHours"],
+    pInsurance: "✅ Trabalhamos com os <b>principais convênios médicos</b> do país. Envie seu convênio aqui e verificamos antes da sua consulta, ou agende e confirmamos na chegada.",
+    pInsuranceQ: ["qBook","qHuman"],
+    pOrtho: "A ortodontia é uma das nossas especialidades! 😁 Tratamentos de <b>12 a 24 meses</b> em média, com aparelho ou alinhadores invisíveis. Na sua avaliação damos o plano personalizado.<br/>Agendo para você?",
+    pOrthoQ: ["qBook","qHuman"],
+    pWhiten: "Nosso clareamento é <b>totalmente indolor</b> ✨ Usamos géis de alta qualidade com tecnologia LED que não danifica o esmalte. Agendo sua avaliação?",
+    pWhitenQ: ["qBook","qServices"],
+    pImplant: "Os implantes de titânio podem durar <b>a vida toda</b> com os cuidados adequados 💪 O processo completo leva de 3 a 6 meses (em alguns casos, um único dia). Agendamos sua avaliação?",
+    pImplantQ: ["qBook","qHuman"],
+    pEmerg: "🚨 Para emergências temos linha <b>24 horas</b>:<br/>📞 <b>829-436-7662</b><br/><br/>Ligue agora mesmo e atendemos você. É algo que precisa de atenção imediata?",
+    pEmergQ: ["qBook"],
+    pHuman: "Claro! Um membro da nossa equipe vai te escrever em horário comercial (Seg–Sex 8 AM–7 PM, Sáb 8 AM–4 PM) 👩‍💼<br/><br/>Se for urgente: 📞 829-436-7662 (24/7)",
+    pHumanQ: ["qBook","qServices"],
+    pCallNow: "📞 Linha de emergência 24/7: <b>829-436-7662</b>",
+    pCallNowQ: ["qBook"],
+    pThanks: "Por nada! 😊 Estou aqui 24/7 quando precisar. Tenha um ótimo dia! 🦷✨",
+    pThanksQ: ["qBook","qServices"],
+    pFallback: "Posso ajudar com consultas, serviços, horários e mais 🙂 Escolha uma opção:",
+    pFallbackQ: ["qBook","qServices","qHours","qHuman"],
+    lNew: "👋 Novo contato", lNewD: "Paciente iniciou conversa. Respondido em segundos, sem espera.",
+    lBook: "🔍 Intenção detectada", lBookD: "O paciente quer <b>agendar uma consulta</b>. Iniciando fluxo de reserva…",
+    lLead: "📋 Lead qualificado", lLeadD: "Interesse em: <b>{s}</b>.",
+    lTime: "📅 Horário selecionado", lTimeD: "<b>{d} · {t}</b> — pedindo dados do paciente…",
+    lSaved: "💾 Paciente salvo no CRM", lSavedD: "Consulta pré-agendada, pronta para confirmação humana.",
+    lPrice: "💰 Objeção de preço", lPriceD: "Respondendo com plano de financiamento, sem perder o paciente.",
+    lEmerg: "🚨 Emergência detectada", lEmergD: "Paciente urgente: linha 24/7 informada na hora.",
+    lHuman: "🙋 Encaminhado a humano", lHumanD: "O paciente pediu atenção pessoal. Equipe notificada.",
+    lUnknown: "❓ Mensagem não reconhecida", lUnknownD: "A IA oferece opções claras em vez de deixar o paciente sem resposta.",
+    lHello: "⚡ Resposta imediata", lHelloD: "A IA cumprimentou o paciente em segundos, sem ninguém de plantão."
+  }};
+
+  /* Palabras clave por intención e idioma */
+  var KW = {
+    greet:   { es:/^(hola|buenas|buenos dias|buenas tardes|buenas noches|saludos|hey)\b/,
+               en:/^(hi|hello|hey|good morning|good afternoon|good evening)\b/,
+               pt:/^(ola|oi|bom dia|boa tarde|boa noite|e ai)\b/ },
+    book:    { es:/(cita|agendar|reservar|apartar|turno|quiero ir)/,
+               en:/(appointment|book|booking|schedule|reserve)/,
+               pt:/(consulta|agendar|marcar|reservar|horario)/ },
+    price:   { es:/(precio|costo|cuanto|cuesta|tarifa)/,
+               en:/(price|cost|how much|fee|pricing)/,
+               pt:/(preco|custo|quanto|custa|valor|tabela)/ },
+    services:{ es:/(servicio|tratamiento|hacen|ofrecen|especialidad)/,
+               en:/(service|treatment|offer|specialt|what do you do)/,
+               pt:/(servico|tratamento|oferecem|especialidade|fazem)/ },
+    hours:   { es:/(horario|abren|cierran|abierto|atienden)/,
+               en:/(hours|open|close|when are you)/,
+               pt:/(horario|abrem|fecham|aberto|funcionamento)/ },
+    location:{ es:/(donde|ubicaci|direccion|llegar|sucursal|local)/,
+               en:/(where|location|address|branch|directions)/,
+               pt:/(onde|localiza|endereco|unidade|como chegar)/ },
+    insurance:{es:/(seguro|ars|cobertura|plan medico)/,
+               en:/(insurance|coverage|insurer|health plan)/,
+               pt:/(convenio|plano de saude|cobertura|seguro saude)/ },
+    ortho:   { es:/(ortodoncia|brackets|alineador|invisible)/,
+               en:/(orthodont|braces|aligner|invisalign)/,
+               pt:/(ortodontia|aparelho|alinhador|invisivel)/ },
+    whiten:  { es:/(blanqueamiento|blanquear|dientes blancos)/,
+               en:/(whitening|whiten|white teeth|bleaching)/,
+               pt:/(clareamento|clarear|dentes brancos)/ },
+    implant: { es:/(implante)/, en:/(implant)/, pt:/(implante)/ },
+    emerg:   { es:/(emergencia|dolor|urgente|duele|accidente|se me rompi)/,
+               en:/(emergency|pain|urgent|hurts|accident|broke|broken)/,
+               pt:/(emergencia|dor|urgente|doi|acidente|quebrou)/ },
+    human:   { es:/(humano|persona|asesor|llamar|telefono|encargado)/,
+               en:/(human|person|agent|call me|phone|someone|representative)/,
+               pt:/(humano|pessoa|atendente|ligar|telefone|responsavel)/ },
+    callnow: { es:/(llamar ahora)/, en:/(call now)/, pt:/(ligar agora)/ },
+    thanks:  { es:/(gracias)/, en:/(thank|thanks)/, pt:/(obrigad)/ }
+  };
+
+  var lang = "es";
+  try { var saved = localStorage.getItem("zayvero-demo-lang"); if(saved && STR[saved]) lang = saved; } catch(e){}
+
+  function T(k){ var v = STR[lang][k]; return (v===undefined) ? k : v; }
+  function Q(keys){ return keys.map(function(k){ return T(k); }); }
+  function fill(s, o){ return s.replace(/\{(\w+)\}/g, function(m,k){ return (o[k]!==undefined)?o[k]:m; }); }
+
+  /* ================= DOM ================= */
+  function $(id){ return document.getElementById(id); }
+  var chat=$("chat"), quick=$("quick"), input=$("input"), ail=$("ailog");
   var BRANCHES = [
     {name:"Ensanche Julieta", addr:"C/ Virgilio Díaz Ordóñez 50", tel:"809-534-5766"},
     {name:"Prolongación 27", addr:"Báez Plaza, Prol. 27 de Febrero 410", tel:"809-537-5766"}
   ];
   var TIMES = ["9:00 AM","10:30 AM","12:00 PM","2:00 PM","3:30 PM","5:00 PM"];
-
   var state = { step:"idle", service:null, branch:null, day:null, time:null, name:null, phone:null };
   var started = false;
+  var DAYS = [];
 
   function now(){ var d=new Date(); var h=d.getHours(), m=d.getMinutes();
     var ap = h>=12 ? "p.m." : "a.m."; h = h%12; if(h===0) h=12;
     return h+":"+(m<10?"0":"")+m+" "+ap; }
-
   function scroll(){ chat.scrollTop = chat.scrollHeight; }
+  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+  function norm(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
 
   function bubble(text, who){
     var div = document.createElement('div');
     div.className = 'msg '+who;
     div.innerHTML = text + '<span class="time">'+now()+'</span>';
     chat.appendChild(div); scroll();
+    if(voice.active && who==='bot'){
+      var plain = stripHtml(text);
+      callSub.textContent = 'IA: \u201c'+plain+'\u201d';
+      speak(plain, function(){ if(voice.active) setTimeout(listen, 400); });
+    }
   }
-
   function typing(cb, ms){
     var t = document.createElement('div');
-    t.className='msg bot typing'; t.id='typing';
+    t.className='msg bot typing';
     t.innerHTML='<span></span><span></span><span></span>';
     chat.appendChild(t); scroll();
-    setTimeout(function(){ t.remove(); cb(); }, ms || 1100);
+    setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); cb(); }, ms || 1100);
   }
-
   function say(text, qr){
-    typing(function(){
-      bubble(text,'bot');
-      setQuick(qr || []);
-    }, 700 + Math.random()*700);
+    typing(function(){ bubble(text,'bot'); setQuick(qr || []); }, 700 + Math.random()*700);
   }
-
   function setQuick(list){
     quick.innerHTML='';
     list.forEach(function(q){
@@ -237,179 +651,139 @@
       quick.appendChild(b);
     });
   }
-
   function log(title, desc){
-    if(logEmpty) { logEmpty.style.display='none'; }
+    var le=$("logEmpty"); if(le) le.style.display='none';
     var d=document.createElement('div'); d.className='log-item';
     d.innerHTML='<span class="lt">'+title+'</span>'+desc;
-    ail.prepend(d);
+    ail.insertBefore(d, ail.firstChild);
     while(ail.children.length>7){ ail.removeChild(ail.lastChild); }
   }
-
-  function norm(s){
-    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  }
-
   function nextDays(n){
-    var days=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-    var out=[], d=new Date();
-    var labels=['Hoy','Mañana'];
-    var i=0;
-    while(out.length<n){
-      d.setDate(d.getDate()+(out.length===0?0:1));
-      if(d.getDay()===0) continue; // domingo cerrado
-      var label = out.length<labels.length ? labels[out.length]
-        : days[d.getDay()]+' '+d.getDate();
-      out.push(label); i++;
-      if(i>10) break;
+    var names=T("dayNames"), out=[], d=new Date(), i=0, guard=0;
+    while(out.length<n && guard<14){
+      guard++;
+      if(out.length>0) d.setDate(d.getDate()+1);
+      if(d.getDay()===0) continue;
+      out.push(out.length===0 ? T("dayToday") : out.length===1 ? T("dayTomorrow") : names[d.getDay()]+" "+d.getDate());
     }
     return out;
   }
-  var DAYS = nextDays(3);
 
-  /* ============ FLUJO DE RESERVA ============ */
+  /* ================= FLUJO DE RESERVA ================= */
   function startBooking(){
     state.step='service'; state.service=null;
-    log('🔍 Intención detectada','El paciente quiere <b>agendar una cita</b>. Iniciando flujo de reserva…');
-    say('¡Con gusto! 😊 ¿Para qué tratamiento te gustaría la cita?', SERVICES.slice(0,4).concat(['Ver más']));
+    log(T("lBook"), T("lBookD"));
+    say(T("bkService"), T("services").slice(0,4).concat([cap(T("more"))]));
   }
+  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 
   function handleBooking(text){
-    var t = norm(text);
+    var t = norm(text), SERVICES = T("services");
     if(state.step==='service'){
-      var pick = SERVICES.find(function(s){ return norm(s).indexOf(t)>-1 || t.indexOf(norm(s).split(' ')[0])>-1; });
-      if(t.indexOf('ver mas')>-1){ say('Estos son nuestros tratamientos:', SERVICES); return; }
-      if(!pick){ say('¿Cuál de estos tratamientos te interesa?', SERVICES); return; }
-      state.service=pick;
-      state.step='branch';
-      log('📋 Lead calificado','Interés en: <b>'+pick+'</b>.');
-      say('Perfecto, <b>'+pick+'</b> ✨ ¿En cuál sucursal te queda mejor?', BRANCHES.map(function(b){return b.name;}));
+      var pick = SERVICES.filter(function(s){ return norm(s).indexOf(t)>-1 || t.indexOf(norm(s).split(' ')[0])>-1; })[0];
+      if(t.indexOf(norm(T("more")))>-1){ say(T("bkServiceMore"), SERVICES); return; }
+      if(!pick){ say(T("bkServiceNo"), SERVICES); return; }
+      state.service=pick; state.step='branch';
+      log(T("lLead"), fill(T("lLeadD"),{s:esc(pick)}));
+      say(fill(T("bkBranch"),{s:esc(pick)}), BRANCHES.map(function(b){return b.name;}));
     }
     else if(state.step==='branch'){
-      var b = BRANCHES.find(function(x){ return t.indexOf(norm(x.name).split(' ')[0])>-1; });
-      if(!b){ say('¿Cuál sucursal prefieres?', BRANCHES.map(function(x){return x.name;})); return; }
-      state.branch=b;
-      state.step='day';
-      say('Anotado: <b>'+b.name+'</b> 📍<br/>¿Qué día te viene mejor?', DAYS);
+      var b = BRANCHES.filter(function(x){ return t.indexOf(norm(x.name).split(' ')[0])>-1; })[0];
+      if(!b){ say(T("bkBranchNo"), BRANCHES.map(function(x){return x.name;})); return; }
+      state.branch=b; state.step='day';
+      DAYS = nextDays(3);
+      say(fill(T("bkDay"),{b:esc(b.name)}), DAYS);
     }
     else if(state.step==='day'){
-      var day = DAYS.find(function(d){ return norm(d)===t || t.indexOf(norm(d).split(' ')[0])>-1; });
-      if(!day){ say('¿Qué día prefieres?', DAYS); return; }
+      var day = DAYS.filter(function(d){ return norm(d)===t || t.indexOf(norm(d).split(' ')[0])>-1; })[0];
+      if(!day){ say(T("bkDayNo"), DAYS); return; }
       state.day=day; state.step='time';
-      say('El <b>'+day+'</b> tenemos estos horarios disponibles:', TIMES.slice(0,4).concat(['Ver más']));
+      say(fill(T("bkTime"),{d:esc(day)}), TIMES.slice(0,4).concat([cap(T("more"))]));
     }
     else if(state.step==='time'){
-      var tm = TIMES.find(function(x){ return t.indexOf(x.toLowerCase().replace(':',''))>-1 || t.indexOf(x.toLowerCase())>-1; });
-      if(t.indexOf('ver mas')>-1){ say('Todos los horarios del día:', TIMES); return; }
-      if(!tm){ say('¿A qué hora te agendo?', TIMES); return; }
+      var tm = TIMES.filter(function(x){ return t.indexOf(x.toLowerCase().replace(':',''))>-1 || t.indexOf(x.toLowerCase())>-1; })[0];
+      if(t.indexOf(norm(T("more")))>-1){ say(T("bkTimeAll"), TIMES); return; }
+      if(!tm){ say(T("bkTimeNo"), TIMES); return; }
       state.time=tm; state.step='name';
-      log('📅 Horario seleccionado','<b>'+state.day+' · '+tm+'</b> — pidiendo datos del paciente…');
-      say('¡Ya casi! 🙌 ¿Cuál es tu <b>nombre</b>?', []);
+      log(T("lTime"), fill(T("lTimeD"),{d:esc(state.day), t:esc(tm)}));
+      say(T("bkName"), []);
     }
     else if(state.step==='name'){
       state.name=text.trim(); state.step='phone';
-      say('Gracias, '+esc(state.name)+' 😊 ¿Cuál es tu número de <b>WhatsApp</b> para confirmarte la cita?', []);
+      say(fill(T("bkPhone"),{n:esc(state.name)}), []);
     }
     else if(state.step==='phone'){
       var digits = text.replace(/\D/g,'');
-      if(digits.length<7){ say('¿Me confirmas tu número de WhatsApp? (solo números)', []); return; }
+      if(digits.length<7){ say(T("bkPhoneNo"), []); return; }
       state.phone=text.trim(); state.step='done';
-      log('💾 Paciente guardado en el CRM','Cita pre-agendada y lista para confirmación humana.');
+      log(T("lSaved"), T("lSavedD"));
       showCRM();
-      say('✅ <b>¡Listo, '+esc(state.name)+'!</b><br/><br/>📋 Tu cita:<br/>💎 '+esc(state.service)+'<br/>📍 '+esc(state.branch.name)+'<br/>🗓️ '+esc(state.day)+' · '+esc(state.time)+'<br/><br/>Te escribiremos al <b>'+esc(state.phone)+'</b> para confirmar. ¡Te esperamos! 🦷✨',
-        ['Agendar otra cita','Ver servicios','Hablar con un humano']);
+      say(fill(T("bkDone"),{n:esc(state.name), s:esc(state.service), b:esc(state.branch.name), d:esc(state.day), t:esc(state.time), p:esc(state.phone)}),
+        Q(T("bkDoneQuick")));
       state.step='idle';
     }
   }
 
-  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-
   function showCRM(){
-    document.getElementById('crmName').textContent=state.name;
-    document.getElementById('crmPhone').textContent=state.phone;
-    document.getElementById('crmService').textContent=state.service;
-    document.getElementById('crmBranch').textContent=state.branch.name;
-    document.getElementById('crmWhen').textContent=state.day+' · '+state.time;
-    document.getElementById('crm').classList.add('show');
+    $("crmName").textContent=state.name;
+    $("crmPhone").textContent=state.phone;
+    $("crmService").textContent=state.service;
+    $("crmBranch").textContent=state.branch.name;
+    $("crmWhen").textContent=state.day+' · '+state.time;
+    $("crm").classList.add('show');
   }
 
-  /* ============ INTENCIONES ============ */
+  /* ================= INTENCIONES ================= */
   function handleIntent(text){
     var t = norm(text);
+    function kw(id){ return KW[id][lang]; }
 
-    if(/^(hola|buenas|buenos dias|buenas tardes|buenas noches|saludos|hey)\b/.test(t)){
-      log('👋 Nuevo contacto','Paciente inició conversación. Respondido en segundos, sin espera.');
-      say('¡Hola! 👋 Soy el asistente virtual de <b>OdontoLeón</b> 🦷<br/>¿En qué te puedo ayudar hoy?',
-        ['📅 Agendar cita','💎 Servicios','🕐 Horarios','👩 Hablar con un humano']);
-      return;
+    if(kw("greet").test(t)){
+      log(T("lNew"), T("lNewD"));
+      say(T("greet"), Q(T("greetQuick"))); return;
     }
-    if(/(cita|agendar|reservar|apartar|turno|quiero ir|appointment)/.test(t)){ startBooking(); return; }
-    if(/(precio|costo|cuanto|cuesta|tarifa)/.test(t)){
-      log('💰 Objeción de precio','Respondiendo con plan de financiamiento, sin perder al paciente.');
-      say('Los precios dependen de cada caso, por eso la <b>evaluación</b> es el primer paso: ahí te dan tu plan exacto y las <b>opciones de pago flexibles</b> 💳<br/>¿Te agendo la evaluación?',
-        ['📅 Agendar cita','👩 Hablar con un humano']);
-      return;
+    if(kw("book").test(t)){ startBooking(); return; }
+    if(kw("price").test(t)){
+      log(T("lPrice"), T("lPriceD"));
+      say(T("pPrice"), Q(T("pPriceQ"))); return;
     }
-    if(/(servicio|tratamiento|hacen|ofrecen|especialidad)/.test(t)){
-      say('Estos son nuestros tratamientos 💎<br/>• Odontología integral<br/>• Estética dental<br/>• Ortodoncia (brackets y alineadores invisibles)<br/>• Blanqueamiento dental<br/>• Implantes dentales<br/>• Odontopediatría (niños desde los 2 años)<br/>• Depilación láser<br/><br/>¿Cuál te interesa?',
-        ['📅 Agendar cita','💰 Precios','👩 Hablar con un humano']);
-      return;
+    if(kw("services").test(t)){
+      say(T("pServices"), Q(T("pServicesQ"))); return;
     }
-    if(/(horario|hora|abren|cierran|abierto|atienden)/.test(t)){
-      say('🕐 Nuestro horario:<br/><b>Lun–Vie:</b> 8:00 AM – 7:00 PM<br/><b>Sábado:</b> 8:00 AM – 4:00 PM<br/><b>Domingo:</b> cerrado<br/><br/>Y yo estoy aquí <b>24/7</b> para agendarte cuando quieras 😉',
-        ['📅 Agendar cita','📍 Sucursales']);
-      return;
+    if(kw("hours").test(t)){
+      say(T("pHours"), Q(T("pHoursQ"))); return;
     }
-    if(/(donde|ubicaci|direccion|llegar|sucursal|local)/.test(t)){
-      say('📍 Tenemos 2 sucursales:<br/><br/><b>Ensanche Julieta</b><br/>C/ Virgilio Díaz Ordóñez 50<br/>📞 809-534-5766<br/><br/><b>Prolongación 27</b><br/>Báez Plaza, Prol. 27 de Febrero 410<br/>📞 809-537-5766',
-        ['📅 Agendar cita','🕐 Horarios']);
-      return;
+    if(kw("location").test(t)){
+      say(T("pLocation"), Q(T("pLocationQ"))); return;
     }
-    if(/(seguro|ars|cobertura|plan medico)/.test(t)){
-      say('✅ Trabajamos con los <b>principales seguros médicos</b> del país. Escríbenos tu ARS por aquí y lo verificamos antes de tu cita, o agenda y lo confirmamos al llegar.',
-        ['📅 Agendar cita','👩 Hablar con un humano']);
-      return;
+    if(kw("insurance").test(t)){
+      say(T("pInsurance"), Q(T("pInsuranceQ"))); return;
     }
-    if(/(ortodoncia|brackets|alineador|invisible)/.test(t)){
-      say('¡La ortodoncia es de nuestras especialidades! 😁 Tratamientos de <b>12 a 24 meses</b> en promedio, con brackets o alineadores invisibles. En tu evaluación te damos el plan personalizado.<br/>¿Te agendo?',
-        ['📅 Agendar cita','💰 Precios']);
-      return;
+    if(kw("ortho").test(t)){
+      say(T("pOrtho"), Q(T("pOrthoQ"))); return;
     }
-    if(/(blanqueamiento|blanquear|dientes blancos)/.test(t)){
-      say('Nuestro blanqueamiento es <b>completamente indoloro</b> ✨ Usamos geles de alta calidad con tecnología LED que no daña el esmalte. ¿Te agendo una evaluación?',
-        ['📅 Agendar cita','💎 Servicios']);
-      return;
+    if(kw("whiten").test(t)){
+      say(T("pWhiten"), Q(T("pWhitenQ"))); return;
     }
-    if(/(implante)/.test(t)){
-      say('Los implantes de titanio pueden durar <b>toda la vida</b> con el cuidado adecuado 💪 El proceso completo toma de 3 a 6 meses (en algunos casos, un solo día). ¿Agendamos tu evaluación?',
-        ['📅 Agendar cita','💰 Precios']);
-      return;
+    if(kw("implant").test(t)){
+      say(T("pImplant"), Q(T("pImplantQ"))); return;
     }
-    if(/(emergencia|dolor|urgente|duele|accidente|se me rompi)/.test(t)){
-      log('🚨 Emergencia detectada','Paciente con urgencia: se le dio la línea 24/7 de inmediato.');
-      say('🚨 Para emergencias tenemos línea <b>24 horas</b>:<br/>📞 <b>829-436-7662</b><br/><br/>Llama ahora mismo y te atendemos. ¿Es algo que necesita atención inmediata?',
-        ['📞 Llamar ahora','📅 Agendar cita']);
-      return;
+    if(kw("emerg").test(t)){
+      log(T("lEmerg"), T("lEmergD"));
+      say(T("pEmerg"), Q(T("pEmergQ"))); return;
     }
-    if(/(humano|persona|asesor|llamar|telefono|encargado)/.test(t)){
-      log('🙋 Derivación a humano','El paciente pidió atención personal. Se notifica al equipo.');
-      say('¡Claro! Un asesor de nuestro equipo te escribirá en horario laboral (Lun–Vie 8 AM–7 PM, Sáb 8 AM–4 PM) 👩‍💼<br/><br/>Si es urgente: 📞 829-436-7662 (24/7)',
-        ['📅 Agendar cita','💎 Servicios']);
-      return;
+    if(kw("human").test(t)){
+      log(T("lHuman"), T("lHumanD"));
+      say(T("pHuman"), Q(T("pHumanQ"))); return;
     }
-    if(/(llamar ahora)/.test(t)){
-      say('📞 Línea de emergencias 24/7: <b>829-436-7662</b>', ['📅 Agendar cita']);
-      return;
+    if(kw("callnow").test(t)){
+      say(T("pCallNow"), Q(T("pCallNowQ"))); return;
     }
-    if(/(gracias)/.test(t)){
-      say('¡Con gusto! 😊 Aquí estoy 24/7 cuando me necesites. ¡Que tengas un excelente día! 🦷✨',
-        ['📅 Agendar cita','💎 Servicios']);
-      return;
+    if(kw("thanks").test(t)){
+      say(T("pThanks"), Q(T("pThanksQ"))); return;
     }
-    // fallback
-    log('❓ Mensaje no reconocido','La IA ofrece opciones claras en vez de dejar al paciente sin respuesta.');
-    say('Puedo ayudarte con citas, servicios, horarios y más 🙂 Elige una opción:',
-      ['📅 Agendar cita','💎 Servicios','🕐 Horarios','👩 Hablar con un humano']);
+    log(T("lUnknown"), T("lUnknownD"));
+    say(T("pFallback"), Q(T("pFallbackQ")));
   }
 
   function userSay(text){
@@ -422,30 +796,175 @@
     }, 350);
   }
 
+  /* ================= MODO LLAMADA DE VOZ ================= */
+  var voice = { active:false, state:'idle', recog:null, timerInt:null, secs:0, restarts:0, gotResult:false };
+  var callOverlay=$("callOverlay"), callStatus=$("callStatus"), callTimer=$("callTimer"),
+      callSub=$("callSub"), callAvatar=$("callAvatar");
+
+  function stripHtml(html){
+    var d=document.createElement('div'); d.innerHTML=html;
+    return (d.textContent||'').replace(/\s+/g,' ').trim();
+  }
+  function pickVoice(){
+    try{
+      var vs = speechSynthesis.getVoices();
+      var pref = T("voicePref");
+      for(var i=0;i<pref.length;i++){
+        var f=null;
+        for(var j=0;j<vs.length;j++){ if((vs[j].lang||'').toLowerCase()===pref[i]){ f=vs[j]; break; } }
+        if(f) return f;
+      }
+      for(var k=0;k<vs.length;k++){ if((vs[k].lang||'').toLowerCase().indexOf(lang)===0) return vs[k]; }
+      return null;
+    }catch(e){ return null; }
+  }
+  function speak(text, onend){
+    if(!('speechSynthesis' in window)){ if(onend) onend(); return; }
+    try{ speechSynthesis.cancel(); }catch(e){}
+    var u = new SpeechSynthesisUtterance(text);
+    var v = pickVoice(); if(v) u.voice=v;
+    u.lang = (v && v.lang) || T("recogLang"); u.rate=1; u.pitch=1;
+    voice.state='speaking';
+    callStatus.textContent=T("vSpeaking");
+    callAvatar.classList.add('talking');
+    var done=false;
+    function fin(){ if(done) return; done=true; callAvatar.classList.remove('talking'); if(onend) onend(); }
+    u.onend=fin; u.onerror=fin;
+    try{ speechSynthesis.speak(u); }catch(e){ fin(); }
+    setTimeout(function(){ if(voice.state==='speaking') fin(); }, Math.max(5000, text.length*130));
+  }
+  function listen(){
+    if(!voice.active) return;
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR){ endCall(T("vNoSR")); return; }
+    try{ if(voice.recog) voice.recog.abort(); }catch(e){}
+    var r = new SR();
+    voice.recog=r;
+    r.lang=T("recogLang"); r.interimResults=false; r.maxAlternatives=1;
+    voice.state='listening'; voice.gotResult=false;
+    callStatus.textContent=T("vListening");
+    r.onresult=function(ev){
+      voice.gotResult=true;
+      var txt=ev.results[0][0].transcript;
+      callSub.textContent=': \u201c'+txt+'\u201d';
+      try{ r.stop(); }catch(e){}
+      userSay(txt);
+    };
+    r.onerror=function(ev){
+      if(ev.error==='not-allowed' || ev.error==='service-not-allowed') endCall(T("vMicDenied"));
+    };
+    r.onend=function(){
+      if(!voice.active || voice.state!=='listening' || voice.gotResult) return;
+      if(voice.restarts<40){ voice.restarts++; setTimeout(listen, 300); }
+      else endCall(T("vInactive"));
+    };
+    try{ r.start(); }catch(e){ setTimeout(listen, 600); }
+  }
+  function startCall(){
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!('speechSynthesis' in window) || !SR){
+      bubble(T("vNoSupport"), 'bot');
+      setQuick(Q(["qBook","qServices"]));
+      return;
+    }
+    try{ speechSynthesis.getVoices(); }catch(e){}
+    voice.active=true; voice.restarts=0; voice.secs=0;
+    callOverlay.classList.add('show');
+    callTimer.textContent='00:00';
+    if(voice.timerInt) clearInterval(voice.timerInt);
+    voice.timerInt=setInterval(function(){
+      voice.secs++;
+      var m=Math.floor(voice.secs/60), s=voice.secs%60;
+      callTimer.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    },1000);
+    callStatus.textContent=T("ovConnecting");
+    bubble(T("vCallStarted"), 'bot');
+    var greet=T("vGreet");
+    callSub.textContent='IA: \u201c'+greet+'\u201d';
+    speak(greet, function(){ if(voice.active) setTimeout(listen, 400); });
+  }
+  function endCall(msg){
+    voice.active=false; voice.state='idle';
+    try{ speechSynthesis.cancel(); }catch(e){}
+    try{ if(voice.recog) voice.recog.abort(); }catch(e){}
+    if(voice.timerInt) clearInterval(voice.timerInt);
+    callAvatar.classList.remove('talking');
+    callOverlay.classList.remove('show');
+    if(msg){ bubble(T("vCallEndedMsg")+esc(msg), 'bot'); }
+    else{ bubble(T("vCallEnded"), 'bot'); setQuick(Q(["qBook","qServices","qHours"])); }
+  }
+
+  /* ================= IDIOMA ================= */
+  function applyLang(l){
+    if(!STR[l]) return;
+    lang=l;
+    try{ localStorage.setItem("zayvero-demo-lang", l); }catch(e){}
+    document.documentElement.lang = l;
+    document.title = T("title");
+    $("badgeText").textContent = T("badge");
+    $("h1").innerHTML = T("h1");
+    $("sub").innerHTML = T("sub");
+    $("stats").innerHTML = T("stats").map(function(s){ return '<div class="stat">'+s+'</div>'; }).join('');
+    $("waStatus").textContent = T("waStatus");
+    $("input").placeholder = T("inputPh");
+    $("reset").textContent = T("reset");
+    $("panelH2").innerHTML = T("panelH2");
+    $("panelHint").textContent = T("panelHint");
+    $("crmTitle").textContent = T("crmTitle");
+    $("crmServiceLabel").textContent = T("crmService");
+    $("crmBranchLabel").textContent = T("crmBranch");
+    $("crmWhenLabel").textContent = T("crmWhen");
+    $("ctaH2").textContent = T("ctaH2");
+    $("ctaP").textContent = T("ctaP");
+    $("ctaBtn").textContent = T("ctaBtn");
+    $("ctaBtn").href = "https://wa.me/18496505777?text="+T("ctaWa");
+    $("disc").textContent = T("disc");
+    $("zayveroLine").innerHTML = T("zayveroLine");
+    $("callBtn").textContent = T("callBtn");
+    $("callBtnHead").title = T("callHeadTitle");
+    $("callName").textContent = T("ovName");
+    $("callSub").textContent = T("ovSub0");
+    $("hangup").textContent = T("ovHangup");
+    $("callNote").textContent = T("ovNote");
+    var btns = document.querySelectorAll("#langSwitch button");
+    for(var i=0;i<btns.length;i++){ btns[i].classList.toggle("on", btns[i].getAttribute("data-l")===l); }
+    resetDemo();
+  }
+  function resetDemo(){
+    chat.innerHTML=''; ail.innerHTML='';
+    var e=document.createElement('div'); e.className='log-empty'; e.id='logEmpty';
+    e.innerHTML=T("logEmpty");
+    ail.appendChild(e);
+    $("crm").classList.remove('show');
+    state={step:'idle',service:null,branch:null,day:null,time:null,name:null,phone:null};
+    DAYS = nextDays(3);
+    started=false; start();
+  }
   function start(){
     if(started) return; started=true;
     state.step='idle';
     setTimeout(function(){
-      log('⚡ Respuesta inmediata','La IA saludó al paciente en segundos, sin que nadie tuviera que estar pendiente.');
-      say('¡Hola! 👋 Soy el asistente virtual de <b>OdontoLeón</b> 🦷<br/>Estoy aquí 24/7 para ayudarte. ¿Qué necesitas hoy?',
-        ['📅 Agendar cita','💎 Servicios','🕐 Horarios','👩 Hablar con un humano']);
+      log(T("lHello"), T("lHelloD"));
+      say(T("greet"), Q(T("greetQuick")));
     }, 900);
   }
 
-  document.getElementById('send').onclick=function(){ userSay(input.value); input.value=''; input.focus(); };
+  $("send").onclick=function(){ userSay(input.value); input.value=''; input.focus(); };
   input.addEventListener('keydown',function(e){ if(e.key==='Enter'){ userSay(input.value); input.value=''; } });
-  document.getElementById('reset').onclick=function(){
-    chat.innerHTML=''; ail.innerHTML='';
-    var e=document.createElement('div'); e.className='log-empty'; e.id='logEmpty';
-    e.innerHTML='Interactúa con el chat y mira aquí la magia ✨<br/>La IA detecta intenciones, califica pacientes y agenda — todo automático.';
-    ail.appendChild(e); logEmpty=e;
-    document.getElementById('crm').classList.remove('show');
-    state={step:'idle',service:null,branch:null,day:null,time:null,name:null,phone:null};
-    started=false; start();
-  };
+  $("reset").onclick=resetDemo;
+  $("callBtn").onclick=startCall;
+  $("callBtnHead").onclick=startCall;
+  $("hangup").onclick=function(){ endCall(); };
+  var sw=$("langSwitch");
+  if(sw){ sw.addEventListener("click", function(e){
+    var b = e.target && e.target.getAttribute ? e.target : null;
+    var l = b && b.getAttribute("data-l");
+    if(l && l!==lang) applyLang(l);
+  });}
 
-  start();
+  applyLang(lang);
 })();
+
 </script>
 </body>
 </html>
