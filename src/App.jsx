@@ -298,6 +298,18 @@ const translations = {
       error:
         "No se pudo conectar con el Panel Comercial. Verifica que el servidor esté funcionando.",
       loading: "Cargando información comercial...",
+      login: {
+        title: "Panel Comercial",
+        subtitle: "Acceso privado del equipo ZAYVERO.",
+        passwordLabel: "Contraseña",
+        passwordPlaceholder: "Escribe tu contraseña",
+        button: "Entrar",
+        verifying: "Verificando...",
+        error: "Contraseña incorrecta. Inténtalo de nuevo.",
+        sessionExpired: "Tu sesión expiró. Ingresa de nuevo.",
+        backToSite: "Volver al sitio",
+        logout: "Cerrar sesión",
+      },
       lastReview: "Última revisión:",
       status: "Estado:",
       connected: "● Conectado",
@@ -718,6 +730,18 @@ const translations = {
       error:
         "Could not connect to the Sales Dashboard. Make sure the server is running.",
       loading: "Loading sales information...",
+      login: {
+        title: "Sales Panel",
+        subtitle: "Private access for the ZAYVERO team.",
+        passwordLabel: "Password",
+        passwordPlaceholder: "Enter your password",
+        button: "Sign in",
+        verifying: "Verifying...",
+        error: "Incorrect password. Please try again.",
+        sessionExpired: "Your session expired. Please sign in again.",
+        backToSite: "Back to site",
+        logout: "Sign out",
+      },
       lastReview: "Last review:",
       status: "Status:",
       connected: "● Connected",
@@ -1136,6 +1160,18 @@ const translations = {
       error:
         "Não foi possível conectar ao Painel Comercial. Verifique se o servidor está funcionando.",
       loading: "Carregando informações comerciais...",
+      login: {
+        title: "Painel Comercial",
+        subtitle: "Acesso privado da equipe ZAYVERO.",
+        passwordLabel: "Senha",
+        passwordPlaceholder: "Digite sua senha",
+        button: "Entrar",
+        verifying: "Verificando...",
+        error: "Senha incorreta. Tente novamente.",
+        sessionExpired: "Sua sessão expirou. Entre novamente.",
+        backToSite: "Voltar ao site",
+        logout: "Sair",
+      },
       lastReview: "Última revisão:",
       status: "Status:",
       connected: "● Conectado",
@@ -1315,6 +1351,85 @@ export default function App() {
 
   const t = translations[idioma];
 
+  // =====================================================
+  // RUTA /panel: el Panel Comercial vive separado de la
+  // landing pública y protegido con contraseña.
+  // =====================================================
+  const esRutaPanel =
+    typeof window !== "undefined" &&
+    window.location.pathname.replace(/\/+$/, "") === "/panel";
+
+  const [panelToken, setPanelToken] = useState(() => {
+    try {
+      return sessionStorage.getItem("zayvero_panel_token") || "";
+    } catch {
+      return "";
+    }
+  });
+  const [panelClave, setPanelClave] = useState("");
+  const [panelLoginError, setPanelLoginError] = useState("");
+  const [panelVerificando, setPanelVerificando] = useState(false);
+
+  const salirDelPanel = () => {
+    try {
+      sessionStorage.removeItem("zayvero_panel_token");
+    } catch {
+      // Ignorar
+    }
+    setPanelToken("");
+    setPanel(null);
+  };
+
+  const accederAlPanel = async (e) => {
+    if (e) e.preventDefault();
+    setPanelVerificando(true);
+    setPanelLoginError("");
+
+    try {
+      const response = await fetch(`${API_BASE}/api/panel/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: panelClave }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok || !data.token) {
+        throw new Error("login");
+      }
+
+      try {
+        sessionStorage.setItem("zayvero_panel_token", data.token);
+      } catch {
+        // Ignorar
+      }
+
+      setPanelToken(data.token);
+      setPanelClave("");
+    } catch (error) {
+      setPanelLoginError(t.panel.login.error);
+    } finally {
+      setPanelVerificando(false);
+    }
+  };
+
+  // El atributo lang del documento sigue al idioma elegido (SEO/accesibilidad).
+  useEffect(() => {
+    try {
+      document.documentElement.lang = idioma;
+    } catch {
+      // Ignorar
+    }
+  }, [idioma]);
+
+  // El video del hero cambia según el idioma elegido.
+  const videoSrc =
+    idioma === "en"
+      ? "/zayvero-video-en.mp4"
+      : idioma === "pt"
+        ? "/zayvero-video-pt.mp4"
+        : "/zayvero-video.mp4";
+
   const cambiarIdioma = (nuevoIdioma) => {
     setIdioma(nuevoIdioma);
 
@@ -1364,8 +1479,18 @@ export default function App() {
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/panel-comercial`
+        `${API_BASE}/api/panel-comercial`,
+        {
+          headers: panelToken
+            ? { "X-Panel-Token": panelToken }
+            : {},
+        }
       );
+
+      if (response.status === 401) {
+        salirDelPanel();
+        throw new Error(t.panel.login.sessionExpired);
+      }
 
       if (!response.ok) {
         throw new Error("No se pudo cargar el panel");
@@ -1383,8 +1508,10 @@ export default function App() {
   };
 
   useEffect(() => {
-    cargarPanel();
-  }, []);
+    if (esRutaPanel && panelToken) {
+      cargarPanel();
+    }
+  }, [esRutaPanel, panelToken]);
 
   // =====================================================
   // WHATSAPP
@@ -1479,6 +1606,7 @@ export default function App() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "X-Panel-Token": panelToken,
           },
           body: JSON.stringify({
             id: leadId,
@@ -1716,548 +1844,8 @@ export default function App() {
   // =====================================================
   // RENDER
   // =====================================================
-  return (
-    <>
-      <div className="site">
-        {/* =================================================
-            NAVBAR
-            ================================================= */}
-        <nav className="navbar">
-          <div className="container nav">
-            <a
-              href="#inicio"
-              className="logo"
-              onClick={() => setMenuAbierto(false)}
-            >
-              ZAYVERO<span>.</span>
-            </a>
-
-            <div className={`nav-links ${menuAbierto ? "open" : ""}`}>
-              <a href="#automatizar" onClick={() => setMenuAbierto(false)}>
-                {t.nav.automate}
-              </a>
-              <a href="#ejemplos" onClick={() => setMenuAbierto(false)}>
-                {t.nav.examples}
-              </a>
-              <a href="#proceso" onClick={() => setMenuAbierto(false)}>
-                {t.nav.process}
-              </a>
-              <a href="#precios" onClick={() => setMenuAbierto(false)}>
-                {t.nav.pricing}
-              </a>
-              <a href="#sectores" onClick={() => setMenuAbierto(false)}>
-                {t.nav.sectors}
-              </a>
-              <a
-                href="#panel-comercial"
-                onClick={() => setMenuAbierto(false)}
-              >
-                {t.nav.panel}
-              </a>
-              <a href="#preguntas" onClick={() => setMenuAbierto(false)}>
-                {t.nav.faq}
-              </a>
-              <a href="#contacto" onClick={() => setMenuAbierto(false)}>
-                {t.nav.contact}
-              </a>
-            </div>
-
-            <div className="nav-actions">
-              {/* SELECTOR DE IDIOMA */}
-              <select
-                value={idioma}
-                onChange={(e) => cambiarIdioma(e.target.value)}
-                aria-label={t.language}
-                style={{
-                  border: "1px solid rgba(148,163,184,.35)",
-                  borderRadius: "10px",
-                  background: "rgba(15,23,42,.75)",
-                  color: "#fff",
-                  padding: "9px 10px",
-                  fontSize: "13px",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  outline: "none",
-                }}
-              >
-                <option value="es">🇪🇸 ES</option>
-                <option value="en">🇺🇸 EN</option>
-                <option value="pt">🇧🇷 PT</option>
-              </select>
-
-              <a
-                href="#contacto"
-                className="nav-cta"
-                onClick={() => setMenuAbierto(false)}
-              >
-                {t.nav.cta}
-              </a>
-
-              <button
-                className={`menu-toggle ${menuAbierto ? "active" : ""}`}
-                type="button"
-                aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
-                aria-expanded={menuAbierto}
-                onClick={() => setMenuAbierto((actual) => !actual)}
-              >
-                <span></span>
-                <span></span>
-                <span></span>
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        {/* =================================================
-            HERO
-            ================================================= */}
-        <section className="hero" id="inicio">
-          <div className="container hero-grid">
-            <div>
-              <div className="eyebrow">
-                <span className="dot"></span>
-                {t.hero.eyebrow}
-              </div>
-
-              <h1>{t.hero.title}</h1>
-
-              <p className="hero-text">{t.hero.subtitle}</p>
-
-              <div className="hero-actions">
-                <a href="#contacto" className="primary">
-                  {t.hero.primary}
-                </a>
-
-                <a
-                  href="https://wa.me/18496505777?text=Hola%20ZAYVERO%2C%20quiero%20automatizar%20mi%20negocio"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="secondary"
-                >
-                  {t.hero.secondary}
-                </a>
-              </div>
-
-              <div className="small-note">{t.hero.note}</div>
-            </div>
-
-            <div className="demo-wrap">
-              <div className="demo-glow"></div>
-
-              <video
-                src="/zayvero-video.mp4"
-                controls
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                style={{
-                  width: "100%",
-                  maxWidth: "340px",
-                  borderRadius: "20px",
-                  boxShadow: "0 20px 60px rgba(17, 24, 39, 0.18)",
-                  display: "block",
-                  margin: "0 auto",
-                  position: "relative",
-                  zIndex: 1,
-                }}
-              >
-                {t.hero.videoFallback}
-              </video>
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            PROBLEMA
-            ================================================= */}
-        <section id="problema">
-          <div className="container">
-            <div className="label">{t.problem.label}</div>
-
-            <h2 className="title">{t.problem.title}</h2>
-
-            <p className="description">{t.problem.description}</p>
-
-            <div className="problem-grid">
-              {t.problem.cards.map((card) => (
-                <div className="card" key={card.title}>
-                  <div className="icon">{card.icon}</div>
-
-                  <h3>{card.title}</h3>
-
-                  <p>{card.text}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="transition-banner">
-              <span className="transition-arrow">→</span>
-              <span>{t.problem.transition}</span>
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            LO QUE PODEMOS AUTOMATIZAR
-            ================================================= */}
-        <section id="automatizar">
-          <div className="container">
-            <div className="label">{t.services.label}</div>
-
-            <h2 className="title">{t.services.title}</h2>
-
-            <p className="description">{t.services.description}</p>
-
-            <div className="services">
-              {t.services.items.map(([title, description], index) => (
-                <div className="service" key={title}>
-                  <div className="service-icon">
-                    {iconosServicios[index]}
-                  </div>
-
-                  <h3>{title}</h3>
-
-                  <p>{description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            EJEMPLOS
-            ================================================= */}
-        <section id="ejemplos" className="examples">
-          <div className="container">
-            <div className="label">{t.examples.label}</div>
-
-            <h2 className="title">{t.examples.title}</h2>
-
-            <p className="description">{t.examples.description}</p>
-
-            <div className="examples-grid">
-              {t.examples.cases.map((c) => (
-                <div className="example-card" key={c.sector}>
-                  <div className="example-sector">{c.sector}</div>
-
-                  <div className="chat">
-                    <div className="bubble bubble-client">{c.client}</div>
-                    <div className="bubble bubble-auto">{c.auto}</div>
-                  </div>
-
-                  <div className="example-steps">
-                    {c.steps.map((s) => (
-                      <div className="example-step" key={s}>
-                        <span className="step-check">✓</span>
-                        <span>{s}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            CÓMO FUNCIONA
-            ================================================= */}
-        <section className="flow-section" id="proceso">
-          <div className="container">
-            <div className="label">{t.process.label}</div>
-
-            <h2 className="title">{t.process.title}</h2>
-
-            <p className="description">{t.process.description}</p>
-
-            <div className="flow">
-              {t.process.steps.map((step, index) => (
-                <div key={step[0]} style={{ display: "contents" }}>
-                  <div className="flow-box">
-                    <div className="flow-number">{step[0]}</div>
-
-                    <strong>{step[1]}</strong>
-
-                    <span>{step[2]}</span>
-                  </div>
-
-                  {index < t.process.steps.length - 1 && (
-                    <div className="flow-arrow">→</div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            DIFERENCIACIÓN
-            ================================================= */}
-        <section id="diferencia">
-          <div className="container">
-            <div className="label">{t.difference.label}</div>
-
-            <h2 className="title">{t.difference.title}</h2>
-
-            <p className="description">{t.difference.text}</p>
-
-            <div className="diff-grid">
-              {t.difference.points.map((p) => (
-                <div className="diff-item" key={p}>
-                  <span className="diff-check">✓</span>
-                  <span>{p}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            CTA INTERMEDIO
-            ================================================= */}
-        <section className="cta-mid">
-          <div className="container">
-            <div className="cta-box">
-              <h2>{t.ctaMid.title}</h2>
-
-              <p>{t.ctaMid.text}</p>
-
-              <a href="#contacto" className="primary">
-                {t.ctaMid.button}
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            SECTORES
-            ================================================= */}
-        <section id="sectores">
-          <div className="container">
-            <div className="label">{t.sectors.label}</div>
-
-            <h2 className="title">{t.sectors.title}</h2>
-
-            <p className="description">{t.sectors.description}</p>
-
-            <div className="sectors">
-              {t.sectors.items.map(([icon, title, text]) => (
-                <div className="sector" key={title}>
-                  <div className="sector-icon">{icon}</div>
-
-                  <div>
-                    <h3>{title}</h3>
-                    <p>{text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            PRICING
-            ================================================= */}
-        <section id="precios">
-          <div className="container">
-            <div className="label">
-              {t.pricing.label}
-            </div>
-
-            <h2 className="title">
-              {t.pricing.title}
-            </h2>
-
-            <p className="description">
-              {t.pricing.description}
-            </p>
-
-            <div className="services">
-              {t.pricing.plans.map((plan, index) => (
-                <div
-                  className="service"
-                  key={plan.name}
-                  style={
-                    plan.popular
-                      ? {
-                          border:
-                            "2px solid #1d4ed8",
-                          position: "relative",
-                        }
-                      : undefined
-                  }
-                >
-                  {plan.popular && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "-15px",
-                        left: "50%",
-                        transform:
-                          "translateX(-50%)",
-                        background: "#1d4ed8",
-                        color: "#fff",
-                        fontSize: "12px",
-                        fontWeight: 700,
-                        padding: "5px 16px",
-                        borderRadius: "20px",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {plan.popular}
-                    </div>
-                  )}
-
-                  <h3>{plan.name}</h3>
-
-                  <p>{plan.description}</p>
-
-                  <div
-                    style={{
-                      margin: "18px 0 4px",
-                      fontSize: "38px",
-                      fontWeight: 800,
-                      color: "#ffffff",
-                    }}
-                  >
-                    {plan.price}
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      color: "#d1d5db",
-                      marginBottom: "16px",
-                    }}
-                  >
-                    {plan.monthly}
-                  </div>
-
-                  <ul
-                    style={{
-                      listStyle: "none",
-                      padding: 0,
-                      margin: "0 0 22px",
-                      fontSize: "15px",
-                      color: "#e5e7eb",
-                      lineHeight: "2.1",
-                    }}
-                  >
-                    {plan.features.map(
-                      (feature) => (
-                        <li key={feature}>
-                          ✓ {feature}
-                        </li>
-                      )
-                    )}
-                  </ul>
-
-                  <a
-                    href="#contacto"
-                    className="secondary"
-                  >
-                    {plan.button}
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            {/* WEB */}
-            <div
-              style={{
-                marginTop: "8px",
-                border: "1px solid #1d4ed8",
-                borderRadius: "16px",
-                padding: "22px 26px",
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent:
-                  "space-between",
-                gap: "16px",
-                background:
-                  "rgba(29, 78, 216, 0.08)",
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "12px",
-                    marginBottom: "8px",
-                  }}
-                >
-                  <Icono color="#ec4899">
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                    />
-                    <line
-                      x1="2"
-                      y1="12"
-                      x2="22"
-                      y2="12"
-                    />
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                  </Icono>
-
-                  <span
-                    style={{
-                      fontSize: "18px",
-                      fontWeight: 700,
-                      color: "#ffffff",
-                    }}
-                  >
-                    {t.pricing.web.title}
-                  </span>
-                </div>
-
-                <div
-                  style={{
-                    fontSize: "15px",
-                    color: "#d1d5db",
-                  }}
-                >
-                  {t.pricing.web.text}{" "}
-                  <strong
-                    style={{
-                      color: "#ffffff",
-                    }}
-                  >
-                    {t.pricing.web.price}
-                  </strong>{" "}
-                  {t.pricing.web.suffix}
-                </div>
-              </div>
-
-              <a
-                href="#contacto"
-                className="secondary"
-              >
-                {t.pricing.web.button}
-              </a>
-            </div>
-
-            <p
-              style={{
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#6b7280",
-                marginTop: "28px",
-              }}
-            >
-              {t.pricing.footnote}
-            </p>
-          </div>
-        </section>
-
-        {/* =====================================================
-            PANEL COMERCIAL
-            ===================================================== */}
+  // Sección del Panel Comercial (solo existe en la ruta /panel).
+  const seccionPanel = (
         <section
           id="panel-comercial"
           style={{
@@ -2604,8 +2192,15 @@ export default function App() {
                         opacity: 0.95,
                       }}
                     >
-                      {panel.resumen_texto ||
-                        t.panel.noSummary}
+                      {(() => {
+                        const r = panel.resumen || {};
+                        const g = (v) => v ?? 0;
+                        return [
+                          `${t.panel.metrics[0]}: ${g(r.total_leads)} (${t.panel.metrics[1]}: ${g(r.leads_activos)})`,
+                          `${t.panel.metrics[2]}: ${g(r.nuevos)} | ${t.panel.metrics[3]}: ${g(r.por_contactar)} | ${t.panel.metrics[4]}: ${g(r.en_seguimiento)}`,
+                          `${t.panel.metrics[5]}: ${g(r.prioridad_alta)} | ${t.panel.metrics[6]}: ${g(r.quieren_contratar)} | ${t.panel.metrics[7]}: ${g(r.oportunidades)}`,
+                        ].join("\n");
+                      })()}
                     </div>
                   </div>
 
@@ -3810,6 +3405,731 @@ export default function App() {
             )}
           </div>
         </section>
+  );
+
+  // Vista privada del panel: login o panel, sin la landing pública.
+  if (esRutaPanel) {
+    return (
+      <div className="app">
+        {!panelToken ? (
+          <div
+            style={{
+              minHeight: "100vh",
+              background: "#0b1322",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "24px",
+            }}
+          >
+            <form
+              onSubmit={accederAlPanel}
+              style={{
+                background: "#111c33",
+                border: "1px solid rgba(148,163,184,.25)",
+                borderRadius: "20px",
+                padding: "40px 36px",
+                width: "100%",
+                maxWidth: "420px",
+                textAlign: "center",
+              }}
+            >
+              <div
+                style={{
+                  fontWeight: 800,
+                  fontSize: "22px",
+                  color: "#fff",
+                  marginBottom: "8px",
+                }}
+              >
+                {t.panel.login.title}
+              </div>
+              <p
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "14px",
+                  marginBottom: "24px",
+                }}
+              >
+                {t.panel.login.subtitle}
+              </p>
+              <label
+                style={{
+                  display: "block",
+                  textAlign: "left",
+                  color: "#cbd5e1",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  marginBottom: "8px",
+                }}
+              >
+                {t.panel.login.passwordLabel}
+              </label>
+              <input
+                type="password"
+                value={panelClave}
+                onChange={(e) => setPanelClave(e.target.value)}
+                placeholder={t.panel.login.passwordPlaceholder}
+                autoComplete="current-password"
+                style={{
+                  width: "100%",
+                  padding: "14px 16px",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(148,163,184,.35)",
+                  background: "#0b1322",
+                  color: "#fff",
+                  fontSize: "15px",
+                  marginBottom: "16px",
+                  boxSizing: "border-box",
+                }}
+              />
+              {panelLoginError && (
+                <div
+                  style={{
+                    background: "#fff1f2",
+                    border: "1px solid #fecdd3",
+                    color: "#9f1239",
+                    borderRadius: "12px",
+                    padding: "12px",
+                    fontSize: "13px",
+                    marginBottom: "16px",
+                  }}
+                >
+                  {panelLoginError}
+                </div>
+              )}
+              <button
+                type="submit"
+                disabled={panelVerificando}
+                style={{
+                  width: "100%",
+                  border: "none",
+                  borderRadius: "12px",
+                  padding: "15px",
+                  fontWeight: 800,
+                  fontSize: "15px",
+                  background: "#7c3aed",
+                  color: "#fff",
+                  cursor: panelVerificando ? "wait" : "pointer",
+                  opacity: panelVerificando ? 0.7 : 1,
+                  marginBottom: "16px",
+                }}
+              >
+                {panelVerificando
+                  ? t.panel.login.verifying
+                  : t.panel.login.button}
+              </button>
+              <a
+                href="/"
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "13px",
+                  textDecoration: "none",
+                }}
+              >
+                ← {t.panel.login.backToSite}
+              </a>
+            </form>
+          </div>
+        ) : (
+          <>
+            <div
+              className="container"
+              style={{
+                paddingTop: "22px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: "12px",
+                flexWrap: "wrap",
+              }}
+            >
+              <a
+                href="/"
+                style={{
+                  color: "#94a3b8",
+                  fontSize: "13px",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                }}
+              >
+                ← {t.panel.login.backToSite}
+              </a>
+              <button
+                type="button"
+                onClick={salirDelPanel}
+                style={{
+                  border: "1px solid rgba(148,163,184,.35)",
+                  borderRadius: "10px",
+                  background: "transparent",
+                  color: "#cbd5e1",
+                  padding: "9px 14px",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {t.panel.login.logout}
+              </button>
+            </div>
+            {seccionPanel}
+          </>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="site">
+        {/* =================================================
+            NAVBAR
+            ================================================= */}
+        <nav className="navbar">
+          <div className="container nav">
+            <a
+              href="#inicio"
+              className="logo"
+              onClick={() => setMenuAbierto(false)}
+            >
+              ZAYVERO<span>.</span>
+            </a>
+
+            <div className={`nav-links ${menuAbierto ? "open" : ""}`}>
+              <a href="#automatizar" onClick={() => setMenuAbierto(false)}>
+                {t.nav.automate}
+              </a>
+              <a href="#ejemplos" onClick={() => setMenuAbierto(false)}>
+                {t.nav.examples}
+              </a>
+              <a href="#proceso" onClick={() => setMenuAbierto(false)}>
+                {t.nav.process}
+              </a>
+              <a href="#precios" onClick={() => setMenuAbierto(false)}>
+                {t.nav.pricing}
+              </a>
+              <a href="#sectores" onClick={() => setMenuAbierto(false)}>
+                {t.nav.sectors}
+              </a>
+              <a
+                href="/panel"
+                onClick={() => setMenuAbierto(false)}
+              >
+                {t.nav.panel}
+              </a>
+              <a href="#preguntas" onClick={() => setMenuAbierto(false)}>
+                {t.nav.faq}
+              </a>
+              <a href="#contacto" onClick={() => setMenuAbierto(false)}>
+                {t.nav.contact}
+              </a>
+            </div>
+
+            <div className="nav-actions">
+              {/* SELECTOR DE IDIOMA */}
+              <select
+                value={idioma}
+                onChange={(e) => cambiarIdioma(e.target.value)}
+                aria-label={t.language}
+                style={{
+                  border: "1px solid rgba(148,163,184,.35)",
+                  borderRadius: "10px",
+                  background: "rgba(15,23,42,.75)",
+                  color: "#fff",
+                  padding: "9px 10px",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  outline: "none",
+                }}
+              >
+                <option value="es">🇪🇸 ES</option>
+                <option value="en">🇺🇸 EN</option>
+                <option value="pt">🇧🇷 PT</option>
+              </select>
+
+              <a
+                href="#contacto"
+                className="nav-cta"
+                onClick={() => setMenuAbierto(false)}
+              >
+                {t.nav.cta}
+              </a>
+
+              <button
+                className={`menu-toggle ${menuAbierto ? "active" : ""}`}
+                type="button"
+                aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={menuAbierto}
+                onClick={() => setMenuAbierto((actual) => !actual)}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        {/* =================================================
+            HERO
+            ================================================= */}
+        <section className="hero" id="inicio">
+          <div className="container hero-grid">
+            <div>
+              <div className="eyebrow">
+                <span className="dot"></span>
+                {t.hero.eyebrow}
+              </div>
+
+              <h1>{t.hero.title}</h1>
+
+              <p className="hero-text">{t.hero.subtitle}</p>
+
+              <div className="hero-actions">
+                <a href="#contacto" className="primary">
+                  {t.hero.primary}
+                </a>
+
+                <a
+                  href="https://wa.me/18496505777?text=Hola%20ZAYVERO%2C%20quiero%20automatizar%20mi%20negocio"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="secondary"
+                >
+                  {t.hero.secondary}
+                </a>
+              </div>
+
+              <div className="small-note">{t.hero.note}</div>
+            </div>
+
+            <div className="demo-wrap">
+              <div className="demo-glow"></div>
+
+              <video
+                key={videoSrc}
+                src={videoSrc}
+                onError={(e) => {
+                  const el = e.currentTarget;
+                  if (
+                    !el.dataset.fallback &&
+                    !el.src.endsWith("/zayvero-video.mp4")
+                  ) {
+                    el.dataset.fallback = "1";
+                    el.src = "/zayvero-video.mp4";
+                  }
+                }}
+                controls
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                style={{
+                  width: "100%",
+                  maxWidth: "340px",
+                  borderRadius: "20px",
+                  boxShadow: "0 20px 60px rgba(17, 24, 39, 0.18)",
+                  display: "block",
+                  margin: "0 auto",
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
+                {t.hero.videoFallback}
+              </video>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            PROBLEMA
+            ================================================= */}
+        <section id="problema">
+          <div className="container">
+            <div className="label">{t.problem.label}</div>
+
+            <h2 className="title">{t.problem.title}</h2>
+
+            <p className="description">{t.problem.description}</p>
+
+            <div className="problem-grid">
+              {t.problem.cards.map((card) => (
+                <div className="card" key={card.title}>
+                  <div className="icon">{card.icon}</div>
+
+                  <h3>{card.title}</h3>
+
+                  <p>{card.text}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="transition-banner">
+              <span className="transition-arrow">→</span>
+              <span>{t.problem.transition}</span>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            LO QUE PODEMOS AUTOMATIZAR
+            ================================================= */}
+        <section id="automatizar">
+          <div className="container">
+            <div className="label">{t.services.label}</div>
+
+            <h2 className="title">{t.services.title}</h2>
+
+            <p className="description">{t.services.description}</p>
+
+            <div className="services">
+              {t.services.items.map(([title, description], index) => (
+                <div className="service" key={title}>
+                  <div className="service-icon">
+                    {iconosServicios[index]}
+                  </div>
+
+                  <h3>{title}</h3>
+
+                  <p>{description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            EJEMPLOS
+            ================================================= */}
+        <section id="ejemplos" className="examples">
+          <div className="container">
+            <div className="label">{t.examples.label}</div>
+
+            <h2 className="title">{t.examples.title}</h2>
+
+            <p className="description">{t.examples.description}</p>
+
+            <div className="examples-grid">
+              {t.examples.cases.map((c) => (
+                <div className="example-card" key={c.sector}>
+                  <div className="example-sector">{c.sector}</div>
+
+                  <div className="chat">
+                    <div className="bubble bubble-client">{c.client}</div>
+                    <div className="bubble bubble-auto">{c.auto}</div>
+                  </div>
+
+                  <div className="example-steps">
+                    {c.steps.map((s) => (
+                      <div className="example-step" key={s}>
+                        <span className="step-check">✓</span>
+                        <span>{s}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            CÓMO FUNCIONA
+            ================================================= */}
+        <section className="flow-section" id="proceso">
+          <div className="container">
+            <div className="label">{t.process.label}</div>
+
+            <h2 className="title">{t.process.title}</h2>
+
+            <p className="description">{t.process.description}</p>
+
+            <div className="flow">
+              {t.process.steps.map((step, index) => (
+                <div key={step[0]} style={{ display: "contents" }}>
+                  <div className="flow-box">
+                    <div className="flow-number">{step[0]}</div>
+
+                    <strong>{step[1]}</strong>
+
+                    <span>{step[2]}</span>
+                  </div>
+
+                  {index < t.process.steps.length - 1 && (
+                    <div className="flow-arrow">→</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            DIFERENCIACIÓN
+            ================================================= */}
+        <section id="diferencia">
+          <div className="container">
+            <div className="label">{t.difference.label}</div>
+
+            <h2 className="title">{t.difference.title}</h2>
+
+            <p className="description">{t.difference.text}</p>
+
+            <div className="diff-grid">
+              {t.difference.points.map((p) => (
+                <div className="diff-item" key={p}>
+                  <span className="diff-check">✓</span>
+                  <span>{p}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            CTA INTERMEDIO
+            ================================================= */}
+        <section className="cta-mid">
+          <div className="container">
+            <div className="cta-box">
+              <h2>{t.ctaMid.title}</h2>
+
+              <p>{t.ctaMid.text}</p>
+
+              <a href="#contacto" className="primary">
+                {t.ctaMid.button}
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            SECTORES
+            ================================================= */}
+        <section id="sectores">
+          <div className="container">
+            <div className="label">{t.sectors.label}</div>
+
+            <h2 className="title">{t.sectors.title}</h2>
+
+            <p className="description">{t.sectors.description}</p>
+
+            <div className="sectors">
+              {t.sectors.items.map(([icon, title, text]) => (
+                <div className="sector" key={title}>
+                  <div className="sector-icon">{icon}</div>
+
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            PRICING
+            ================================================= */}
+        <section id="precios">
+          <div className="container">
+            <div className="label">
+              {t.pricing.label}
+            </div>
+
+            <h2 className="title">
+              {t.pricing.title}
+            </h2>
+
+            <p className="description">
+              {t.pricing.description}
+            </p>
+
+            <div className="services">
+              {t.pricing.plans.map((plan, index) => (
+                <div
+                  className="service"
+                  key={plan.name}
+                  style={
+                    plan.popular
+                      ? {
+                          border:
+                            "2px solid #1d4ed8",
+                          position: "relative",
+                        }
+                      : undefined
+                  }
+                >
+                  {plan.popular && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "-15px",
+                        left: "50%",
+                        transform:
+                          "translateX(-50%)",
+                        background: "#1d4ed8",
+                        color: "#fff",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        padding: "5px 16px",
+                        borderRadius: "20px",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {plan.popular}
+                    </div>
+                  )}
+
+                  <h3>{plan.name}</h3>
+
+                  <p>{plan.description}</p>
+
+                  <div
+                    style={{
+                      margin: "18px 0 4px",
+                      fontSize: "38px",
+                      fontWeight: 800,
+                      color: "#ffffff",
+                    }}
+                  >
+                    {plan.price}
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      color: "#d1d5db",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    {plan.monthly}
+                  </div>
+
+                  <ul
+                    style={{
+                      listStyle: "none",
+                      padding: 0,
+                      margin: "0 0 22px",
+                      fontSize: "15px",
+                      color: "#e5e7eb",
+                      lineHeight: "2.1",
+                    }}
+                  >
+                    {plan.features.map(
+                      (feature) => (
+                        <li key={feature}>
+                          ✓ {feature}
+                        </li>
+                      )
+                    )}
+                  </ul>
+
+                  <a
+                    href="#contacto"
+                    className="secondary"
+                  >
+                    {plan.button}
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            {/* WEB */}
+            <div
+              style={{
+                marginTop: "8px",
+                border: "1px solid #1d4ed8",
+                borderRadius: "16px",
+                padding: "22px 26px",
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent:
+                  "space-between",
+                gap: "16px",
+                background:
+                  "rgba(29, 78, 216, 0.08)",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <Icono color="#ec4899">
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                    <line
+                      x1="2"
+                      y1="12"
+                      x2="22"
+                      y2="12"
+                    />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </Icono>
+
+                  <span
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      color: "#ffffff",
+                    }}
+                  >
+                    {t.pricing.web.title}
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    fontSize: "15px",
+                    color: "#d1d5db",
+                  }}
+                >
+                  {t.pricing.web.text}{" "}
+                  <strong
+                    style={{
+                      color: "#ffffff",
+                    }}
+                  >
+                    {t.pricing.web.price}
+                  </strong>{" "}
+                  {t.pricing.web.suffix}
+                </div>
+              </div>
+
+              <a
+                href="#contacto"
+                className="secondary"
+              >
+                {t.pricing.web.button}
+              </a>
+            </div>
+
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "14px",
+                color: "#6b7280",
+                marginTop: "28px",
+              }}
+            >
+              {t.pricing.footnote}
+            </p>
+          </div>
+        </section>
+
+        {/* El Panel Comercial ahora vive en la ruta /panel (acceso privado con contraseña). */}
 
         {/* =================================================
             FAQ
