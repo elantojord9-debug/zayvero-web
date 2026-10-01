@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
+import crypto from "crypto";
 import { fileURLToPath } from "url";
 
 dotenv.config();
@@ -22,7 +23,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Content-Type, X-ZAYVERO-KEY"
+    "Content-Type, X-ZAYVERO-KEY, X-Panel-Token"
   );
 
   if (req.method === "OPTIONS") {
@@ -32,7 +33,51 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/api/panel-comercial", async (req, res) => {
+// ================================
+// AUTENTICACIÓN DEL PANEL COMERCIAL
+// El panel ya no es público: se accede desde la ruta /panel
+// con una contraseña (variable PANEL_PASSWORD en Render).
+// El login entrega un token de sesión que el frontend envía
+// en el header X-Panel-Token en cada petición al panel.
+// ================================
+const PANEL_PASSWORD = process.env.PANEL_PASSWORD || "";
+const panelTokens = new Set();
+
+app.post("/api/panel/login", (req, res) => {
+  const { password } = req.body || {};
+
+  if (!PANEL_PASSWORD) {
+    return res.status(500).json({
+      ok: false,
+      error: "Panel no configurado",
+    });
+  }
+
+  if (password && password === PANEL_PASSWORD) {
+    const token = crypto.randomBytes(32).toString("hex");
+    panelTokens.add(token);
+    return res.json({ ok: true, token });
+  }
+
+  return res.status(401).json({
+    ok: false,
+    error: "Contraseña incorrecta",
+  });
+});
+
+function requirePanelAuth(req, res, next) {
+  const token = req.headers["x-panel-token"];
+
+  if (token && panelTokens.has(token)) {
+    return next();
+  }
+
+  return res.status(401).json({
+    error: "No autorizado",
+  });
+}
+
+app.get("/api/panel-comercial", requirePanelAuth, async (req, res) => {
   console.log("Solicitud recibida desde el frontend");
 
   try {
@@ -74,7 +119,7 @@ const ESTADOS_VALIDOS = [
   "Cliente perdido",
 ];
 
-app.post("/api/panel/estado", async (req, res) => {
+app.post("/api/panel/estado", requirePanelAuth, async (req, res) => {
   console.log("Solicitud de cambio de estado recibida");
 
   try {
