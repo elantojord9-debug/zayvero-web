@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ZAYVERO SOLUTIONS | IA y Automatización para Empresas</title>
+
+  <meta name="description" content="ZAYVERO SOLUTIONS ayuda a empresas a automatizar procesos, responder clientes y aumentar oportunidades de venta mediante inteligencia artificial y automatización.">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #07111f;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1150px;
+      margin: auto;
+    }
+
+    /* NAVBAR */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(7, 17, 31, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    nav {
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #38bdf8;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #d7e3ef;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: #38bdf8;
+    }
+
+    .nav-button {
+      background: #38bdf8;
+      color: #06111d;
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 680px;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(56,189,248,0.15), transparent 30%),
+        radial-gradient(circle at 20% 80%, rgba(99,102,241,0.12), transparent 30%);
+    }
+
+    .hero-content {
+      max-width: 780px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 13px;
+      border: 1px solid rgba(56,189,248,0.4);
+      border-radius: 30px;
+      color: #7dd3fc;
+      font-size: 13px;
+      margin-bottom: 22px;
+      background: rgba(56,189,248,0.05);
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 1.05;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 span {
+      color: #38bdf8;
+    }
+
+    .hero p {
+      font-size: 19px;
+      color: #b9c7d6;
+      max-width: 680px;
+      margin-bottom: 35px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .primary-button {
+      background: #38bdf8;
+      color: #06111d;
+      padding: 15px 24px;
+      border-radius: 9px;
+      font-weight: 800;
+    }
+
+    .secondary-button {
+      border: 1px solid #33485f;
+      padding: 15px 24px;
+      border-radius: 9px;
+      color: #e2edf7;
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 90px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 55px;
+    }
+
+    .section-title h2 {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .section-title p {
+      color: #9fb0c2;
+    }
+
+    /* PROBLEM */
+
+    .problem {
+      background: #0b1727;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .problem-card {
+      padding: 30px;
+      border: 1px solid #203349;
+      border-radius: 14px;
+      background: #0d1c2e;
+    }
+
+    .problem-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .problem-card p {
+      color: #9fb0c2;
+    }
+
+    /* SERVICES */
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .service {
+      padding: 30px;
+      border: 1px solid #203349;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #0c1b2d, #091625);
+      transition: transform 0.2s;
+    }
+
+    .service:hover {
+      transform: translateY(-5px);
+    }
+
+    .service-icon {
+      font-size: 32px;
+      margin-bottom: 18px;
+    }
+
+    .service h3 {
+      margin-bottom: 10px;
+    }
+
+    .service p {
+      color: #9fb0c2;
+      font-size: 15px;
+    }
+
+    /* PROCESS */
+
+    .process {
+      background: #0b1727;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .step {
+      text-align: center;
+      padding: 25px;
+    }
+
+    .number {
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: #38bdf8;
+      color: #06111d;
+      font-weight: 900;
+    }
+
+    .step p {
+      color: #9fb0c2;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    /* CTA */
+
+    .cta {
+      text-align: center;
+      background:
+        radial-gradient(circle at center, rgba(56,189,248,0.13), transparent 50%);
+    }
+
+    .cta h2 {
+      font-size: 45px;
+      margin-bottom: 18px;
+    }
+
+    .cta p {
+      color: #aebdcb;
+      max-width: 650px;
+      margin: 0 auto 30px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid #203349;
+      padding: 35px 0;
+      color: #8193a7;
+      font-size: 14px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .problem-grid,
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .process-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero {
+        min-height: 600px;
+      }
+
+      .hero h1 {
+        font-size: 46px;
+      }
+
+      .cta h2 {
+        font-size: 35px;
+      }
+    }
+
+    @media (max-width: 500px) {
+
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+
+      <div class="logo">
+        ZAYVERO<span>.</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#proceso">Cómo trabajamos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+
+      <a class="nav-button" href="#contacto">
+        Solicitar demo
+      </a>
+
+    </nav>
+  </div>
+</header>
+
+
+<main>
+
+  <!-- HERO -->
+
+  <section class="hero">
+    <div class="container">
+
+      <div class="hero-content">
+
+        <div class="badge">
+          Inteligencia artificial + automatización
+        </div>
+
+        <h1>
+          Convierte tu negocio en un negocio <span>más inteligente.</span>
+        </h1>
+
+        <p>
+          En ZAYVERO SOLUTIONS ayudamos a empresas a automatizar
+          procesos, responder clientes y aprovechar nuevas oportunidades
+          utilizando inteligencia artificial y automatización.
+        </p>
+
+        <div class="buttons">
+
+          <a class="primary-button" href="#contacto">
+            Quiero automatizar mi negocio
+          </a>
+
+          <a class="secondary-button" href="#servicios">
+            Ver servicios
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- PROBLEMA -->
+
+  <section class="problem">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <h2>
+          Muchos negocios pierden oportunidades sin darse cuenta.
+        </h2>
+
+        <p>
+          Mensajes sin responder, clientes olvidados y procesos manuales
+          pueden convertirse en oportunidades perdidas.
+        </p>
+
+      </div>
+
+
+      <div class="problem-grid">
+
+        <div class="problem-card">
+          <h3>📱 Respuestas tardías</h3>
+          <p>
+            Clientes que escriben por WhatsApp y esperan demasiado
+            para recibir una respuesta.
+          </p>
+        </div>
+
+        <div class="problem-card">
+          <h3>📋 Procesos manuales</h3>
+          <p>
+            Tareas repetitivas que consumen horas de trabajo todos los días.
+          </p>
+        </div>
+
+        <div class="problem-card">
+          <h3>📉 Leads olvidados</h3>
+          <p>
+            Personas interesadas que nunca reciben seguimiento.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- SERVICIOS -->
+
+  <section id="servicios">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <h2>
+          Soluciones que podemos automatizar
+        </h2>
+
+        <p>
+          Diseñamos sistemas adaptados a las necesidades de cada negocio.
+        </p>
+
+      </div>
+
+
+      <div class="services-grid">
+
+        <div class="service">
+
+          <div class="service-icon">🤖</div>
+
+          <h3>Agentes de IA</h3>
+
+          <p>
+            Asistentes inteligentes capaces de responder preguntas,
+            calificar clientes y ejecutar tareas.
+          </p>
+
+        </div>
+
+
+        <div class="service">
+
+          <div class="service-icon">💬</div>
+
+          <h3>WhatsApp automatizado</h3>
+
+          <p>
+            Automatización de conversaciones para atender clientes
+            incluso fuera del horario comercial.
+          </p>
+
+        </div>
+
+
+        <div class="service">
+
+          <div class="service-icon">📅</div>
+
+          <h3>Citas y reservas</h3>
+
+          <p>
+            Sistemas que pueden recopilar información y ayudar a
+            gestionar solicitudes de citas o reservas.
+          </p>
+
+        </div>
+
+
+        <div class="service">
+
+          <div class="service-icon">📊</div>
+
+          <h3>CRM y seguimiento</h3>
+
+          <p>
+            Organizamos la información de clientes y automatizamos
+            seguimientos para reducir oportunidades olvidadas.
+          </p>
+
+        </div>
+
+
+        <div class="service">
+
+          <div class="service-icon">🔄</div>
+
+          <h3>Automatización de procesos</h3>
+
+          <p>
+            Conectamos herramientas para eliminar tareas repetitivas
+            y mejorar los procesos internos.
+          </p>
+
+        </div>
+
+
+        <div class="service">
+
+          <div class="service-icon">🎯</div>
+
+          <h3>Recuperación de clientes</h3>
+
+          <p>
+            Automatizaciones para dar seguimiento a personas que
+            mostraron interés pero no completaron el proceso.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROCESO -->
+
+  <section id="proceso" class="process">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <h2>
+          Así trabajamos
+        </h2>
+
+        <p>
+          Primero entendemos el problema. Después diseñamos la automatización.
+        </p>
+
+      </div>
+
+
+      <div class="process-grid">
+
+        <div class="step">
+
+          <div class="number">1</div>
+
+          <h3>Analizamos</h3>
+
+          <p>
+            Identificamos dónde tu negocio está perdiendo tiempo
+            u oportunidades.
+          </p>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="number">2</div>
+
+          <h3>Diseñamos</h3>
+
+          <p>
+            Creamos el flujo de trabajo adecuado para tu negocio.
+          </p>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="number">3</div>
+
+          <h3>Automatizamos</h3>
+
+          <p>
+            Conectamos las herramientas necesarias para ejecutar
+            el proceso.
+          </p>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="number">4</div>
+
+          <h3>Mejoramos</h3>
+
+          <p>
+            Revisamos resultados y optimizamos el sistema.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CTA -->
+
+  <section id="contacto" class="cta">
+
+    <div class="container">
+
+      <h2>
+        ¿Listo para automatizar?
+      </h2>
+
+      <p>
+        Cuéntanos qué proceso quieres mejorar y evaluaremos
+        cómo podemos ayudarte.
+      </p>
+
+      <div class="buttons" style="justify-content:center;">
+
+        <a
+          class="primary-button"
+          href="https://wa.me/18496505777"
+          target="_blank"
+        >
+          Hablar por WhatsApp
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-content">
+
+      <div>
+        © 2026 ZAYVERO SOLUTIONS
+      </div>
+
+      <div>
+        Inteligencia artificial · Automatización · Tecnología
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+</body>
+</html>
