@@ -1364,7 +1364,7 @@ export default function App() {
 
     try {
       const response = await fetch(
-        "        `${API_BASE}/api/panel-comercial`"
+        `${API_BASE}/api/panel-comercial`
       );
 
       if (!response.ok) {
@@ -1474,7 +1474,7 @@ export default function App() {
 
     try {
       const response = await fetch(
-        "        `${API_BASE}/api/panel/estado`,",
+        `${API_BASE}/api/panel/estado`,
         {
           method: "POST",
           headers: {
