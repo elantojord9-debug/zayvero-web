@@ -156,6 +156,7 @@
     border-radius:14px; padding:13px 15px; font-size:14.5px; min-height:70px;
     color:#dbe4ff; margin-bottom:22px; line-height:1.5; text-align:left;
   }
+  .call-dbg { font-size:11px; color:#8b93a7; margin-top:6px; min-height:14px; font-family:monospace; opacity:.85; }
   .hangup {
     background:#ef4444; color:#fff; border:none; border-radius:999px;
     padding:15px 44px; font-size:17px; font-weight:800; cursor:pointer;
@@ -247,6 +248,7 @@
     <div class="call-timer" id="callTimer">00:00</div>
     <div class="call-status" id="callStatus">Conectando…</div>
     <div class="call-sub" id="callSub">Toca permitir cuando el navegador pida acceso al micrófono.</div>
+      <div class="call-dbg" id="callDbg"></div>
     <button class="hangup" id="hangup">📞 Colgar</button>
     <div class="call-note" id="callNote">Demo de voz: hablas por el micrófono y la IA te responde en voz alta. Funciona mejor en Google Chrome.</div>
   </div>
@@ -637,7 +639,7 @@
     div.className = 'msg '+who;
     div.innerHTML = text + '<span class="time">'+now()+'</span>';
     chat.appendChild(div); scroll();
-    if(voice.active && who==='bot'){
+    if(voice.active && !voice.muteOnce && who==='bot'){
       var plain = stripHtml(text);
       callSub.textContent = 'IA: \u201c'+plain+'\u201d';
       speak(plain, function(){ if(voice.active) setTimeout(listen, 400); });
@@ -828,6 +830,7 @@
       return null;
     }catch(e){ return null; }
   }
+  function dbg(m){ var d = document.getElementById('callDbg'); if(d) d.textContent = m || ''; }
   function speak(text, onend){
     if(!('speechSynthesis' in window)){ if(onend) onend(); return; }
     try{ speechSynthesis.cancel(); }catch(e){}
@@ -838,14 +841,21 @@
     voice.state='speaking';
     callStatus.textContent=T("vSpeaking");
     callAvatar.classList.add('talking');
-    var done=false;
-    var resumeInt = setInterval(function(){
-      try{ if(voice.active && speechSynthesis.paused) speechSynthesis.resume(); }catch(e){}
-    }, 400);
-    function fin(){ if(done) return; done=true; clearInterval(resumeInt); callAvatar.classList.remove('talking'); if(onend) onend(); }
+    var done=false, watch=null, silent=0;
+    function fin(){ if(done) return; done=true; if(watch) clearInterval(watch); callAvatar.classList.remove('talking'); if(onend) onend(); }
     u.onend=fin; u.onerror=fin;
     try{ speechSynthesis.speak(u); }catch(e){ fin(); }
-    setTimeout(function(){ if(voice.state==='speaking') fin(); }, Math.max(8000, text.length*160));
+    /* En algunos Android la voz queda "paused" y nunca arranca: un solo resume diferido, sin intervalo agresivo. */
+    setTimeout(function(){ try{ if(!done && voice.active && speechSynthesis.paused) speechSynthesis.resume(); }catch(e){} }, 800);
+    /* Watchdog: si Chrome "traga" la frase sin hablar ni avisar (ni onend), no quedarse colgado: ~3s sin actividad -> seguir. */
+    watch=setInterval(function(){
+      if(done || !voice.active){ if(watch) clearInterval(watch); return; }
+      try{
+        if(!speechSynthesis.speaking && !speechSynthesis.pending){ silent++; } else { silent=0; }
+      }catch(e){ silent++; }
+      if(silent>=3) fin();
+    }, 1000);
+    setTimeout(function(){ if(voice.state==='speaking') fin(); }, Math.max(12000, text.length*160));
   }
   function listen(){
     if(!voice.active) return;
@@ -854,42 +864,38 @@
     try{ if(voice.recog) voice.recog.abort(); }catch(e){}
     var r = new SR();
     voice.recog=r;
-    r.lang=T("recogLang"); r.continuous=true; r.interimResults=true; r.maxAlternatives=1;
-    voice.state='listening'; voice.wantStop=false;
+    r.lang=T("recogLang"); r.interimResults=false; r.maxAlternatives=1;
+    voice.state='listening'; voice.gotResult=false;
     callStatus.textContent=T("vListening");
-    var finalTxt='';
+    dbg('escuchando… habla ahora');
     r.onresult=function(ev){
-      var i, interim='';
-      for(i=ev.resultIndex;i<ev.results.length;i++){
-        var tr=ev.results[i][0].transcript;
-        if(ev.results[i].isFinal) finalTxt+=tr+' ';
-        else interim+=tr;
-      }
-      if(interim) callSub.textContent='\u2026 '+interim;
-      var ft=finalTxt.replace(/\s+/g,' ').trim();
-      if(ft){
-        finalTxt='';
-        callSub.textContent='\uD83D\uDDE3\uFE0F \u201c'+ft+'\u201d';
-        voice.wantStop=true;
+      voice.gotResult=true;
+      var txt='';
+      try{ txt=ev.results[0][0].transcript; }catch(e){}
+      txt=(txt||'').trim();
+      if(txt){
+        dbg('escuchado ✓');
+        callSub.textContent='\uD83D\uDDE3\uFE0F \u201c'+txt+'\u201d';
         try{ r.stop(); }catch(e){}
-        userSay(ft);
+        userSay(txt);
+      } else {
+        dbg('no se oyó nada, reintentando');
+        if(voice.active && voice.state==='listening') setTimeout(listen, 400);
       }
     };
-    r.onspeechstart=function(){ if(voice.active && voice.state==='listening') callStatus.textContent=T("vHeard"); };
-    r.onspeechend=function(){ if(voice.active && voice.state==='listening') callStatus.textContent=T("vListening"); };
+    r.onspeechstart=function(){ if(voice.active && voice.state==='listening'){ callStatus.textContent=T("vHeard"); dbg('oyendo tu voz…'); } };
     r.onerror=function(ev){
+      dbg('error: '+(ev.error||'?'));
       if(ev.error==='not-allowed' || ev.error==='service-not-allowed') endCall(T("vMicDenied"));
       else if(ev.error==='audio-capture') endCall(T("vNoMic"));
       else if(ev.error==='language-not-supported') endCall(T("vLangError"));
     };
     r.onend=function(){
-      if(!voice.active) return;
-      if(voice.wantStop){ voice.wantStop=false; return; }
-      if(voice.state!=='listening') return;
-      if(voice.restarts<40){ voice.restarts++; setTimeout(listen, 300); }
+      if(!voice.active || voice.state!=='listening' || voice.gotResult) return;
+      if(voice.restarts<40){ voice.restarts++; dbg('reintentando escucha ('+voice.restarts+')'); setTimeout(listen, 300); }
       else endCall(T("vInactive"));
     };
-    try{ r.start(); }catch(e){ setTimeout(function(){ if(voice.active) listen(); }, 600); }
+    try{ r.start(); }catch(e){ dbg('inicio falló, reintentando'); setTimeout(function(){ if(voice.active) listen(); }, 600); }
   }
   function startCall(){
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -909,7 +915,10 @@
       callTimer.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
     },1000);
     callStatus.textContent=T("ovConnecting");
+    dbg('conectando…');
+    voice.muteOnce=true;
     bubble(T("vCallStarted"), 'bot');
+    voice.muteOnce=false;
     var greet=T("vGreet");
     callSub.textContent='IA: \u201c'+greet+'\u201d';
     speak(greet, function(){ if(voice.active) setTimeout(listen, 400); });
@@ -921,6 +930,7 @@
     if(voice.timerInt) clearInterval(voice.timerInt);
     callAvatar.classList.remove('talking');
     callOverlay.classList.remove('show');
+    dbg('');
     if(msg){ bubble(T("vCallEndedMsg")+esc(msg), 'bot'); }
     else{ bubble(T("vCallEnded"), 'bot'); setQuick(Q(["qBook","qServices","qHours"])); }
   }
