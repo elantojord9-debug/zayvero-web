@@ -253,6 +253,7 @@
 </div>
 
 <script>
+
 (function(){
   "use strict";
 
@@ -295,8 +296,11 @@
     vCallEnded: "📞 <b>Llamada terminada.</b> ¿Seguimos por aquí? 🙂",
     vCallEndedMsg: "📞 Llamada terminada: ",
     vGreet: "¡Hola! Soy la recepcionista virtual de OdontoLeón. ¿En qué te puedo ayudar hoy?",
-    recogLang: "es-DO",
-    voicePref: ["es-mx","es-us","es-do","es-co","es-ar","es-cl","es-es"],
+    vHeard: "🎧 Te estoy escuchando…",
+    vNoMic: "No se detectó ningún micrófono en este dispositivo.",
+    vLangError: "El reconocimiento de voz falló en este navegador. Prueba con Google Chrome actualizado.",
+    recogLang: "es-ES",
+    voicePref: ["es-es","es-mx","es-us","es-do","es-co","es-ar","es-cl"],
     dayNames: ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],
     dayToday: "Hoy", dayTomorrow: "Mañana",
     services: ["Limpieza dental","Ortodoncia (brackets / alineadores)","Blanqueamiento dental","Implantes dentales","Evaluación general","Odontopediatría (niños)"],
@@ -394,6 +398,9 @@
     vCallEnded: "📞 <b>Call ended.</b> Shall we continue here? 🙂",
     vCallEndedMsg: "📞 Call ended: ",
     vGreet: "Hi! I'm the OdontoLeón virtual receptionist. How can I help you today?",
+    vHeard: "🎧 I hear you…",
+    vNoMic: "No microphone was detected on this device.",
+    vLangError: "Voice recognition failed in this browser. Try an updated Google Chrome.",
     recogLang: "en-US",
     voicePref: ["en-us","en-gb"],
     dayNames: ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
@@ -493,6 +500,9 @@
     vCallEnded: "📞 <b>Chamada encerrada.</b> Continuamos por aqui? 🙂",
     vCallEndedMsg: "📞 Chamada encerrada: ",
     vGreet: "Olá! Sou a recepcionista virtual da OdontoLeón. Como posso ajudar você hoje?",
+    vHeard: "🎧 Estou te ouvindo…",
+    vNoMic: "Nenhum microfone foi detectado neste dispositivo.",
+    vLangError: "O reconhecimento de voz falhou neste navegador. Tente o Google Chrome atualizado.",
     recogLang: "pt-BR",
     voicePref: ["pt-br","pt-pt"],
     dayNames: ["domingo","segunda","terça","quarta","quinta","sexta","sábado"],
@@ -821,6 +831,7 @@
   function speak(text, onend){
     if(!('speechSynthesis' in window)){ if(onend) onend(); return; }
     try{ speechSynthesis.cancel(); }catch(e){}
+    try{ speechSynthesis.resume(); }catch(e){}
     var u = new SpeechSynthesisUtterance(text);
     var v = pickVoice(); if(v) u.voice=v;
     u.lang = (v && v.lang) || T("recogLang"); u.rate=1; u.pitch=1;
@@ -828,10 +839,13 @@
     callStatus.textContent=T("vSpeaking");
     callAvatar.classList.add('talking');
     var done=false;
-    function fin(){ if(done) return; done=true; callAvatar.classList.remove('talking'); if(onend) onend(); }
+    var resumeInt = setInterval(function(){
+      try{ if(voice.active && speechSynthesis.paused) speechSynthesis.resume(); }catch(e){}
+    }, 400);
+    function fin(){ if(done) return; done=true; clearInterval(resumeInt); callAvatar.classList.remove('talking'); if(onend) onend(); }
     u.onend=fin; u.onerror=fin;
     try{ speechSynthesis.speak(u); }catch(e){ fin(); }
-    setTimeout(function(){ if(voice.state==='speaking') fin(); }, Math.max(5000, text.length*130));
+    setTimeout(function(){ if(voice.state==='speaking') fin(); }, Math.max(8000, text.length*160));
   }
   function listen(){
     if(!voice.active) return;
@@ -840,25 +854,42 @@
     try{ if(voice.recog) voice.recog.abort(); }catch(e){}
     var r = new SR();
     voice.recog=r;
-    r.lang=T("recogLang"); r.interimResults=false; r.maxAlternatives=1;
-    voice.state='listening'; voice.gotResult=false;
+    r.lang=T("recogLang"); r.continuous=true; r.interimResults=true; r.maxAlternatives=1;
+    voice.state='listening'; voice.wantStop=false;
     callStatus.textContent=T("vListening");
+    var finalTxt='';
     r.onresult=function(ev){
-      voice.gotResult=true;
-      var txt=ev.results[0][0].transcript;
-      callSub.textContent=': \u201c'+txt+'\u201d';
-      try{ r.stop(); }catch(e){}
-      userSay(txt);
+      var i, interim='';
+      for(i=ev.resultIndex;i<ev.results.length;i++){
+        var tr=ev.results[i][0].transcript;
+        if(ev.results[i].isFinal) finalTxt+=tr+' ';
+        else interim+=tr;
+      }
+      if(interim) callSub.textContent='\u2026 '+interim;
+      var ft=finalTxt.replace(/\s+/g,' ').trim();
+      if(ft){
+        finalTxt='';
+        callSub.textContent='\uD83D\uDDE3\uFE0F \u201c'+ft+'\u201d';
+        voice.wantStop=true;
+        try{ r.stop(); }catch(e){}
+        userSay(ft);
+      }
     };
+    r.onspeechstart=function(){ if(voice.active && voice.state==='listening') callStatus.textContent=T("vHeard"); };
+    r.onspeechend=function(){ if(voice.active && voice.state==='listening') callStatus.textContent=T("vListening"); };
     r.onerror=function(ev){
       if(ev.error==='not-allowed' || ev.error==='service-not-allowed') endCall(T("vMicDenied"));
+      else if(ev.error==='audio-capture') endCall(T("vNoMic"));
+      else if(ev.error==='language-not-supported') endCall(T("vLangError"));
     };
     r.onend=function(){
-      if(!voice.active || voice.state!=='listening' || voice.gotResult) return;
+      if(!voice.active) return;
+      if(voice.wantStop){ voice.wantStop=false; return; }
+      if(voice.state!=='listening') return;
       if(voice.restarts<40){ voice.restarts++; setTimeout(listen, 300); }
       else endCall(T("vInactive"));
     };
-    try{ r.start(); }catch(e){ setTimeout(listen, 600); }
+    try{ r.start(); }catch(e){ setTimeout(function(){ if(voice.active) listen(); }, 600); }
   }
   function startCall(){
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -964,6 +995,7 @@
 
   applyLang(lang);
 })();
+
 
 </script>
 </body>
