@@ -114,6 +114,26 @@ footer{background:#10161f;color:#9aa4b2;padding:36px 0;font-size:14px}
 .wa-float{position:fixed;bottom:22px;right:22px;width:62px;height:62px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(37,211,102,.5);z-index:60;transition:transform .15s}
 .wa-float:hover{transform:scale(1.08)}
 .wa-float svg{width:34px;height:34px;fill:#fff}
+/* Cotizador */
+.calc-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:38px;max-width:760px;margin:0 auto;box-shadow:0 18px 50px rgba(23,32,44,.08)}
+.calc-step{margin-bottom:30px}
+.calc-step h3{font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.calc-n{width:32px;height:32px;border-radius:50%;background:var(--brand);color:#fff;font-size:16px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.calc-services{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.calc-svc{background:var(--bg-soft);border:2px solid var(--line);border-radius:12px;padding:14px 8px;cursor:pointer;text-align:center;transition:all .12s;font-family:inherit}
+.calc-svc b{display:block;font-size:14.5px;color:var(--ink)}
+.calc-svc small{color:var(--muted);font-size:12px}
+.calc-svc.active{border-color:var(--brand);background:var(--brand-soft)}
+.calc-svc.active b{color:var(--brand-dark)}
+.calc-inputs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.calc-inputs label{font-size:13.5px;font-weight:600;color:var(--muted);display:block}
+.calc-inputs input{width:100%;margin-top:6px;padding:13px 14px;border:2px solid var(--line);border-radius:10px;font-size:16px;font-family:inherit;color:var(--ink)}
+.calc-inputs input:focus{outline:none;border-color:var(--brand)}
+.calc-hint{font-size:13px;color:var(--muted);margin-top:10px}
+.calc-result{background:var(--brand-soft);border-radius:14px;padding:28px;text-align:center;margin-top:6px}
+.calc-est-label{font-size:13px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--brand-dark)}
+.calc-est-value{font-size:clamp(32px,6vw,46px);font-weight:800;margin:8px 0 10px}
+.calc-disc{font-size:13.5px;color:var(--muted);margin-bottom:20px}
 @media(max-width:900px){
   .hero-grid{grid-template-columns:1fr}
   .hero-media img.main{height:320px}
@@ -122,6 +142,9 @@ footer{background:#10161f;color:#9aa4b2;padding:36px 0;font-size:14px}
   nav.main-nav{display:none}
 }
 @media(max-width:600px){
+  .calc-card{padding:24px 18px}
+  .calc-services{grid-template-columns:1fr 1fr}
+  .calc-inputs{grid-template-columns:1fr}
   .services-grid,.why-grid,.steps,.gallery-grid,.trust-grid{grid-template-columns:1fr}
   section{padding:52px 0}
   .header-cta span.txt{display:none}
@@ -139,6 +162,7 @@ footer{background:#10161f;color:#9aa4b2;padding:36px 0;font-size:14px}
     </a>
     <nav class="main-nav">
       <a href="#servicios">Servicios</a>
+      <a href="#cotizador">Cotizador</a>
       <a href="#video">Video</a>
       <a href="#galeria">Galería</a>
       <a href="#contacto">Contacto</a>
@@ -164,6 +188,7 @@ footer{background:#10161f;color:#9aa4b2;padding:36px 0;font-size:14px}
         <a class="btn btn-outline" href="#servicios">Ver servicios</a>
       </div>
       <p class="hero-phone">Llámanos o escríbenos: <strong>829-958-3224</strong></p>
+      <p style="margin-top:10px;font-size:15px"><a href="#cotizador" style="color:var(--brand-dark);font-weight:700;text-decoration:underline">¿Quieres un estimado rápido? Usa el cotizador →</a></p>
     </div>
     <div class="hero-media">
       <img class="main" src="drywall1.jpg" alt="Instalación profesional de drywall">
@@ -258,6 +283,45 @@ footer{background:#10161f;color:#9aa4b2;padding:36px 0;font-size:14px}
   </div>
 </section>
 
+<section id="cotizador" style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Cotizador en línea</div>
+      <h2>Calcula tu Estimado en Segundos</h2>
+      <p>Elige el trabajo, pon las medidas y recibe un estimado aproximado al instante.</p>
+    </div>
+    <div class="calc-card">
+      <div class="calc-step">
+        <h3><span class="calc-n">1</span> ¿Qué trabajo necesitas?</h3>
+        <div class="calc-services">
+          <button type="button" class="calc-svc active" data-svc="drywall"><b>Drywall</b><small>Tabla roca</small></button>
+          <button type="button" class="calc-svc" data-svc="pintura_int"><b>Pintura interior</b><small>Paredes y techos</small></button>
+          <button type="button" class="calc-svc" data-svc="pintura_ext"><b>Pintura exterior</b><small>Fachadas</small></button>
+          <button type="button" class="calc-svc" data-svc="plafon"><b>Plafón</b><small>Comercial / residencial</small></button>
+        </div>
+      </div>
+      <div class="calc-step">
+        <h3><span class="calc-n">2</span> Pon las medidas</h3>
+        <div class="calc-inputs">
+          <label>Largo (metros)<input type="number" id="calc-largo" min="0" step="0.1" placeholder="Ej: 5"></label>
+          <label>Ancho / Alto (metros)<input type="number" id="calc-ancho" min="0" step="0.1" placeholder="Ej: 3"></label>
+          <label>Metros cuadrados (m²)<input type="number" id="calc-m2" min="0" step="0.1" placeholder="Se calcula solo"></label>
+        </div>
+        <p class="calc-hint">Tip: si es una pared, pon el largo y la altura. Si ya sabes los m², escríbelos directo.</p>
+      </div>
+      <div class="calc-result" id="calc-result" style="display:none">
+        <div class="calc-est-label">Estimado aproximado</div>
+        <div class="calc-est-value" id="calc-value">RD$ 0</div>
+        <p class="calc-disc">Precio de referencia. La cotización final se confirma por WhatsApp según tu proyecto.</p>
+        <a class="btn btn-wa" id="calc-wa" href="#" target="_blank" rel="noopener" style="font-size:16px">
+          <svg class="wa-icon" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Enviar por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="contacto">
   <div class="container">
     <div class="eyebrow">Contacto</div>
@@ -286,5 +350,46 @@ footer{background:#10161f;color:#9aa4b2;padding:36px 0;font-size:14px}
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
 </a>
 
+<script>
+/* ============ COTIZADOR ============
+   PRECIOS DE EJEMPLO — pedir al cliente sus precios reales
+   y actualizar aquí. Formato: precio por m² en RD$. */
+var PRECIOS = {
+  drywall:     { nombre: "Drywall / Tabla roca", precio: 550 },
+  pintura_int: { nombre: "Pintura interior",     precio: 150 },
+  pintura_ext: { nombre: "Pintura exterior",     precio: 180 },
+  plafon:      { nombre: "Plafón",               precio: 650 }
+};
+var svcActual = "drywall";
+function fmt(n){ return "RD$ " + Math.round(n).toLocaleString("es-DO"); }
+function redondear50(n){ return Math.round(n/50)*50; }
+function actualizar(){
+  var largo = parseFloat(document.getElementById("calc-largo").value) || 0;
+  var ancho = parseFloat(document.getElementById("calc-ancho").value) || 0;
+  var m2input = document.getElementById("calc-m2");
+  if (largo > 0 && ancho > 0) { m2input.value = (largo*ancho).toFixed(1); }
+  var m2 = parseFloat(m2input.value) || 0;
+  var box = document.getElementById("calc-result");
+  if (m2 <= 0) { box.style.display = "none"; return; }
+  var p = PRECIOS[svcActual];
+  var base = m2 * p.precio;
+  var min = redondear50(base*0.9), max = redondear50(base*1.15);
+  document.getElementById("calc-value").textContent = fmt(min) + " – " + fmt(max);
+  var msg = "Hola, quiero cotizar: " + p.nombre + ", " + m2 + " m². Estimado web: " + fmt(min) + " - " + fmt(max) + ".";
+  document.getElementById("calc-wa").href = "https://wa.me/18299583224?text=" + encodeURIComponent(msg);
+  box.style.display = "block";
+}
+document.querySelectorAll(".calc-svc").forEach(function(b){
+  b.addEventListener("click", function(){
+    document.querySelectorAll(".calc-svc").forEach(function(x){ x.classList.remove("active"); });
+    b.classList.add("active");
+    svcActual = b.getAttribute("data-svc");
+    actualizar();
+  });
+});
+["calc-largo","calc-ancho","calc-m2"].forEach(function(id){
+  document.getElementById(id).addEventListener("input", actualizar);
+});
+</script>
 </body>
 </html>
