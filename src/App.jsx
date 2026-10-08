@@ -214,6 +214,7 @@ const translations = {
       process: "Cómo funciona",
       pricing: "Precios",
       sectors: "Sectores",
+      business: "ZAYVERO Business",
       panel: "Panel",
       faq: "Preguntas",
       contact: "Contacto",
@@ -376,6 +377,18 @@ const translations = {
         "Menos tareas manuales",
         "Mejor seguimiento de clientes",
         "Atención automatizada",
+      ],
+    },
+    business: {
+      label: "ZAYVERO BUSINESS",
+      title: "Tus datos pueden decirte mucho más de lo que imaginas.",
+      text: "ZAYVERO Business convierte los datos de tu empresa en inteligencia para detectar problemas, encontrar oportunidades, anticipar riesgos y tomar mejores decisiones.",
+      secondary: "No reemplazamos tu sistema. Agregamos una capa de inteligencia sobre los datos que ya tienes.",
+      cta: "Explorar ZAYVERO Business \u2192",
+      benefits: [
+        ["\U0001F50D", "DETECTA", "Problemas, anomalías y situaciones que requieren atención."],
+        ["\U0001F4C8", "ANTICIPA", "Riesgos, tendencias y posibles cambios en el comportamiento del negocio."],
+        ["\U0001F9ED", "DECIDE", "Obtén explicaciones, recomendaciones y una visión más clara de lo que está pasando."],
       ],
     },
     ctaMid: {
@@ -655,6 +668,7 @@ const translations = {
       process: "How it works",
       pricing: "Pricing",
       sectors: "Industries",
+      business: "ZAYVERO Business",
       panel: "Panel",
       faq: "FAQ",
       contact: "Contact",
@@ -817,6 +831,18 @@ const translations = {
         "Fewer manual tasks",
         "Better customer follow-up",
         "Automated customer service",
+      ],
+    },
+    business: {
+      label: "ZAYVERO BUSINESS",
+      title: "Your data can tell you much more than you imagine.",
+      text: "ZAYVERO Business turns your company's data into intelligence to detect problems, find opportunities, anticipate risks, and make better decisions.",
+      secondary: "We don't replace your system. We add an intelligence layer on top of the data you already have.",
+      cta: "Explore ZAYVERO Business \u2192",
+      benefits: [
+        ["\U0001F50D", "DETECT", "Problems, anomalies, and situations that need attention."],
+        ["\U0001F4C8", "ANTICIPATE", "Risks, trends, and possible changes in your business behavior."],
+        ["\U0001F9ED", "DECIDE", "Get explanations, recommendations, and a clearer view of what's happening."],
       ],
     },
     ctaMid: {
@@ -1094,6 +1120,7 @@ const translations = {
       process: "Como funciona",
       pricing: "Preços",
       sectors: "Setores",
+      business: "ZAYVERO Business",
       panel: "Painel",
       faq: "Perguntas",
       contact: "Contato",
@@ -1256,6 +1283,18 @@ const translations = {
         "Menos tarefas manuais",
         "Melhor acompanhamento de clientes",
         "Atendimento automatizado",
+      ],
+    },
+    business: {
+      label: "ZAYVERO BUSINESS",
+      title: "Seus dados podem dizer muito mais do que você imagina.",
+      text: "A ZAYVERO Business transforma os dados da sua empresa em inteligência para detectar problemas, encontrar oportunidades, antecipar riscos e tomar melhores decisões.",
+      secondary: "Não substituímos o seu sistema. Adicionamos uma camada de inteligência sobre os dados que você já tem.",
+      cta: "Explorar ZAYVERO Business \u2192",
+      benefits: [
+        ["\U0001F50D", "DETECTA", "Problemas, anomalias e situações que requerem atenção."],
+        ["\U0001F4C8", "ANTECIPA", "Riscos, tendências e possíveis mudanças no comportamento do negócio."],
+        ["\U0001F9ED", "DECIDA", "Obtenha explicações, recomendações e uma visão mais clara do que está acontecendo."],
       ],
     },
     ctaMid: {
@@ -3808,6 +3847,9 @@ export default function App() {
               <a href="#sectores" onClick={() => setMenuAbierto(false)}>
                 {t.nav.sectors}
               </a>
+              <a href="/business" onClick={() => setMenuAbierto(false)}>
+                {t.nav.business}
+              </a>
               <a
                 href="/panel"
                 onClick={() => setMenuAbierto(false)}
@@ -4081,6 +4123,40 @@ export default function App() {
                   <span>{p}</span>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================
+            ZAYVERO BUSINESS
+            ================================================= */}
+        <section id="business">
+          <div className="container">
+            <div className="label">{t.business.label}</div>
+
+            <h2 className="title">{t.business.title}</h2>
+
+            <p className="description">{t.business.text}</p>
+
+            <p className="description">{t.business.secondary}</p>
+
+            <div className="sectors">
+              {t.business.benefits.map(([icon, title, text]) => (
+                <div className="sector" key={title}>
+                  <div className="sector-icon">{icon}</div>
+
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: "32px" }}>
+              <a href="/business" className="primary">
+                {t.business.cta}
+              </a>
             </div>
           </div>
         </section>
