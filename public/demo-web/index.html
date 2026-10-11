@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demo web | ZAYVERO</title>
+<meta name="description" content="Demostración de página web para negocios locales, creada por ZAYVERO SOLUTIONS." />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<style>
+  /* ============ BASE (mobile-first, compartida por los 5 estilos) ============ */
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family: var(--font, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+    background: var(--bg, #ffffff);
+    color: var(--text, #111111);
+    min-height:100vh;
+    line-height:1.6;
+  }
+  /* --- Barra fija de DEMO (obligatoria en los 5 estilos) --- */
+  #demo-banner {
+    position:sticky; top:0; z-index:1000;
+    background:#f59e0b; color:#1a1a1a;
+    text-align:center; font-size:13px; font-weight:800; letter-spacing:.02em;
+    padding:10px 14px; line-height:1.4;
+    border-bottom:3px solid #1a1a1a;
+  }
+  #demo-banner a { color:#1a1a1a; font-weight:800; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 18px; }
+  section { padding:56px 0; }
+  .kicker {
+    display:inline-block; font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--accent, #2563eb); margin-bottom:12px;
+  }
+  h2.sec-title { font-size:clamp(24px,5vw,36px); line-height:1.2; margin-bottom:10px; font-weight:800; }
+  .sec-sub { color:var(--muted, #555); max-width:620px; margin-bottom:28px; font-size:16px; }
+
+  /* --- Header --- */
+  .site-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 0;
+  }
+  .brand { font-weight:800; font-size:19px; display:flex; align-items:center; gap:10px; }
+  .brand .logo-dot {
+    width:34px; height:34px; border-radius:10px; flex:none;
+    background:var(--accent, #2563eb); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800;
+  }
+  .btn {
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--btn, #25d366); color:var(--btn-text, #fff);
+    font-weight:700; font-size:16px; text-decoration:none;
+    padding:13px 26px; border-radius:var(--radius, 14px); border:none; cursor:pointer;
+    box-shadow:var(--btn-shadow, none);
+    transition:transform .15s ease, opacity .15s ease;
+  }
+  .btn:active { transform:scale(.97); }
+  .btn.small { padding:9px 18px; font-size:14px; }
+  .btn.ghost {
+    background:transparent; color:var(--text, #111);
+    border:2px solid var(--accent, #2563eb);
+    box-shadow:none;
+  }
+
+  /* --- Hero --- */
+  .hero { padding:64px 0 60px; background:var(--hero-bg, transparent); position:relative; overflow:hidden; }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+    padding:8px 16px; border-radius:999px; margin-bottom:18px;
+    background:var(--badge-bg, rgba(0,0,0,.06)); color:var(--badge-text, var(--accent, #2563eb));
+    border:1px solid var(--badge-border, transparent);
+  }
+  .hero h1 { font-size:clamp(32px,8vw,58px); line-height:1.08; font-weight:800; margin-bottom:14px; }
+  .hero h1 .hl { color:var(--accent, #2563eb); }
+  .hero .tagline { font-size:clamp(17px,3.4vw,22px); color:var(--muted, #555); max-width:640px; margin-bottom:10px; font-weight:500; }
+  .hero .hero-sub { color:var(--muted, #555); max-width:600px; margin-bottom:28px; font-size:16px; }
+  .hero-ctas { display:flex; flex-wrap:wrap; gap:12px; }
+  .hero-icon { font-size:clamp(40px,9vw,64px); margin-bottom:14px; display:block; }
+
+  /* --- Servicios --- */
+  .grid-serv { display:grid; grid-template-columns:1fr; gap:14px; }
+  @media (min-width:640px){ .grid-serv{ grid-template-columns:repeat(2,1fr);} }
+  @media (min-width:920px){ .grid-serv{ grid-template-columns:repeat(3,1fr);} }
+  .card-serv {
+    background:var(--card, #f7f7f8); border:1px solid var(--card-border, transparent);
+    border-radius:var(--radius, 14px); padding:22px 20px;
+    box-shadow:var(--card-shadow, none);
+  }
+  .card-serv .s-icon { font-size:30px; margin-bottom:10px; display:block; }
+  .card-serv h3 { font-size:18px; margin-bottom:6px; font-weight:700; }
+  .card-serv p { font-size:14.5px; color:var(--muted, #555); }
+
+  /* --- Nosotros --- */
+  .about { background:var(--about-bg, transparent); border-radius:var(--radius, 14px); }
+  .about-inner { display:grid; grid-template-columns:1fr; gap:22px; }
+  @media (min-width:860px){ .about-inner{ grid-template-columns:1.2fr .8fr; align-items:center;} }
+  .check-list { list-style:none; display:grid; gap:12px; margin-top:6px; }
+  .check-list li { display:flex; gap:10px; align-items:flex-start; font-size:15.5px; }
+  .check-list .ck {
+    flex:none; width:26px; height:26px; border-radius:50%;
+    background:var(--accent, #2563eb); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800;
+  }
+
+  /* --- Testimonios --- */
+  .grid-test { display:grid; grid-template-columns:1fr; gap:14px; }
+  @media (min-width:760px){ .grid-test{ grid-template-columns:repeat(3,1fr);} }
+  .card-test {
+    background:var(--card, #f7f7f8); border:1px solid var(--card-border, transparent);
+    border-radius:var(--radius, 14px); padding:22px 20px; position:relative;
+    box-shadow:var(--card-shadow, none);
+  }
+  .card-test .stars { color:#f59e0b; letter-spacing:2px; margin-bottom:10px; font-size:15px; }
+  .card-test p { font-size:14.5px; font-style:italic; margin-bottom:12px; }
+  .card-test .who { font-weight:700; font-size:14px; }
+  .ejemplo-tag {
+    display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+    background:#fef3c7; color:#92400e; border:1px solid #f59e0b;
+    padding:3px 10px; border-radius:999px; margin-left:8px; vertical-align:middle;
+  }
+
+  /* --- Contacto --- */
+  .contact-box {
+    background:var(--cta-bg, var(--accent, #2563eb)); color:var(--cta-text, #fff);
+    border-radius:calc(var(--radius, 14px) + 6px); padding:40px 26px; text-align:center;
+  }
+  .contact-box h2 { font-size:clamp(24px,5vw,34px); margin-bottom:10px; }
+  .contact-box p { opacity:.92; margin-bottom:22px; max-width:520px; margin-left:auto; margin-right:auto; }
+  .contact-box .btn { background:var(--btn, #25d366); }
+  .horario { margin-top:16px; font-size:13.5px; opacity:.85; }
+
+  /* --- Footer --- */
+  footer { padding:30px 0 110px; text-align:center; font-size:13.5px; color:var(--muted, #777); }
+  footer .style-links { margin:14px 0 6px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+  footer .style-links a {
+    font-size:13px; font-weight:700; text-decoration:none; color:var(--accent, #2563eb);
+    border:1px solid var(--accent, #2563eb); border-radius:999px; padding:6px 14px;
+  }
+  footer .style-links a.active { background:var(--accent, #2563eb); color:#fff; }
+
+  /* --- Botón flotante WhatsApp --- */
+  #wa-float {
+    position:fixed; right:18px; bottom:18px; z-index:900;
+    width:60px; height:60px; border-radius:50%; border:none; cursor:pointer;
+    background:#25d366; box-shadow:0 8px 24px rgba(0,0,0,.3);
+    display:flex; align-items:center; justify-content:center;
+  }
+  #wa-float svg { width:32px; height:32px; fill:#fff; }
+
+  /* --- Modal "esto es una demo" --- */
+  #demo-modal { display:none; position:fixed; inset:0; z-index:1100; background:rgba(0,0,0,.6);
+    align-items:center; justify-content:center; padding:20px; }
+  #demo-modal.open { display:flex; }
+  #demo-modal .modal-card {
+    background:#fff; color:#111; border-radius:18px; max-width:420px; width:100%;
+    padding:30px 26px; text-align:center; box-shadow:0 24px 70px rgba(0,0,0,.4);
+  }
+  #demo-modal .modal-card .m-icon { font-size:44px; margin-bottom:12px; }
+  #demo-modal .modal-card h3 { font-size:20px; margin-bottom:10px; }
+  #demo-modal .modal-card p { font-size:15px; color:#444; margin-bottom:20px; }
+  #demo-modal .modal-card .btn { width:100%; }
+</style>
+<style>
+  /* ============ ESTILO 1 — MODERNO (tech oscuro, azul/violeta) ============ */
+  body[data-theme="moderno"] {
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --bg:#070b1d; --text:#eef1ff; --muted:#a9b2d9;
+    --accent:#3b82f6; --accent2:#8b5cf6;
+    --card:rgba(255,255,255,.045); --card-border:rgba(255,255,255,.12);
+    --card-shadow:0 18px 44px rgba(0,0,0,.35);
+    --btn:#25d366; --btn-text:#fff; --btn-shadow:0 10px 26px rgba(37,211,102,.35);
+    --radius:18px;
+    --badge-bg:rgba(59,130,246,.14); --badge-text:#93c5fd; --badge-border:rgba(59,130,246,.4);
+    --hero-bg: radial-gradient(900px 480px at 15% -10%, rgba(59,130,246,.28), transparent 60%),
+               radial-gradient(800px 420px at 90% 0%, rgba(139,92,246,.24), transparent 55%);
+    --about-bg:rgba(255,255,255,.03);
+    --cta-bg:linear-gradient(120deg,#1d4ed8,#7c3aed); --cta-text:#fff;
+  }
+  body[data-theme="moderno"] .hero h1 .hl {
+    background:linear-gradient(90deg,#60a5fa,#a78bfa);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  body[data-theme="moderno"] .site-header { border-bottom:1px solid rgba(255,255,255,.1); }
+
+  /* ============ ESTILO 2 — ELEGANTE (marfil + dorado, serif) ============ */
+  body[data-theme="elegante"] {
+    --font: Georgia, "Times New Roman", serif;
+    --bg:#faf7f0; --text:#2b2620; --muted:#7a6f5f;
+    --accent:#b98a2f;
+    --card:#ffffff; --card-border:#e7ddc9; --card-shadow:0 14px 34px rgba(120,90,30,.10);
+    --btn:#2b2620; --btn-text:#faf7f0; --btn-shadow:0 10px 24px rgba(43,38,32,.25);
+    --radius:6px;
+    --badge-bg:transparent; --badge-text:#b98a2f; --badge-border:#b98a2f;
+    --hero-bg:linear-gradient(180deg,#f4ecdd 0%,#faf7f0 100%);
+    --about-bg:#f4ecdd;
+    --cta-bg:#2b2620; --cta-text:#faf7f0;
+  }
+  body[data-theme="elegante"] .kicker { letter-spacing:.28em; }
+  body[data-theme="elegante"] .hero h1 { font-weight:400; letter-spacing:.01em; }
+  body[data-theme="elegante"] .hero h1 .hl { font-style:italic; }
+  body[data-theme="elegante"] h2.sec-title { font-weight:400; }
+  body[data-theme="elegante"] .sec-title::after,
+  body[data-theme="elegante"] .hero h1::after {
+    content:""; display:block; width:64px; height:2px; background:var(--accent); margin-top:14px;
+  }
+  body[data-theme="elegante"] .hero h1::after { margin:18px 0 0; }
+  body[data-theme="elegante"] .site-header { border-bottom:1px solid #e7ddc9; }
+  body[data-theme="elegante"] .btn, body[data-theme="elegante"] .card-serv,
+  body[data-theme="elegante"] .card-test { border-radius:6px; }
+
+  /* ============ ESTILO 3 — MINIMALISTA (blanco, aire, líneas finas) ============ */
+  body[data-theme="minimalista"] {
+    --font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    --bg:#ffffff; --text:#111111; --muted:#6b6b6b;
+    --accent:#111111;
+    --card:#ffffff; --card-border:#e8e8e8; --card-shadow:none;
+    --btn:#111111; --btn-text:#ffffff; --btn-shadow:none;
+    --radius:4px;
+    --badge-bg:#111; --badge-text:#fff; --badge-border:#111;
+    --hero-bg:#ffffff;
+    --about-bg:#fafafa;
+    --cta-bg:#111111; --cta-text:#ffffff;
+  }
+  body[data-theme="minimalista"] section { padding:72px 0; }
+  body[data-theme="minimalista"] .hero h1 { font-weight:700; letter-spacing:-.02em; }
+  body[data-theme="minimalista"] .hero h1 .hl { text-decoration:underline; text-decoration-thickness:3px; text-underline-offset:6px; }
+  body[data-theme="minimalista"] .card-serv, body[data-theme="minimalista"] .card-test { border-width:1px; }
+  body[data-theme="minimalista"] .site-header { border-bottom:1px solid #eee; }
+  body[data-theme="minimalista"] .btn.ghost { border-color:#111; }
+
+  /* ============ ESTILO 4 — LLAMATIVO (rojo/naranja, grande y audaz) ============ */
+  body[data-theme="llamativo"] {
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --bg:#fff7ed; --text:#1c1917; --muted:#57534e;
+    --accent:#e11d48;
+    --card:#ffffff; --card-border:#fed7aa; --card-shadow:0 12px 30px rgba(225,29,72,.12);
+    --btn:#e11d48; --btn-text:#fff; --btn-shadow:0 12px 28px rgba(225,29,72,.4);
+    --radius:22px;
+    --badge-bg:#e11d48; --badge-text:#fff; --badge-border:#e11d48;
+    --hero-bg: radial-gradient(700px 380px at 85% 0%, rgba(249,115,22,.25), transparent 60%);
+    --about-bg:#ffedd5;
+    --cta-bg:linear-gradient(120deg,#e11d48,#f97316); --cta-text:#fff;
+  }
+  body[data-theme="llamativo"] .hero-badge { transform:rotate(-2deg); font-size:13px; padding:10px 20px; }
+  body[data-theme="llamativo"] .hero h1 { text-transform:uppercase; letter-spacing:-.01em; }
+  body[data-theme="llamativo"] .hero h1 .hl { color:#f97316; }
+  body[data-theme="llamativo"] .card-serv { border-width:2px; }
+  body[data-theme="llamativo"] .card-serv .s-icon { font-size:36px; }
+  body[data-theme="llamativo"] .site-header .brand .logo-dot { background:linear-gradient(135deg,#e11d48,#f97316); border-radius:50%; }
+
+  /* ============ ESTILO 5 — CLÁSICO (azul marino formal, serif) ============ */
+  body[data-theme="clasico"] {
+    --font: Georgia, "Times New Roman", serif;
+    --bg:#fbfaf7; --text:#1f2a37; --muted:#5b6b7c;
+    --accent:#1e3a5f;
+    --card:#ffffff; --card-border:#d9e2ec; --card-shadow:0 10px 26px rgba(30,58,95,.08);
+    --btn:#1e3a5f; --btn-text:#ffffff; --btn-shadow:0 10px 24px rgba(30,58,95,.3);
+    --radius:10px;
+    --badge-bg:transparent; --badge-text:#1e3a5f; --badge-border:#1e3a5f;
+    --hero-bg:linear-gradient(180deg,#1e3a5f 0%,#274b73 100%);
+    --about-bg:#eef2f7;
+    --cta-bg:#1e3a5f; --cta-text:#ffffff;
+  }
+  body[data-theme="clasico"] .hero { color:#fff; }
+  body[data-theme="clasico"] .hero .tagline, body[data-theme="clasico"] .hero .hero-sub { color:#c9d6e5; }
+  body[data-theme="clasico"] .hero h1 .hl { color:#f0c75e; }
+  body[data-theme="clasico"] .hero-badge { background:rgba(255,255,255,.12); color:#f0c75e; border-color:#f0c75e; }
+  body[data-theme="clasico"] .site-header { background:#1e3a5f; color:#fff; margin:0 -18px; padding-left:18px; padding-right:18px; }
+  body[data-theme="clasico"] .site-header .brand .logo-dot { background:#f0c75e; color:#1e3a5f; }
+  body[data-theme="clasico"] .site-header .btn.small { background:#f0c75e; color:#1e3a5f; }
+  body[data-theme="clasico"] .hero .btn:not(.ghost) { background:#f0c75e; color:#1e3a5f; }
+  body[data-theme="clasico"] .hero .btn.ghost { color:#ffffff; border-color:rgba(255,255,255,.75); }
+  body[data-theme="clasico"] h2.sec-title { border-left:5px solid #f0c75e; padding-left:14px; }
+</style>
+</head>
+<body>
+<div id="demo-banner">⚠️ Esto es solo una <u>DEMO</u> creada por ZAYVERO SOLUTIONS · <a href="https://getzayvero.com">getzayvero.com</a> · Ningún botón lleva a un número real.</div>
+<div id="app"></div>
+
+<button id="wa-float" aria-label="WhatsApp (demo)">
+  <svg viewBox="0 0 32 32"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.4.7 4.6 1.9 6.5L4 29l7.7-1.8c1.8 1 3.9 1.6 6.1 1.6h.2c6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-4.6 1.1 1.2-4.5-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.8C4.9 9.4 9.9 4.9 16 4.9S27.1 9.9 27.1 16 22.6 24.8 16 24.8zm6-8.1c-.3-.2-1.9-1-2.2-1.1-.3-.1-.5-.2-.7.2-.2.3-.8 1.1-1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-.9-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6L13.4 9c-.3-.8-.7-.7-1-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.4 3.9 1.6 4.2c.2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.2.8.9.3 1.8.3 2.5.2.8-.1 2.4-1 2.7-1.9.3-.9.3-1.7.2-1.9-.1-.1-.3-.2-.6-.4z"/></svg>
+</button>
+
+<div id="demo-modal" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="m-icon">⚠️</div>
+    <h3>Esto es una demo</h3>
+    <p id="modal-text">Este botón no lleva a ningún número real. Es una muestra de cómo se vería la página web de tu negocio.</p>
+    <button class="btn" id="modal-close">Entendido</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ================= DICCIONARIO POR TIPO DE NEGOCIO ================= */
+  var TYPES = {
+    dental: {
+      tagline: "Tu sonrisa en las mejores manos",
+      heroSub: "Cuidado dental integral para toda la familia: tecnología moderna, trato humano y resultados que se notan.",
+      icon: "🦷",
+      servicios: [
+        {icon:"✨", nombre:"Limpieza dental", desc:"Profilaxis profesional para mantener tu sonrisa sana."},
+        {icon:"🦷", nombre:"Ortodoncia", desc:"Brackets y alineadores invisibles para todas las edades."},
+        {icon:"💎", nombre:"Implantes dentales", desc:"Recupera tu sonrisa con implantes seguros y duraderos."},
+        {icon:"😁", nombre:"Blanqueamiento", desc:"Dientes más blancos desde la primera sesión."},
+        {icon:"🩺", nombre:"Endodoncia", desc:"Tratamiento de conducto cómodo y sin dolor."},
+        {icon:"👶", nombre:"Odontopediatría", desc:"Cuidado dental especializado para los más pequeños."}
+      ],
+      nosotros: "Somos una clínica dental comprometida con tu salud bucal. Combinamos experiencia profesional, tecnología moderna y un trato cercano para que cada visita sea una buena experiencia.",
+      bullets: ["Primera consulta de evaluación", "Planes de pago flexibles", "Atención de emergencias dentales"],
+      testimonios: [
+        {texto:"Desde que vengo aquí ya no le tengo miedo al dentista. El trato es excelente.", nombre:"María G."},
+        {texto:"Me hicieron un blanqueamiento y el cambio fue increíble. Totalmente recomendados.", nombre:"Carlos R."},
+        {texto:"Atendieron a mi hijo con una paciencia increíble. Definitivamente volveremos.", nombre:"Ana P."}
+      ],
+      cta: "Agenda tu cita"
+    },
+    restaurante: {
+      tagline: "Sabor que se queda contigo",
+      heroSub: "Cocina casera con ingredientes frescos, en un ambiente familiar que te hace sentir en casa.",
+      icon: "🍽️",
+      servicios: [
+        {icon:"🍳", nombre:"Desayunos", desc:"Empieza el día con nuestros desayunos típicos."},
+        {icon:"🍛", nombre:"Almuerzos", desc:"Platos del día con sabor de casa, todos los días."},
+        {icon:"🌙", nombre:"Cenas", desc:"El plan perfecto para cerrar el día en familia."},
+        {icon:"🛵", nombre:"Delivery", desc:"Tu comida favorita hasta la puerta de tu casa."},
+        {icon:"🎉", nombre:"Eventos y catering", desc:"Celebraciones, cumpleaños y eventos empresariales."},
+        {icon:"📅", nombre:"Reservas", desc:"Aparta tu mesa por WhatsApp en segundos."}
+      ],
+      nosotros: "Cocinamos como en casa porque creemos que la buena comida une a la gente. Cada plato se prepara al momento, con ingredientes frescos y recetas de familia.",
+      bullets: ["Ingredientes frescos cada día", "Ambiente familiar", "Precios justos"],
+      testimonios: [
+        {texto:"La mejor comida casera de la zona. El mofongo es otro nivel.", nombre:"José M."},
+        {texto:"Pedimos catering para 50 personas y todo llegó caliente y a tiempo.", nombre:"Lucía F."},
+        {texto:"El servicio por WhatsApp es rapidísimo. En 30 minutos tenía mi pedido.", nombre:"Pedro T."}
+      ],
+      cta: "Reserva tu mesa"
+    },
+    barberia: {
+      tagline: "Tu estilo, nuestro arte",
+      heroSub: "Cortes precisos, barba perfecta y un ambiente donde siempre sales renovado.",
+      icon: "💈",
+      servicios: [
+        {icon:"✂️", nombre:"Corte clásico", desc:"El corte de siempre, con acabado profesional."},
+        {icon:"🧔", nombre:"Arreglo de barba", desc:"Perfilado y cuidado de barba al detalle."},
+        {icon:"🔥", nombre:"Corte + barba", desc:"El combo completo para salir renovado."},
+        {icon:"🎨", nombre:"Tinte y color", desc:"Color moderno con productos de calidad."},
+        {icon:"🪒", nombre:"Afeitado navaja", desc:"Afeitado tradicional con toalla caliente."},
+        {icon:"⭐", nombre:"Diseños", desc:"Líneas y diseños personalizados."}
+      ],
+      nosotros: "Más que una barbería, un espacio para ti. Barberos con experiencia, buena música y la puntualidad que mereces. Tu imagen en las mejores manos.",
+      bullets: ["Citas puntuales por WhatsApp", "Barberos experimentados", "Ambiente premium"],
+      testimonios: [
+        {texto:"El mejor corte que me han hecho. No cambio esta barbería por nada.", nombre:"Miguel A."},
+        {texto:"Reservé por WhatsApp y me atendieron a la hora exacta.", nombre:"David L."},
+        {texto:"La barba me quedó perfecta. Se nota la experiencia.", nombre:"Rafael S."}
+      ],
+      cta: "Reserva tu cita"
+    },
+    taller: {
+      tagline: "Tu vehículo en buenas manos",
+      heroSub: "Mecánica honesta y garantizada: diagnosticamos con precisión y reparamos a la primera.",
+      icon: "🔧",
+      servicios: [
+        {icon:"⚙️", nombre:"Mecánica general", desc:"Reparación integral de motor y transmisión."},
+        {icon:"🛢️", nombre:"Cambio de aceite", desc:"Aceite y filtros de calidad garantizada."},
+        {icon:"🛑", nombre:"Frenos", desc:"Pastillas, discos y sistema de frenos completo."},
+        {icon:"💻", nombre:"Diagnóstico computarizado", desc:"Detectamos la falla exacta, sin adivinar."},
+        {icon:"❄️", nombre:"Aire acondicionado", desc:"Recarga y reparación del sistema de A/C."},
+        {icon:"🔋", nombre:"Electricidad", desc:"Baterías, alternador y sistema eléctrico."}
+      ],
+      nosotros: "Un taller donde te hablan claro: te mostramos el problema, te damos el precio antes de reparar y garantizamos nuestro trabajo. Sin sorpresas.",
+      bullets: ["Diagnóstico honesto y claro", "Precio acordado antes de reparar", "Garantía por escrito"],
+      testimonios: [
+        {texto:"Me dijeron exactamente lo que tenía el carro y el precio no cambió. Honestos.", nombre:"Ramón D."},
+        {texto:"En dos horas tenía mi carro listo. Rápidos y serios.", nombre:"Carmen V."},
+        {texto:"El diagnóstico computarizado encontró una falla que dos talleres no vieron.", nombre:"Andrés P."}
+      ],
+      cta: "Cotiza tu reparación"
+    },
+    tienda: {
+      tagline: "Todo lo que buscas, cerca de ti",
+      heroSub: "Variedad, buenos precios y atención de verdad: la tienda de tu barrio, ahora también por WhatsApp.",
+      icon: "🛍️",
+      servicios: [
+        {icon:"📦", nombre:"Gran variedad", desc:"Productos para el hogar, cuidado personal y más."},
+        {icon:"🏷️", nombre:"Ofertas semanales", desc:"Descuentos nuevos cada semana."},
+        {icon:"🛵", nombre:"Delivery", desc:"Recibe tu pedido sin salir de casa."},
+        {icon:"💳", nombre:"Facilidades de pago", desc:"Aceptamos efectivo, tarjeta y transferencia."},
+        {icon:"🎁", nombre:"Apartado de regalos", desc:"Aparta hoy y paga poco a poco."},
+        {icon:"💬", nombre:"Pedidos por WhatsApp", desc:"Escríbenos y te lo preparamos."}
+      ],
+      nosotros: "La tienda del barrio donde te conocen por tu nombre. Precios justos, productos de calidad y un trato que las grandes cadenas no te dan.",
+      bullets: ["Precios justos todos los días", "Atención personalizada", "Delivery en la zona"],
+      testimonios: [
+        {texto:"Encuentro de todo y a buen precio. Mi tienda de confianza.", nombre:"Rosa M."},
+        {texto:"Pedí por WhatsApp y en una hora tenía todo en mi casa.", nombre:"Juan C."},
+        {texto:"Me apartaron un regalo por dos semanas sin problema.", nombre:"Elena Q."}
+      ],
+      cta: "Escríbenos por WhatsApp"
+    }
+  };
+
+  var DEFAULT_TYPE = {
+    tagline: "Calidad y confianza cerca de ti",
+    heroSub: "Atención personalizada, buenos precios y el compromiso de siempre darte lo mejor.",
+    icon: "🏪",
+    servicios: [
+      {icon:"⭐", nombre:"Atención personalizada", desc:"Te atendemos como te mereces, de verdad."},
+      {icon:"✅", nombre:"Calidad garantizada", desc:"Productos y servicios que cumplen lo que prometen."},
+      {icon:"💰", nombre:"Precios justos", desc:"Buena relación calidad-precio, siempre."},
+      {icon:"🛵", nombre:"Delivery disponible", desc:"Recibe sin salir de casa."},
+      {icon:"📅", nombre:"Reservas y citas", desc:"Aparta tu espacio por WhatsApp."},
+      {icon:"💬", nombre:"Contacto directo", desc:"Escríbenos y te respondemos rápido."}
+    ],
+    nosotros: "Un negocio local comprometido con su comunidad: trato honesto, buenos precios y la calidad que nos distingue desde el primer día.",
+    bullets: ["Trato honesto y directo", "Compromiso con la comunidad", "Satisfacción garantizada"],
+    testimonios: [
+      {texto:"Excelente atención, se nota que les importan sus clientes.", nombre:"María G."},
+      {texto:"Buenos precios y siempre cumplen lo que prometen.", nombre:"Carlos R."},
+      {texto:"Los recomiendo a ojos cerrados.", nombre:"Ana P."}
+    ],
+    cta: "Contáctanos"
+  };
+
+  var THEMES = ["moderno","elegante","minimalista","llamativo","clasico"];
+  var THEME_NAMES = ["Moderno","Elegante","Minimalista","Llamativo","Clásico"];
+
+  /* ================= PARÁMETROS + SANITIZACIÓN ================= */
+  function normType(t){
+    t = (t||"").toString().toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+    if (t.indexOf("dental")===0 || t.indexOf("clinica")===0 || t.indexOf("odonto")===0) return "dental";
+    if (t.indexOf("restaurante")===0 || t.indexOf("restaurant")===0 || t.indexOf("comida")===0 || t.indexOf("pizzeria")===0) return "restaurante";
+    if (t.indexOf("barber")===0 || t.indexOf("peluqueria")===0 || t.indexOf("salon")===0) return "barberia";
+    if (t.indexOf("taller")===0 || t.indexOf("mecanico")===0 || t.indexOf("mecanica")===0 || t.indexOf("auto")===0) return "taller";
+    if (t.indexOf("tienda")===0 || t.indexOf("shop")===0 || t.indexOf("boutique")===0 || t.indexOf("colmado")===0) return "tienda";
+    return null;
+  }
+
+  var q = new URLSearchParams(window.location.search);
+  var rawName = (q.get("n") || "").toString().trim().slice(0, 60);
+  var businessName = rawName || "Mi Negocio";
+  var typeKey = normType(q.get("t"));
+  var T = typeKey ? TYPES[typeKey] : DEFAULT_TYPE;
+  var eParam = parseInt(q.get("e"), 10);
+  var themeIdx = (eParam >= 1 && eParam <= 5) ? eParam - 1 : 0;
+  var theme = THEMES[themeIdx];
+
+  document.body.setAttribute("data-theme", theme);
+  document.title = businessName + " | Demo web de ZAYVERO";
+
+  /* ================= HELPERS (todo con textContent: anti-XSS) ================= */
+  function el(tag, cls, text){
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined && text !== null) n.textContent = text;
+    return n;
+  }
+  function demoAction(){
+    var m = document.getElementById("demo-modal");
+    var mt = document.getElementById("modal-text");
+    mt.textContent = "Este botón no lleva a ningún número real. Es una muestra de cómo se vería la página web de " + businessName + ".";
+    m.classList.add("open");
+  }
+  function demoBtn(text, small){
+    var b = el("button", "btn" + (small ? " small" : ""), text);
+    b.type = "button";
+    b.addEventListener("click", demoAction);
+    return b;
+  }
+
+  var app = document.getElementById("app");
+  var initials = businessName.trim().charAt(0).toUpperCase() || "M";
+
+  /* ================= HEADER ================= */
+  var header = el("header", "site-header");
+  var hwrap = el("div", "wrap"); hwrap.style.cssText = "display:flex;align-items:center;justify-content:space-between;width:100%;";
+  var brand = el("div", "brand");
+  var dot = el("span", "logo-dot", initials);
+  brand.appendChild(dot);
+  brand.appendChild(el("span", null, businessName));
+  hwrap.appendChild(brand);
+  var headCta = demoBtn(T.cta, true);
+  hwrap.appendChild(headCta);
+  header.appendChild(hwrap);
+  var headerWrap = el("div", "wrap"); headerWrap.appendChild(header);
+  app.appendChild(headerWrap);
+
+  /* ================= HERO ================= */
+  var hero = el("section", "hero");
+  var hw = el("div", "wrap");
+  hw.appendChild(el("span", "hero-icon", T.icon));
+  var badge = el("span", "hero-badge", "✦ Demo · Estilo " + THEME_NAMES[themeIdx]);
+  hw.appendChild(badge);
+  var h1 = el("h1"); h1.appendChild(document.createTextNode(businessName));
+  hw.appendChild(h1);
+  hw.appendChild(el("p", "tagline", T.tagline));
+  hw.appendChild(el("p", "hero-sub", T.heroSub));
+  var ctas = el("div", "hero-ctas");
+  ctas.appendChild(demoBtn("💬 " + T.cta));
+  var ghost = el("button", "btn ghost", "Ver servicios");
+  ghost.type = "button";
+  ghost.addEventListener("click", function(){ document.getElementById("servicios").scrollIntoView({behavior:"smooth"}); });
+  ctas.appendChild(ghost);
+  hw.appendChild(ctas);
+  hero.appendChild(hw);
+  app.appendChild(hero);
+
+  /* ================= SERVICIOS ================= */
+  var sSec = el("section", null); sSec.id = "servicios";
+  var sw = el("div", "wrap");
+  sw.appendChild(el("span", "kicker", "Nuestros servicios"));
+  sw.appendChild(el("h2", "sec-title", "¿Qué ofrecemos?"));
+  sw.appendChild(el("p", "sec-sub", "Esto es lo que " + businessName + " tiene para ti."));
+  var grid = el("div", "grid-serv");
+  T.servicios.forEach(function(s){
+    var c = el("div", "card-serv");
+    c.appendChild(el("span", "s-icon", s.icon));
+    c.appendChild(el("h3", null, s.nombre));
+    c.appendChild(el("p", null, s.desc));
+    grid.appendChild(c);
+  });
+  sw.appendChild(grid);
+  sSec.appendChild(sw);
+  app.appendChild(sSec);
+
+  /* ================= NOSOTROS ================= */
+  var aSec = el("section", "about");
+  var aw = el("div", "wrap");
+  var ai = el("div", "about-inner");
+  var aTxt = el("div", null);
+  aTxt.appendChild(el("span", "kicker", "Nosotros"));
+  aTxt.appendChild(el("h2", "sec-title", "Conócenos"));
+  aTxt.appendChild(el("p", "sec-sub", T.nosotros));
+  var ul = el("ul", "check-list");
+  T.bullets.forEach(function(b){
+    var li = el("li", null);
+    li.appendChild(el("span", "ck", "✓"));
+    li.appendChild(el("span", null, b));
+    ul.appendChild(li);
+  });
+  aTxt.appendChild(ul);
+  var aCta = el("div", null);
+  aCta.appendChild(demoBtn("💬 " + T.cta));
+  ai.appendChild(aTxt); ai.appendChild(aCta);
+  aw.appendChild(ai);
+  aSec.appendChild(aw);
+  app.appendChild(aSec);
+
+  /* ================= TESTIMONIOS (marcados como ejemplo) ================= */
+  var tSec = el("section", null);
+  var tw = el("div", "wrap");
+  tw.appendChild(el("span", "kicker", "Testimonios"));
+  var tTitle = el("h2", "sec-title", "Lo que dicen nuestros clientes");
+  tTitle.appendChild(el("span", "ejemplo-tag", "ejemplos"));
+  tw.appendChild(tTitle);
+  tw.appendChild(el("p", "sec-sub", "Opiniones de muestra para ilustrar esta demo."));
+  var tg = el("div", "grid-test");
+  T.testimonios.forEach(function(t){
+    var c = el("div", "card-test");
+    c.appendChild(el("div", "stars", "★★★★★"));
+    c.appendChild(el("p", null, "\u201C" + t.texto + "\u201D"));
+    var who = el("div", "who", t.nombre);
+    who.appendChild(el("span", "ejemplo-tag", "ejemplo"));
+    c.appendChild(who);
+    tg.appendChild(c);
+  });
+  tw.appendChild(tg);
+  tSec.appendChild(tw);
+  app.appendChild(tSec);
+
+  /* ================= CONTACTO ================= */
+  var cSec = el("section", null);
+  var cw = el("div", "wrap");
+  var box = el("div", "contact-box");
+  box.appendChild(el("h2", null, "¿Hablamos?"));
+  box.appendChild(el("p", null, "Escríbenos por WhatsApp y te atendemos de inmediato. Sin compromiso."));
+  box.appendChild(demoBtn("💬 Escríbenos por WhatsApp"));
+  box.appendChild(el("p", "horario", "Horario de ejemplo: Lun–Sáb · 9:00 a.m. – 6:00 p.m."));
+  cw.appendChild(box);
+  cSec.appendChild(cw);
+  app.appendChild(cSec);
+
+  /* ================= FOOTER ================= */
+  var foot = document.createElement("footer");
+  var fw = el("div", "wrap");
+  var copy = el("p", null);
+  copy.appendChild(document.createTextNode("© " + new Date().getFullYear() + " " + businessName + " · Página de demostración creada por ZAYVERO SOLUTIONS"));
+  fw.appendChild(copy);
+  fw.appendChild(el("p", null, "Ver esta demo en otro estilo:"));
+  var sl = el("div", "style-links");
+  THEME_NAMES.forEach(function(nm, i){
+    var a = document.createElement("a");
+    var nq = new URLSearchParams(window.location.search);
+    nq.set("e", String(i+1));
+    a.href = window.location.pathname + "?" + nq.toString();
+    a.textContent = nm;
+    if (i === themeIdx) a.classList.add("active");
+    sl.appendChild(a);
+  });
+  fw.appendChild(sl);
+  foot.appendChild(fw);
+  app.appendChild(foot);
+
+  /* ================= MODAL ================= */
+  document.getElementById("wa-float").addEventListener("click", demoAction);
+  document.getElementById("modal-close").addEventListener("click", function(){
+    document.getElementById("demo-modal").classList.remove("open");
+  });
+  document.getElementById("demo-modal").addEventListener("click", function(ev){
+    if (ev.target === this) this.classList.remove("open");
+  });
+})();
+</script>
+</body>
+</html>
