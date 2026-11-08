@@ -595,3 +595,22 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 .tv-newsletter-faq h3{font-size:22px}.tv-newsletter-faq article p{color:#53705a;line-height:1.7;font-size:14px}
 @media(max-width:900px){.tv-newsletter-panel{display:block}.tv-newsletter-panel>a{margin-top:16px}.tv-newsletter-faq>div{grid-template-columns:1fr}}
 @media(max-width:650px){.tv-newsletter-panel{padding:40px 24px}.tv-newsletter-inline{margin:40px 16px}.tv-newsletter-panel>a{width:100%;min-width:0}.tv-newsletter-page{padding:14px 17px 60px}}
+
+.tv-extraguide{margin:70px auto;max-width:1220px}
+.tv-extraguide header{max-width:860px;margin-bottom:28px}
+.tv-extraguide h2{font-size:clamp(31px,4vw,55px);line-height:1.1;letter-spacing:-.055em;margin:15px 0}
+.tv-extraguide header>p{font-size:16px;line-height:1.75;color:#58705c}
+.tv-extraplace-summary{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:15px;font-size:13px}
+.tv-extraplace-summary strong{background:#e0ecd3;color:#295b3b;border-radius:20px;padding:8px 13px}
+.tv-extraplace-summary span{color:#708676}
+.tv-extragrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tv-extraplace{background:#fff;border:1px solid #dde7da;border-radius:12px;padding:22px;min-width:0}
+.tv-extraplace>div:first-child{display:flex;align-items:center;gap:10px}
+.tv-extraplace-num{font-size:12px;font-weight:800;color:#779568}
+.tv-extraplace-type{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#658663}
+.tv-extraplace h3{font-size:23px;letter-spacing:-.04em;margin:13px 0;line-height:1.15}
+.tv-extraplace p{font-size:14px;line-height:1.72;color:#566f5c}
+.tv-extraplace-links{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px}
+.tv-extraplace-links a{font-size:12px;font-weight:800;color:#216341}
+@media(max-width:1000px){.tv-extragrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.tv-extraguide{padding:0 15px;margin:50px auto}.tv-extragrid{grid-template-columns:1fr}.tv-extraplace{padding:20px}}
