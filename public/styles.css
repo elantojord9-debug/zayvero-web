@@ -550,3 +550,33 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 .tv-family-city-cta>a{font-size:13px;font-weight:800;color:#fff;background:#173a31;border-radius:7px;padding:15px;text-decoration:none;white-space:nowrap}
 @media(max-width:1000px){.tv-family-home-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tv-family-city-cta{display:block}.tv-family-city-cta a{display:inline-block;margin-top:14px}}
 @media(max-width:650px){.tv-family-home{padding:48px 15px}.tv-family-home-grid,.tv-family-picks>div{grid-template-columns:1fr}.tv-family-layout{padding:12px 16px 65px}.tv-family-hero{padding:47px 0 27px}.tv-family-hero h1{font-size:43px}.tv-family-photo>img{height:240px}.tv-family-card{padding:23px}.tv-family-plan{padding:36px 25px}.tv-family-city-cta{padding:25px 22px}}
+
+.tv-tours-layout{max-width:1250px;padding:20px clamp(17px,5vw,72px) 95px;margin:auto}
+.tv-tours-hero{background:#173a31;color:#fff;border-radius:14px;padding:70px clamp(25px,6vw,95px);margin:18px 0 45px}
+.tv-tours-hero .cl-section-kicker{color:#cce2a3}.tv-tours-hero h1{font-size:clamp(42px,5.6vw,76px);letter-spacing:-.06em;line-height:1.07;margin:17px 0}
+.tv-tours-hero>p{font-size:17px;line-height:1.8;color:#d4e5d5;max-width:750px}
+.tv-tours-cta{display:inline-block;background:#d2e7a3;color:#173a31;padding:13px 19px;text-decoration:none;border-radius:7px;font-weight:800;margin-top:14px}
+.tv-tours-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.tv-tour-card{border-radius:13px;overflow:hidden;background:#fff;border:1px solid #e1e8df}
+.tv-tour-photo img{width:100%;height:225px;object-fit:cover;display:block}
+.tv-tour-info{padding:26px}.tv-tour-info>span{color:#6f8b66;font-size:10px;letter-spacing:1px;font-weight:800}
+.tv-tour-info h2{font-size:33px;letter-spacing:-.045em;margin:12px 0}.tv-tour-info strong{font-size:15px}
+.tv-tour-info p{line-height:1.75;color:#57705f;font-size:14px}
+.tv-tour-info>div{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:24px}
+.tv-tour-info a{font-size:13px;font-weight:800}.tv-tour-primary{padding:13px 16px;background:#173a31;color:#fff;text-decoration:none;border-radius:6px}
+.tv-tours-how{margin-top:85px}.tv-tours-how h2{font-size:43px;letter-spacing:-.04em;margin:15px 0 25px}
+.tv-tours-how>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.tv-tours-how article{padding:25px;background:#e7efe0;border-radius:10px}
+.tv-tours-how h3{font-size:22px}.tv-tours-how p{line-height:1.75;color:#506c58;font-size:14px}
+.tv-tours-disclosure{margin-top:70px;border-left:4px solid #84a468;background:#e8f0e0;padding:28px 35px}
+.tv-tours-disclosure h2{font-size:28px;letter-spacing:-.04em}.tv-tours-disclosure p{line-height:1.8;color:#506853}
+.tv-tour-home{padding:55px clamp(20px,6vw,100px);margin:auto;background:#1c4834;color:#fff}
+.tv-tour-home>div{max-width:1300px;margin:auto}.tv-tour-home .cl-section-kicker{color:#d3eca3}
+.tv-tour-home h2{font-size:clamp(39px,5vw,69px);letter-spacing:-.05em;line-height:1.1;margin:15px 0}
+.tv-tour-home p{line-height:1.8;font-size:17px;max-width:730px;color:#d7e5d4}
+.tv-tour-home a{display:inline-flex;background:#d5e6a2;color:#173a31;text-decoration:none;font-size:14px;font-weight:800;padding:14px 19px;border-radius:7px;margin-top:14px}
+.tv-tour-city{background:#edf0e5;padding:33px 39px;display:flex;gap:24px;align-items:center;justify-content:space-between;border-radius:13px;margin:55px auto;max-width:1150px}
+.tv-tour-city h2{font-size:clamp(27px,3.5vw,42px);letter-spacing:-.045em;margin:13px 0}.tv-tour-city p{color:#56705d;line-height:1.7}
+.tv-tour-city a{background:#173a31;color:#fff;font-weight:800;padding:15px;border-radius:7px;text-decoration:none;white-space:nowrap;font-size:13px}
+@media(max-width:800px){.tv-tours-grid,.tv-tours-how>div{grid-template-columns:1fr}.tv-tour-city{display:block}.tv-tour-city a{display:inline-block;margin-top:13px}}
+@media(max-width:650px){.tv-tours-layout{padding:12px 16px 60px}.tv-tours-hero{padding:45px 24px}.tv-tours-hero h1{font-size:44px}.tv-tour-photo img{height:210px}.tv-tours-how{margin-top:55px}.tv-tours-how h2{font-size:36px}.tv-tour-city{padding:27px 24px}}
