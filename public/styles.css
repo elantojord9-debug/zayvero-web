@@ -735,3 +735,66 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 .tv-weekend-cities>div{grid-template-columns:repeat(2,minmax(0,1fr))}.tv-weekend-library{padding:25px 18px;margin:55px 0}.tv-weekend-editorial{padding:30px 25px}
 .tv-weekend-saved span{flex:0 0 100%}.tv-weekend-tools button{flex:1}}
 @media print{.cl-header,.cl-footer,.tv-weekend-filters,.tv-weekend-library,.tv-weekend-editorial,.tv-weekend-cities,.tv-weekend-faq,.tv-weekend-tools,.tv-cookie-banner,.tv-privacy-banner{display:none!important}.tv-weekend-columns{display:block}.tv-weekend-outcome{border:0;box-shadow:none}.tv-weekend-place-links{display:none}.tv-weekend-layout{padding:0}}
+
+/* ROUTES, FREE ADMISSION AND PLACES HUBS */
+.tv-newhub{max-width:1310px;margin:auto;padding:23px clamp(17px,5vw,65px) 85px}
+.tv-hub-hero{padding:70px 0 50px;max-width:1050px}
+.tv-hub-hero h1{font-size:clamp(45px,7vw,91px);line-height:1.07;letter-spacing:-.065em;margin:18px 0}
+.tv-hub-hero h1 em{color:#81a46b;font-weight:400}
+.tv-hub-hero>p{color:#597362;line-height:1.82;max-width:800px;font-size:clamp(16px,1.9vw,20px)}
+.tv-hub-quicklinks,.tv-hub-city-links{display:flex;gap:10px;flex-wrap:wrap;margin:25px 0}
+.tv-hub-quicklinks a{background:#183c2f;color:#fff;border-radius:7px;padding:14px 18px;font-size:13px;text-decoration:none;font-weight:800}
+.tv-routes-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.tv-route-card{background:white;border:1px solid #d7e4d1;border-radius:14px;overflow:hidden}
+.tv-route-card>img{width:100%;height:245px;object-fit:cover;display:block}
+.tv-route-body{padding:31px}.tv-route-body h2{font-size:clamp(27px,3vw,41px);letter-spacing:-.05em;margin:13px 0}
+.tv-route-body>p{line-height:1.82;color:#5d715f;font-size:14px}
+.tv-route-day{margin:20px 0;padding:14px 16px;background:#f0f6ea;border-left:3px solid #83af74}
+.tv-route-day h3{font-size:18px;letter-spacing:-.03em;margin:0 0 8px}
+.tv-route-day p{font-size:13px;line-height:1.85;color:#526d58;margin:0}
+.tv-route-note{font-size:12px!important}.tv-route-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:23px}
+.tv-route-links a{background:#173a31;color:white;border-radius:7px;padding:11px 13px;font-size:12px;font-weight:800;text-decoration:none}
+.tv-route-links a+ a{background:#e5f0d8;color:#276143}
+.tv-hub-bottom{padding:70px 0;max-width:990px}
+.tv-hub-bottom h2,.tv-free-list h2{font-size:clamp(31px,4vw,53px);letter-spacing:-.055em;line-height:1.15}
+.tv-hub-bottom h3{font-size:26px;letter-spacing:-.04em;margin-top:35px}
+.tv-hub-bottom p,.tv-free-list>div:first-child p{font-size:15px;color:#5d725f;line-height:1.82}
+.tv-hub-city-links a{padding:11px 13px;background:#e7f0dc;border-radius:7px;font-weight:800;text-decoration:none;font-size:13px;color:#236344}
+.tv-hub-news{background:#193f31;color:white;border-radius:14px;padding:38px 43px;margin-top:24px}
+.tv-hub-news h2{font-size:36px;letter-spacing:-.05em;margin:12px 0}
+.tv-hub-news p{color:#dae6d7;line-height:1.8}
+.tv-hub-news a{display:inline-block;border-radius:7px;padding:13px 16px;background:#d6e9ae;color:#193f31;text-decoration:none;font-size:13px;font-weight:800}
+.tv-free-note{background:#e1efdb;border-radius:13px;padding:29px 35px;margin-bottom:70px}
+.tv-free-note h2{font-size:29px;margin:0 0 12px;letter-spacing:-.04em}.tv-free-note p{color:#526d56;line-height:1.8;margin:0}
+.tv-free-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:30px 0}
+.tv-free-grid article{background:white;border-radius:12px;border:1px solid #dce7d5;padding:24px}
+.tv-free-grid article>span{color:#679063;font-size:10px;font-weight:800;letter-spacing:1px}
+.tv-free-grid article h3{font-size:25px;letter-spacing:-.045em;margin:13px 0}
+.tv-free-grid article p{font-size:14px;line-height:1.8;color:#5c7160}
+.tv-free-grid article>div{display:flex;gap:12px;flex-wrap:wrap}
+.tv-free-grid article a{font-size:12px;font-weight:800;color:#226345}
+.tv-savings-tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tv-savings-tips article{background:#eaf2e2;padding:20px;border-radius:10px}
+.tv-savings-tips h3{font-size:20px;margin:0}.tv-savings-tips p{font-size:13px;line-height:1.8}
+.tv-place-search{display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:15px;padding:25px;background:#e9f1e3;border-radius:12px}
+.tv-place-search label{display:flex;flex-direction:column;gap:10px;font-size:12px;font-weight:800;color:#335a3c}
+.tv-place-search input,.tv-place-search select{height:47px;min-width:0;border:1px solid #b4c6ac;background:#fff;border-radius:7px;padding:10px;color:#183e31;font-size:13px}
+.tv-place-count{font-size:13px;font-weight:800;color:#467d4c;margin:25px 0}
+.tv-place-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:65px}
+.tv-place-card{background:#fff;border:1px solid #dce6d7;padding:25px;border-radius:12px}
+.tv-place-card-top{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;align-items:center}
+.tv-place-card-top>span:first-child{font-size:10px;font-weight:800;text-transform:capitalize;color:#718a68}
+.tv-place-badge{padding:6px 9px;border-radius:17px;background:#e1efd7;color:#2b6b3d;font-size:10px;font-weight:800}
+.tv-place-card h2{font-size:24px;letter-spacing:-.043em;margin:18px 0 8px}
+.tv-place-card p{font-size:13px;line-height:1.7;color:#5a715f}
+.tv-place-card p.tv-place-area{font-size:11px;color:#6b9271;font-weight:800}
+.tv-place-card p.tv-place-fineprint{background:#f2f8eb;padding:11px;border-left:2px solid #9cbd82}
+.tv-place-card-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:18px}
+.tv-place-card-actions a{font-size:12px;font-weight:800;color:#276845}
+.tv-place-guidance{max-width:900px;padding:30px 0 65px}
+.tv-place-guidance h2{font-size:38px;letter-spacing:-.045em}
+.tv-place-guidance h3{font-size:25px;margin-top:35px;letter-spacing:-.035em}
+.tv-place-guidance p{font-size:15px;line-height:1.85;color:#5b735e}
+.tv-place-guidance>a{display:inline-block;background:#e4efd7;border-radius:7px;color:#1f6343;text-decoration:none;padding:13px 16px;font-size:13px;font-weight:800}
+@media(max-width:1000px){.tv-place-results{grid-template-columns:repeat(2,1fr)}.tv-place-search{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:730px){.tv-routes-grid,.tv-free-grid,.tv-savings-tips,.tv-place-results{grid-template-columns:1fr}.tv-hub-hero{padding:50px 0 30px}.tv-newhub{padding:16px 16px 65px}.tv-hub-news{padding:30px 25px}.tv-place-search{grid-template-columns:1fr}}
