@@ -420,3 +420,29 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 
 .tv-saved-shortcut{gap:6px}
 @media(min-width:801px) and (max-width:1150px){.cl-header nav{gap:16px}.cl-header{padding-left:20px;padding-right:20px}}
+
+/* Consent-first tracking and business inquiries */
+.tv-consent[hidden]{display:none!important}.tv-consent{position:fixed;z-index:20000;left:clamp(12px,3vw,38px);right:clamp(12px,3vw,38px);bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:1060px;margin:auto;padding:19px 22px;border:1px solid #aac49f;border-radius:14px;color:#153c2d;background:#f8fbf3;box-shadow:0 12px 60px #071d17a1}
+.tv-consent>div:first-child{max-width:670px}.tv-consent strong{font-size:16px}.tv-consent p{margin:6px 0 0;line-height:1.55;font-size:12px;color:#42614c}.tv-consent a{font-weight:800;color:#205d3b}
+.tv-consent-actions{display:flex;gap:9px;flex-shrink:0}.tv-consent-actions button{padding:11px 15px;border:1px solid #285239;border-radius:7px;background:transparent;color:#244b34;font-size:12px;font-weight:800}.tv-consent-actions button:last-child{background:#173a31;color:#fff}
+.tv-business-top{padding:60px clamp(22px,5vw,75px);background:#173a31;color:#fff;border-radius:14px;margin-bottom:35px}.tv-business-top h2{font-size:clamp(34px,4vw,57px);letter-spacing:-.05em;line-height:1.07;margin:14px 0}
+.tv-business-top p{line-height:1.75;max-width:740px;color:#d5e5d6}
+.tv-business-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:25px 0 45px}
+.tv-business-card{background:#eef4e8;border:1px solid #e1e9d9;border-radius:12px;padding:24px}
+.tv-business-card span{font-size:10px;font-weight:800;letter-spacing:1.3px;color:#69935e}
+.tv-business-card h3{font-size:23px;letter-spacing:-.035em;margin:13px 0 8px}
+.tv-business-card p{font-size:13px;line-height:1.75;color:#5a705e;margin-bottom:0}
+.tv-business-form-wrap{padding:32px;border:1px solid #dde8d9;border-radius:13px;background:#fff}
+.tv-business-form-wrap>h2{font-size:36px;letter-spacing:-.05em;margin:0 0 8px}
+.tv-business-form-wrap>p{font-size:14px;line-height:1.75;color:#536c58}
+.tv-business-form{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:24px}
+.tv-business-form label{font-size:12px;font-weight:800;color:#294d39;display:grid;gap:7px}
+.tv-business-form input,.tv-business-form select,.tv-business-form textarea{border:1px solid #bed0b9;border-radius:7px;padding:13px 14px;width:100%;background:#f9fcf7;color:#203d2c;font-size:14px}
+.tv-business-form textarea{min-height:116px;resize:vertical}
+.tv-business-wide{grid-column:1/-1}
+.tv-business-form .tv-business-check{display:flex;gap:10px;align-items:start;line-height:1.6;font-weight:500}.tv-business-check input{width:17px;margin:3px 0;flex-shrink:0}
+.tv-business-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tv-business-actions button{background:#163e2b;color:#fff;border:1px solid #163e2b;padding:14px 20px;border-radius:7px;font-size:13px;font-weight:800}.tv-business-actions button:last-child{background:#fff;color:#163e2b}
+.tv-business-status{color:#336342;font-size:13px;line-height:1.65}
+.tv-business-disclaimer{font-size:12px;color:#637868;line-height:1.8;margin-top:30px}
+@media(max-width:760px){.tv-consent{flex-direction:column;align-items:stretch;gap:12px;padding:17px}.tv-consent-actions{width:100%}.tv-consent-actions button{flex:1}.tv-business-cards,.tv-business-form{grid-template-columns:1fr}.tv-business-wide{grid-column:auto}.tv-business-form-wrap{padding:24px 17px}.tv-business-top{padding:45px 22px}}

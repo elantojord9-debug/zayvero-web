@@ -127,3 +127,102 @@ document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click"
   });
   repaint();
 })();
+
+
+/* Troviora: consent-first Google Analytics 4. Tracking is OFF until opted in. */
+(() => {
+  "use strict";
+  const GA_ID = "G-G1YM981MHV";
+  const KEY = "troviora_analytics_choice_v1";
+  const safeRead = () => { try { return localStorage.getItem(KEY) } catch { return null } };
+  let choice = safeRead();
+  function activateAnalytics() {
+    if (window.__trovioraAnalyticsLoaded) return;
+    window.__trovioraAnalyticsLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ window.dataLayer.push(arguments) };
+    window.gtag("consent", "default", {analytics_storage:"granted",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
+    window.gtag("js", new Date());
+    window.gtag("config", GA_ID, {send_page_view:true});
+    const tag = document.createElement("script");
+    tag.async = true;
+    tag.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+    document.head.append(tag);
+  }
+  if (choice === "accepted") activateAnalytics();
+  const banner = document.createElement("section");
+  banner.className = "tv-consent";
+  banner.setAttribute("role", "region");
+  banner.setAttribute("aria-label", "Cookie and analytics preferences");
+  banner.innerHTML = '<div><strong>Help us improve Troviora</strong><p>With your permission, Google Analytics helps us understand visits and popular guides. Optional analytics is off until you choose. We do not run advertising cookies here yet. <a href="/privacy/">Privacy details</a></p></div><div class="tv-consent-actions"><button type="button" data-tv-consent="reject">No thanks</button><button type="button" data-tv-consent="accept">Allow analytics</button></div>';
+  banner.hidden = true;
+  function show() { banner.hidden = false }
+  function hide() { banner.hidden = true }
+  function select(value) {
+    choice = value;
+    try { localStorage.setItem(KEY,value) } catch {}
+    if (value === "accepted") activateAnalytics();
+    else if (window.__trovioraAnalyticsLoaded && typeof window.gtag === "function") window.gtag("consent", "update", {analytics_storage:"denied",ad_storage:"denied",ad_personalization:"denied",ad_user_data:"denied"});
+    hide();
+  }
+  banner.addEventListener("click", e=>{
+    const button = e.target.closest("button[data-tv-consent]");
+    if (!button) return;
+    select(button.dataset.tvConsent === "accept" ? "accepted" : "rejected");
+  });
+  document.body.append(banner);
+  if (!["accepted","rejected"].includes(choice)) show();
+  document.querySelectorAll(".cl-footer").forEach(footer => {
+    const a = document.createElement("a");
+    a.href="#privacy-choices";a.textContent="Privacy choices";a.className="tv-privacy-choice-link";
+    a.addEventListener("click", e=>{e.preventDefault();show()});
+    const trust=footer.querySelector("div:nth-child(3)");
+    if(trust) trust.append(a);else footer.append(a);
+  });
+  document.querySelectorAll("[data-open-privacy-choices]").forEach(button => button.addEventListener("click",show));
+  document.addEventListener("click", e => {
+    if (choice !== "accepted" || !window.__trovioraAnalyticsLoaded || typeof window.gtag!=="function") return;
+    const a = e.target.closest("a[href]");
+    if (a && a.getAttribute("href")?.startsWith("/")) {
+      const href = a.getAttribute("href");
+      if (href.startsWith("/guides/") || href.startsWith("/planner/")) window.gtag("event","guide_navigation",{content_group:href.startsWith("/planner/")?"planner":"guide"});
+    }
+    if (e.target.closest("button[data-save]")) window.gtag("event","saved_place",{method:"browser"});
+  });
+})();
+(function() {
+  const form = document.getElementById("tv-business-form");
+  if (!form) return;
+  const output = document.getElementById("tv-business-status");
+  function compose() {
+    const f = new FormData(form), clean=x=>String(f.get(x)||"").trim().slice(0,600);
+    const lines=[
+      "Troviora business inquiry", "",
+      "Inquiry type: "+clean("type"),
+      "Contact name: "+clean("name"),
+      "Contact email: "+clean("email"),
+      "Venue / business: "+clean("venue"),
+      "City and state: "+clean("city"),
+      "Website: "+clean("website"),
+      "Message: "+clean("message"),
+      "",
+      "Please reply to the contact email above."
+    ];
+    return {subject:"Troviora - "+clean("type")+" - "+clean("city"),body:lines.join("\n")};
+  }
+  form.addEventListener("submit",event=>{
+    event.preventDefault();
+    if(!form.reportValidity())return;
+    if(!form.querySelector('[name="approval"]').checked){output.textContent="Please confirm your consent to email us.";return}
+    const {subject,body}=compose();
+    output.textContent="Your email app should open with the message prepared. Please press Send there: this page has not sent anything automatically.";
+    location.href="mailto:zayverosolutions@gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+  });
+  const copy=document.getElementById("tv-business-copy");
+  copy?.addEventListener("click",async ()=>{
+    if(!form.reportValidity())return;
+    const {subject,body}=compose();
+    try{await navigator.clipboard.writeText("To: zayverosolutions@gmail.com\nSubject: "+subject+"\n\n"+body);output.textContent="Inquiry copied. Paste into your email app and send it to zayverosolutions@gmail.com."}
+    catch{output.textContent="Copy failed. Email zayverosolutions@gmail.com with your venue and city details."}
+  });
+})();
