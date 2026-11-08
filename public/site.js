@@ -88,10 +88,16 @@ document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click"
   }
   function hideDrawer() {
     if (!drawer || !overlay) return;
-    drawer.hidden = overlay.hidden = true;
+    drawer.hidden = true;
+    overlay.hidden = true;
     document.body.style.overflow = "";
     priorFocus?.focus?.();
   }
+  // Direct handlers make the X and backdrop reliable on touch screens.
+  drawer?.querySelectorAll("[data-close-saved]").forEach(button => {
+    button.addEventListener("click", event => { event.preventDefault(); event.stopPropagation(); hideDrawer(); });
+  });
+  overlay?.addEventListener("click", event => { event.preventDefault(); event.stopPropagation(); hideDrawer(); });
   document.addEventListener("click", async event => {
     const target = event.target;
     if (!(target instanceof Element)) return;
@@ -154,7 +160,7 @@ document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click"
   banner.className = "tv-consent";
   banner.setAttribute("role", "region");
   banner.setAttribute("aria-label", "Cookie and analytics preferences");
-  banner.innerHTML = '<div><strong>Help us improve Troviora</strong><p>With your permission, Google Analytics helps us understand visits and popular guides. Optional analytics is off until you choose. We do not run advertising cookies here yet. <a href="/privacy/">Privacy details</a></p></div><div class="tv-consent-actions"><button type="button" data-tv-consent="reject">No thanks</button><button type="button" data-tv-consent="accept">Allow analytics</button></div>';
+  banner.innerHTML = '<button type="button" class="tv-consent-dismiss" data-tv-consent="reject" aria-label="Close analytics notice and keep optional analytics disabled" title="Close">✕</button><div><strong>Help us improve Troviora</strong><p>With your permission, Google Analytics helps us understand visits and popular guides. Optional analytics is off until you choose. We do not run advertising cookies here yet. <a href="/privacy/">Privacy details</a></p></div><div class="tv-consent-actions"><button type="button" data-tv-consent="reject">No thanks</button><button type="button" data-tv-consent="accept">Allow analytics</button></div>';
   banner.hidden = true;
   function show() { banner.hidden = false }
   function hide() { banner.hidden = true }
@@ -165,11 +171,15 @@ document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click"
     else if (window.__trovioraAnalyticsLoaded && typeof window.gtag === "function") window.gtag("consent", "update", {analytics_storage:"denied",ad_storage:"denied",ad_personalization:"denied",ad_user_data:"denied"});
     hide();
   }
+  // Handle both the visible buttons and the top-right close control.
+  // Dismissing always opts out; analytics cannot be enabled by closing the notice.
   banner.addEventListener("click", e=>{
-    const button = e.target.closest("button[data-tv-consent]");
+    const button = e.target instanceof Element ? e.target.closest("button[data-tv-consent]") : null;
     if (!button) return;
+    e.preventDefault();
+    e.stopPropagation();
     select(button.dataset.tvConsent === "accept" ? "accepted" : "rejected");
-  });
+  }, true);
   document.body.append(banner);
   if (!["accepted","rejected"].includes(choice)) show();
   document.querySelectorAll(".cl-footer").forEach(footer => {
