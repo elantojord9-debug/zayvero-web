@@ -446,3 +446,59 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 .tv-business-status{color:#336342;font-size:13px;line-height:1.65}
 .tv-business-disclaimer{font-size:12px;color:#637868;line-height:1.8;margin-top:30px}
 @media(max-width:760px){.tv-consent{flex-direction:column;align-items:stretch;gap:12px;padding:17px}.tv-consent-actions{width:100%}.tv-consent-actions button{flex:1}.tv-business-cards,.tv-business-form{grid-template-columns:1fr}.tv-business-wide{grid-column:auto}.tv-business-form-wrap{padding:24px 17px}.tv-business-top{padding:45px 22px}}
+
+/* Budget city guides, researched venue selections and responsible cost labels */
+.tv-budget-home{padding:85px clamp(18px,5vw,85px);max-width:1430px;margin:auto}
+.tv-budget-home-head h2,.tv-budget-library h2{font-size:clamp(34px,4.5vw,62px);letter-spacing:-.055em;line-height:1.08;margin:14px 0}
+.tv-budget-home-head p,.tv-budget-library p{color:#607969;line-height:1.75;max-width:720px}
+.tv-budget-home-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-top:35px}
+.tv-budget-home-grid>a{position:relative;min-height:280px;isolation:isolate;overflow:hidden;padding:22px;border-radius:12px;background:#173a31;display:flex;flex-direction:column;justify-content:flex-end;color:white;text-decoration:none}
+.tv-budget-home-grid>a:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#0c251de9,#0c251d10)}
+.tv-budget-home-grid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.tv-budget-home-grid span{color:#d0e6a0;letter-spacing:1px;font-size:10px;font-weight:800}
+.tv-budget-home-grid strong{font-size:24px;margin:9px 0;letter-spacing:-.03em}
+.tv-budget-home-grid b{font-size:12px}
+.tv-budget-library{max-width:1320px;padding:60px clamp(18px,5vw,75px) 85px;margin:auto}
+.tv-budget-library>div:last-child{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:30px}
+.tv-budget-library a{text-decoration:none;background:#e7eee1;border-radius:11px;padding:23px;display:grid;gap:11px}
+.tv-budget-library a span{color:#6b835c;font-size:11px;font-weight:800}.tv-budget-library a strong{font-size:22px;letter-spacing:-.035em}.tv-budget-library a b{font-size:13px}
+.tv-budget-layout{max-width:1230px;margin:auto;padding:22px clamp(18px,5vw,72px) 90px}
+.tv-budget-hero{padding:70px 0 36px;max-width:1050px}
+.tv-budget-hero h1{font-size:clamp(41px,5.7vw,74px);letter-spacing:-.06em;line-height:1.07;margin:20px 0}
+.tv-budget-hero p{font-size:clamp(17px,2vw,21px);line-height:1.8;color:#536e5c;max-width:900px}
+.tv-budget-meta{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}
+.tv-budget-meta span{background:#e6efdc;color:#3c6546;border-radius:25px;padding:7px 12px;font-size:11px;font-weight:800}
+.tv-budget-cta{display:inline-block;background:#173a31;color:white;text-decoration:none;border-radius:7px;padding:14px 21px;font-weight:800;font-size:13px;margin-top:10px}
+.tv-budget-photo{margin:24px 0 55px}.tv-budget-photo img{width:100%;height:clamp(240px,42vw,500px);display:block;object-fit:cover;border-radius:14px}
+.tv-budget-photo figcaption{text-align:right;color:#799079;font-size:11px;margin-top:8px}
+.tv-budget-intro{background:#e9f0e3;border-radius:12px;padding:30px 36px;margin-bottom:65px}
+.tv-budget-intro h2{font-size:28px;letter-spacing:-.035em;margin:0 0 10px}
+.tv-budget-intro p{max-width:980px;line-height:1.85;color:#506c58;margin:0}
+.tv-budget-heading h2{font-size:clamp(32px,4vw,51px);letter-spacing:-.05em;margin:14px 0}
+.tv-budget-heading>p{color:#5c7563;line-height:1.7}
+.tv-budget-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:28px}
+.tv-budget-place{background:white;border:1px solid #dbe7da;border-radius:13px;padding:28px;box-shadow:0 15px 45px #1740310b}
+.tv-budget-place-top{display:flex;justify-content:space-between;align-items:start;gap:9px;flex-wrap:wrap}
+.tv-budget-place-top span{font-size:11px;font-weight:800;letter-spacing:1px;color:#63845e;text-transform:uppercase}
+.tv-budget-place-top strong{border-radius:20px;padding:6px 10px;background:#dff0d5;color:#24633c;font-size:11px}
+.tv-budget-place h2{font-size:clamp(24px,2.6vw,32px);letter-spacing:-.04em;margin:23px 0 12px}
+.tv-budget-place>p{font-size:15px;line-height:1.85;color:#536e5c}
+.tv-budget-cost{margin:18px 0;border-left:3px solid #83a75d;padding:10px 15px;background:#f4f8f0;font-size:13px;line-height:1.7}
+.tv-budget-links{display:flex;gap:15px;flex-wrap:wrap;margin-top:18px}
+.tv-budget-links a{font-size:12px;color:#1a643f;font-weight:800}
+.tv-budget-routes{background:#193e30;padding:55px clamp(22px,5vw,70px);border-radius:14px;color:#fff;margin-top:82px}
+.tv-budget-routes .cl-section-kicker{color:#cae89d}
+.tv-budget-routes h2{font-size:clamp(31px,4vw,50px);letter-spacing:-.05em;margin:14px 0 28px}
+.tv-budget-route-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.tv-budget-plan h3{font-size:22px;letter-spacing:-.04em}.tv-budget-plan p{font-size:15px;line-height:1.8;color:#d5e6d6}
+.tv-budget-continue{padding:65px 0 30px}.tv-budget-continue h2{font-size:40px;letter-spacing:-.04em}
+.tv-budget-continue>p{max-width:800px;color:#58705c;line-height:1.8}
+.tv-budget-continue>div{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.tv-budget-continue>div>a{display:inline-flex;background:#e5eedc;border-radius:7px;padding:14px 18px;color:#1e5e3a;text-decoration:none;font-size:13px;font-weight:800}
+.tv-budget-disclaimer{font-size:12px!important;color:#76897a!important}
+.tv-budget-callout{margin:55px auto;padding:32px 40px;border-radius:14px;max-width:1120px;background:#d8e7ba;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.tv-budget-callout h2{font-size:clamp(27px,3vw,38px);letter-spacing:-.045em;margin:14px 0}
+.tv-budget-callout p{line-height:1.7;color:#536a4b}
+.tv-budget-callout>a{display:inline-block;border-radius:7px;background:#173a31;padding:14px 18px;color:#fff;text-decoration:none;font-weight:800;font-size:13px;flex-shrink:0}
+@media(max-width:950px){.tv-budget-home-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tv-budget-route-grid{grid-template-columns:1fr}.tv-budget-callout{display:block}.tv-budget-callout>a{margin-top:15px}}
+@media(max-width:650px){.tv-budget-home{padding:50px 15px}.tv-budget-home-grid,.tv-budget-library>div:last-child,.tv-budget-list{grid-template-columns:1fr}.tv-budget-home-grid>a{min-height:235px}.tv-budget-library{padding:45px 15px}.tv-budget-layout{padding:12px 16px 65px}.tv-budget-hero{padding-top:45px}.tv-budget-hero h1{font-size:43px}.tv-budget-photo img{height:235px}.tv-budget-place{padding:24px}.tv-budget-intro{padding:26px}.tv-budget-routes{padding:34px 24px}.tv-budget-callout{padding:27px 22px}}
