@@ -620,3 +620,55 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 .tv-budget-hero .tv-pinterest-share,.tv-family-hero .tv-pinterest-share,.tv-tours-hero .tv-pinterest-share{margin:14px 0 0 13px}
 .tv-tours-hero .tv-pinterest-share{background:#e8d3d0;color:#653e3a}
 @media(max-width:650px){.tv-pinterest-share{font-size:11px;padding:10px 11px}.tv-family-hero .tv-pinterest-share{display:flex;width:max-content;margin:12px 0 0}}
+
+.tv-verified-layout{max-width:1240px;margin:auto;padding:25px clamp(17px,5vw,75px) 90px}.tv-verified-hero{padding:60px 0 35px;max-width:1000px}
+.tv-verified-hero h1{font-size:clamp(39px,5.5vw,72px);letter-spacing:-.06em;line-height:1.07;margin:18px 0}
+.tv-verified-hero>p{color:#57715e;font-size:clamp(16px,1.8vw,20px);line-height:1.85;max-width:870px}
+.tv-verified-badges{display:flex;flex-wrap:wrap;gap:9px;margin:22px 0}
+.tv-verified-badges span{background:#e1edd6;color:#3f7146;border-radius:30px;font-size:11px;font-weight:800;padding:9px 12px}
+.tv-verified-primary{display:inline-block;padding:13px 19px;background:#173a31;color:#fff;text-decoration:none;font-size:13px;font-weight:800;border-radius:7px}
+.tv-verified-photo{margin:12px 0 45px}.tv-verified-photo img{width:100%;height:clamp(240px,40vw,480px);object-fit:cover;border-radius:14px;display:block}
+.tv-verified-photo figcaption{font-size:11px;color:#6c8273;text-align:right;margin-top:8px}
+.tv-verified-note{background:#e4f0dd;border-radius:12px;padding:27px 31px;margin-bottom:65px}.tv-verified-note h2{font-size:27px;letter-spacing:-.035em;margin:0 0 9px}
+.tv-verified-note p{font-size:15px;line-height:1.8;color:#58705d;margin:0}
+.tv-verified-sectionhead h2,.tv-verified-home h2,.tv-verified-teasers h2{font-size:clamp(32px,4vw,53px);letter-spacing:-.052em;line-height:1.12;margin:15px 0}
+.tv-verified-sectionhead p{color:#5f7564;line-height:1.8}
+.tv-verified-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:30px 0 65px}
+.tv-verified-place{background:#fff;padding:27px;border-radius:12px;border:1px solid #dce6d6;box-shadow:0 10px 32px #193f290b}
+.tv-verified-top{display:flex;justify-content:space-between;align-items:start;gap:8px;flex-wrap:wrap}
+.tv-verified-top>span:first-child{color:#6b8c60;font-size:10px;font-weight:800;letter-spacing:1px}
+.tv-verified-status{font-size:10px;border-radius:22px;background:#e4f1da;color:#29643d;font-weight:800;padding:7px 9px}
+.tv-verified-place h2{font-size:clamp(23px,2.4vw,32px);letter-spacing:-.045em;line-height:1.2;margin:21px 0 12px}
+.tv-verified-place p{color:#576e5c;font-size:14px;line-height:1.82}
+.tv-verified-cost{background:#f2f8ec;padding:12px 14px;border-left:3px solid #8eb76b}
+.tv-verified-links{display:flex;gap:16px;flex-wrap:wrap;margin-top:20px}
+.tv-verified-links a{color:#1b6040;font-size:12px;font-weight:800}
+.tv-verified-planning{background:#183e30;color:white;border-radius:14px;padding:45px;margin:25px 0 65px}
+.tv-verified-planning .cl-section-kicker{color:#c9e7a1}.tv-verified-planning h2{font-size:40px;letter-spacing:-.05em}
+.tv-verified-planning>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
+.tv-verified-planning h3{font-size:21px;letter-spacing:-.035em}.tv-verified-planning p{color:#d6e6d6;line-height:1.8;font-size:14px}
+.tv-verified-faq{max-width:920px;margin-bottom:70px}.tv-verified-faq h2{font-size:35px;letter-spacing:-.045em}
+.tv-verified-faq details{padding:18px 0;border-bottom:1px solid #cbdcc9}.tv-verified-faq summary{font-weight:800;cursor:pointer}
+.tv-verified-faq details p{color:#526b57;font-size:14px;line-height:1.8}
+.tv-verified-more{background:#e4eedb;padding:32px;border-radius:13px}.tv-verified-more h2{font-size:36px;letter-spacing:-.04em}
+.tv-verified-more p{color:#536d58;line-height:1.8}.tv-verified-more>div{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
+.tv-verified-more>div a{padding:12px 14px;border-radius:7px;background:#fff;color:#22603e;text-decoration:none;font-size:12px;font-weight:800}
+.tv-verified-disclosure{font-size:12px!important}
+.tv-verified-cta{max-width:1170px;margin:40px auto 65px;background:#dfebc9;border-radius:12px;padding:31px 36px;display:flex;gap:15px;align-items:center;justify-content:space-between}
+.tv-verified-cta h2{font-size:34px;letter-spacing:-.045em;margin:10px 0}.tv-verified-cta p{color:#557459;line-height:1.75}
+.tv-verified-cta>a{background:#173a31;border-radius:7px;padding:14px 18px;white-space:nowrap;color:#fff;text-decoration:none;font-size:12px;font-weight:800}
+.tv-verified-teasers{max-width:1280px;margin:55px auto;padding:40px clamp(18px,5vw,70px)}.tv-verified-teasers>div:first-child p{color:#5f7662;line-height:1.8}
+.tv-verified-teasers-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:28px}
+.tv-verified-teasers-grid>a{background:#e6eee0;border-radius:12px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;gap:10px;padding-bottom:19px}
+.tv-verified-teasers-grid img{width:100%;height:160px;object-fit:cover}
+.tv-verified-teasers-grid a span,.tv-verified-teasers-grid a strong,.tv-verified-teasers-grid a b{margin:0 19px}
+.tv-verified-teasers-grid a span{font-size:10px;font-weight:800;color:#729268}.tv-verified-teasers-grid a strong{font-size:20px;line-height:1.25;letter-spacing:-.035em}
+.tv-verified-teasers-grid a b{font-size:12px;color:#1f6343;margin-top:auto}
+.tv-verified-home{max-width:1320px;margin:15px auto;padding:50px clamp(18px,5vw,70px)}
+.tv-verified-home>p{color:#5f7764;line-height:1.8}.tv-verified-home>div{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:28px}
+.tv-verified-home a{background:#e5eedc;padding:22px;border-radius:11px;text-decoration:none;display:flex;flex-direction:column;gap:7px;min-height:150px}
+.tv-verified-home a strong{font-size:25px}.tv-verified-home a small{color:#6c8068}.tv-verified-home a b{font-size:12px;color:#236442;margin-top:auto}
+@media(max-width:1000px){.tv-verified-teasers-grid,.tv-verified-home>div{grid-template-columns:repeat(2,1fr)}.tv-verified-planning>div{grid-template-columns:1fr}.tv-verified-cta{display:block}.tv-verified-cta>a{display:inline-block;margin-top:15px}}
+@media(max-width:650px){.tv-verified-layout{padding:14px 16px 60px}.tv-verified-hero{padding:45px 0 22px}.tv-verified-hero h1{font-size:41px}.tv-verified-photo img{height:240px}
+.tv-verified-note{padding:23px}.tv-verified-grid{grid-template-columns:1fr}.tv-verified-place{padding:23px}.tv-verified-planning{padding:32px 23px}
+.tv-verified-home>div,.tv-verified-teasers-grid{grid-template-columns:1fr}.tv-verified-teasers{padding:35px 16px}.tv-verified-home{padding:35px 16px}.tv-verified-cta{padding:25px}}
