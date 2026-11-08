@@ -502,3 +502,9 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 .tv-budget-callout>a{display:inline-block;border-radius:7px;background:#173a31;padding:14px 18px;color:#fff;text-decoration:none;font-weight:800;font-size:13px;flex-shrink:0}
 @media(max-width:950px){.tv-budget-home-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tv-budget-route-grid{grid-template-columns:1fr}.tv-budget-callout{display:block}.tv-budget-callout>a{margin-top:15px}}
 @media(max-width:650px){.tv-budget-home{padding:50px 15px}.tv-budget-home-grid,.tv-budget-library>div:last-child,.tv-budget-list{grid-template-columns:1fr}.tv-budget-home-grid>a{min-height:235px}.tv-budget-library{padding:45px 15px}.tv-budget-layout{padding:12px 16px 65px}.tv-budget-hero{padding-top:45px}.tv-budget-hero h1{font-size:43px}.tv-budget-photo img{height:235px}.tv-budget-place{padding:24px}.tv-budget-intro{padding:26px}.tv-budget-routes{padding:34px 24px}.tv-budget-callout{padding:27px 22px}}
+
+.tv-business-direct{background:#e6efdc;border:1px solid #d4e5cd;padding:35px;border-radius:13px;margin:35px 0}
+.tv-business-direct h2{font-size:clamp(28px,3.5vw,43px);letter-spacing:-.045em;margin:13px 0}
+.tv-business-direct p{line-height:1.75;color:#486a50;max-width:730px}
+.tv-business-primary{display:inline-block;background:#1d5039;color:#fff;text-decoration:none;font-weight:800;font-size:14px;padding:16px 21px;border-radius:8px;margin:13px 0 3px}
+.tv-business-helper{font-size:13px!important;color:#637a66!important}
