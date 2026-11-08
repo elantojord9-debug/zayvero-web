@@ -29,7 +29,7 @@ function score(spot,mood){
 }
 function render(){
  const city=cities.find(c=>c.slug===citySel.value)||cities[0];
- const mood=moodSel.value,pace=paceSel.value,count=pace==="one"?1:pace==="three"?3:2;
+ const mood=moodSel.value,pace=paceSel.value,stateName=city.state.split("-").map(x=>x.charAt(0).toUpperCase()+x.slice(1)).join(" "),count=pace==="one"?1:pace==="three"?3:2;
  let sorted=city.spots.map((spot,index)=>({...spot,index,score:score(spot,mood)})).sort((a,b)=>b.score-a.score||a.index-b.index);
  const picks=sorted.slice(0,count);
  title.textContent="Your "+city.name+" day plan";
@@ -45,13 +45,13 @@ function render(){
   const text=document.createElement("p");text.textContent=p.description;
   const links=document.createElement("div");links.className="tv-plan-links";
   if(p.official){const official=document.createElement("a");official.href=p.official;official.target="_blank";official.rel="noopener noreferrer";official.textContent="Official visitor info ↗";links.append(official);}
-  const map=document.createElement("a");map.href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p.name+" "+city.name+" "+city.state);map.target="_blank";map.rel="noopener noreferrer";map.textContent="Map this place ↗";links.append(map);
+  const map=document.createElement("a");map.href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p.name+" "+city.name+" "+stateName);map.target="_blank";map.rel="noopener noreferrer";map.textContent="Map this place ↗";links.append(map);
   body.append(typ,h3,text,links);wrap.append(nr,body);list.append(wrap);
  }
  let link;
- if(picks.length===1)link="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(picks[0].name+" "+city.name+" "+city.state);
+ if(picks.length===1)link="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(picks[0].name+" "+city.name+" "+stateName);
  else{
-  const coords=p=>encodeURIComponent(p.name+", "+city.name+", "+city.state);
+  const coords=p=>encodeURIComponent(p.name+", "+city.name+", "+stateName);
   link="https://www.google.com/maps/dir/?api=1&origin="+coords(picks[0])+"&destination="+coords(picks[picks.length-1]);
   if(picks.length>2)link+="&waypoints="+picks.slice(1,-1).map(coords).join("%7C");
  }
