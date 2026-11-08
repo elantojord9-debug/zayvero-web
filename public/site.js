@@ -226,3 +226,40 @@ document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click"
     catch{output.textContent="Copy failed. Email zayverosolutions@gmail.com with your venue and city details."}
   });
 })();
+
+/* Visitor-friendly image sharing: opens the Pinterest pin composer on demand. */
+(() => {
+  "use strict";
+  const root = document.querySelector(".tv-hero-actions, .tv-article-actions, .tv-budget-hero, .tv-family-hero, .tv-tours-hero");
+  if (!root) return;
+  const imageMeta = document.querySelector('meta[property="og:image"]');
+  const media = imageMeta?.content || "https://troviora.com/assets/troviora-og.png";
+  const pin = document.createElement("a");
+  const target = new URL("https://www.pinterest.com/pin/create/button/");
+  target.searchParams.set("url",document.querySelector('link[rel="canonical"]')?.href || location.href);
+  target.searchParams.set("media",media);
+  target.searchParams.set("description",document.title);
+  pin.href=target.href;
+  pin.target="_blank";
+  pin.rel="noopener noreferrer";
+  pin.className="tv-pinterest-share";
+  pin.textContent="Save to Pinterest ↗";
+  pin.setAttribute("aria-label","Save this city travel guide to Pinterest");
+  root.append(pin);
+})();
+/* Respect analytics choice: only report navigation events after explicit opt-in. */
+(() => {
+  "use strict";
+  document.addEventListener("click",event=>{
+    const a=event.target instanceof Element ? event.target.closest("a") : null;
+    if(!a || !window.__trovioraAnalyticsLoaded || typeof window.gtag!=="function")return;
+    if(a.matches("[data-commercial-outbound]"))
+      window.gtag("event","commercial_outbound",{destination:a.dataset.commercialOutbound || "other"});
+    if(a.matches("[data-newsletter-signup]"))
+      window.gtag("event","newsletter_signup_click",{channel:"google_form"});
+    if(a.href.includes("/forms/d/e/") && a.closest(".tv-business-direct"))
+      window.gtag("event","business_inquiry_click",{channel:"google_form"});
+    if(a.matches(".tv-pinterest-share"))
+      window.gtag("event","social_share_click",{platform:"pinterest"});
+  });
+})();

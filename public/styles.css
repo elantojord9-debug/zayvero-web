@@ -614,3 +614,9 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 .tv-extraplace-links a{font-size:12px;font-weight:800;color:#216341}
 @media(max-width:1000px){.tv-extragrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.tv-extraguide{padding:0 15px;margin:50px auto}.tv-extragrid{grid-template-columns:1fr}.tv-extraplace{padding:20px}}
+
+.tv-pinterest-share{display:inline-flex;align-items:center;text-decoration:none;padding:11px 14px;font-size:12px;font-weight:800;background:#f7e2df;color:#854443;border:1px solid #edc5c1;border-radius:7px;max-width:260px;margin:5px 8px 0 0}
+.tv-hero-actions .tv-pinterest-share{align-self:center}
+.tv-budget-hero .tv-pinterest-share,.tv-family-hero .tv-pinterest-share,.tv-tours-hero .tv-pinterest-share{margin:14px 0 0 13px}
+.tv-tours-hero .tv-pinterest-share{background:#e8d3d0;color:#653e3a}
+@media(max-width:650px){.tv-pinterest-share{font-size:11px;padding:10px 11px}.tv-family-hero .tv-pinterest-share{display:flex;width:max-content;margin:12px 0 0}}
