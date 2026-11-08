@@ -300,3 +300,32 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 .tv-hub-next p{color:#526c59;line-height:1.7}
 @media(max-width:900px){.tv-state-cards,.tv-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tv-decision-row{grid-template-columns:1fr;gap:5px}}
 @media(max-width:650px){.tv-state-landing{padding:50px 16px 65px}.tv-state-cards,.tv-hub-grid{grid-template-columns:1fr}.tv-state-tile{min-height:270px}.tv-hub-layout{padding:18px 14px 70px}.tv-hub-hero{padding:47px 23px 58px;margin-bottom:60px}.tv-hub-hero h1{font-size:45px}.tv-hub-image{height:215px}.tv-hub-details p{min-height:0}.tv-hub-editorial{margin:45px auto}.tv-hub-tips{padding:35px 23px}.tv-hub-tips>h2{font-size:34px}}
+
+/* Original editorial planning library and internal discovery */
+.tv-home-library{background:#e7eee1;padding:80px clamp(20px,6vw,100px);color:#173a31}
+.tv-home-library-head{max-width:850px;margin:0 auto 38px;text-align:center}
+.tv-home-library h2{font-size:clamp(38px,5vw,66px);letter-spacing:-.055em;line-height:1.09;margin:17px 0}
+.tv-home-library-head p{line-height:1.75;color:#547058}
+.tv-home-library-head a{display:inline-block;margin-top:12px;font-size:14px;font-weight:800}
+.tv-home-guides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;max-width:1250px;margin:auto}
+.tv-home-guide{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:240px;border-radius:12px;overflow:hidden;padding:20px;color:#fff;text-decoration:none;isolation:isolate;background:#173a31}
+.tv-home-guide:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#081b15f2,#081b1510 80%)}
+.tv-home-guide img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.tv-home-guide:hover img{transform:scale(1.04)}
+.tv-home-guide span{font-size:23px;font-weight:800;letter-spacing:-.04em;line-height:1.2}
+.tv-home-guide b{margin-top:13px;font-size:12px;color:#d4ebac}
+.tv-guide-library{max-width:1350px;margin:0 auto 90px;padding:65px clamp(20px,5vw,70px)}
+.tv-guide-library-head{max-width:760px;margin-bottom:35px}
+.tv-guide-library-head h2{font-size:clamp(36px,4.5vw,61px);line-height:1.1;letter-spacing:-.055em;margin:13px 0}
+.tv-guide-library-head p{color:#607467;line-height:1.75}
+.tv-guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.tv-guide-card{display:block;text-decoration:none;background:#fff;border:1px solid #e1e9df;border-radius:12px;overflow:hidden;transition:transform .2s}
+.tv-guide-card:hover{transform:translateY(-3px)}
+.tv-guide-card>img{width:100%;height:190px;object-fit:cover;display:block}
+.tv-guide-card>div{padding:22px}
+.tv-guide-card span{color:#68875a;font-size:10px;font-weight:800;letter-spacing:1.3px}
+.tv-guide-card h3{font-size:23px;line-height:1.15;letter-spacing:-.035em;margin:10px 0;color:#173a31}
+.tv-guide-card p{font-size:14px;line-height:1.7;color:#607568;min-height:75px}
+.tv-guide-card b{font-size:13px;color:#2f6747}
+@media(max-width:1000px){.tv-home-guides,.tv-guide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.tv-home-library{padding:55px 16px}.tv-home-guides,.tv-guide-grid{grid-template-columns:1fr}.tv-home-guide{min-height:230px}.tv-guide-library{padding:40px 15px}.tv-guide-card>img{height:210px}.tv-guide-card p{min-height:0}}
