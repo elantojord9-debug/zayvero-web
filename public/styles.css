@@ -672,3 +672,66 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 @media(max-width:650px){.tv-verified-layout{padding:14px 16px 60px}.tv-verified-hero{padding:45px 0 22px}.tv-verified-hero h1{font-size:41px}.tv-verified-photo img{height:240px}
 .tv-verified-note{padding:23px}.tv-verified-grid{grid-template-columns:1fr}.tv-verified-place{padding:23px}.tv-verified-planning{padding:32px 23px}
 .tv-verified-home>div,.tv-verified-teasers-grid{grid-template-columns:1fr}.tv-verified-teasers{padding:35px 16px}.tv-verified-home{padding:35px 16px}.tv-verified-cta{padding:25px}}
+
+/* TROVIORA /weekend/ interactive planning tool */
+.tv-weekend-layout{max-width:1330px;margin:0 auto;padding:25px clamp(16px,4.2vw,65px) 90px}
+.tv-weekend-hero{padding:60px 0 48px;background:radial-gradient(circle at 82% 30%,#e3eed7 0,transparent 42%)}
+.tv-weekend-hero h1{font-size:clamp(49px,7.5vw,105px);line-height:1;letter-spacing:-.07em;margin:19px 0;color:#173a31}
+.tv-weekend-hero h1 em{font-weight:400;color:#81a26b}
+.tv-weekend-hero p{font-size:clamp(16px,1.8vw,21px);line-height:1.8;color:#58715d;max-width:750px}
+.tv-weekend-badges{display:flex;flex-wrap:wrap;gap:9px}
+.tv-weekend-badges span{border:1px solid #a3b997;color:#376340;border-radius:25px;padding:9px 15px;font-size:12px;font-weight:800}
+.tv-weekend-columns{display:grid;grid-template-columns:minmax(280px,.84fr) minmax(0,1.5fr);gap:22px;align-items:start}
+.tv-weekend-filters,.tv-weekend-outcome{background:#fff;border:1px solid #d9e3d1;border-radius:14px;padding:clamp(21px,3vw,36px);box-shadow:0 16px 40px #173a310d}
+.tv-weekend-filters{position:sticky;top:20px}.tv-weekend-filters h2,.tv-weekend-outcome h2{font-size:clamp(27px,2.8vw,40px);letter-spacing:-.05em;margin:0 0 23px}
+.tv-weekend-filters form{display:grid;gap:9px}.tv-weekend-filters label{font-weight:800;font-size:13px;margin-top:12px}
+.tv-weekend-filters select,.tv-weekend-filters input{height:47px;width:100%;border:1px solid #b9cbb2;background:#f9fbf6;border-radius:7px;padding:10px 12px;color:#143f2e;font-size:14px;min-width:0}
+.tv-weekend-filters select:focus-visible,.tv-weekend-filters input:focus-visible{outline:3px solid #9ac476}
+.tv-weekend-filters small,.tv-weekend-policy{font-size:11px;line-height:1.6;color:#6a7f6d}
+.tv-weekend-submit{border:0;background:#173a31;color:#fff;font-weight:800;font-size:14px;padding:17px 20px;border-radius:7px;margin-top:12px}
+.tv-weekend-policy{margin-top:18px}.tv-weekend-outcome-top>p{font-size:14px;color:#607767;line-height:1.8}
+.tv-weekend-disclaimer{background:#edf4e8;color:#46654c;padding:16px;border-radius:8px;font-size:12px;line-height:1.7}
+.tv-weekend-day{margin:27px 0 18px;padding-bottom:20px;border-bottom:1px solid #d6e4d3}
+.tv-weekend-day-head{display:flex;justify-content:space-between;align-items:end;gap:15px;flex-wrap:wrap;padding-bottom:12px}
+.tv-weekend-day-head>div{font-size:12px;font-weight:900;letter-spacing:1.2px;color:#72966d}
+.tv-weekend-day-head h3{font-size:22px;letter-spacing:-.04em;margin:0}
+.tv-weekend-stop{padding:19px 0;border-top:1px solid #ebf0e8}
+.tv-weekend-stop-meta{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.tv-weekend-stop-meta>span:first-child{font-size:11px;font-weight:700;color:#72926d}
+.tv-weekend-access{border-radius:18px;background:#dcecd1;color:#295b37;padding:7px 11px;font-weight:800;font-size:10px}
+.tv-weekend-stop h4{font-size:22px;letter-spacing:-.04em;margin:13px 0}
+.tv-weekend-stop p{font-size:13px;line-height:1.8;color:#5c725d}
+.tv-weekend-stop .tv-weekend-note{color:#4c654f;background:#f1f6ed;border-left:3px solid #89b276;padding:9px 12px}
+.tv-weekend-place-links{display:flex;flex-wrap:wrap;gap:13px}
+.tv-weekend-place-links a,.tv-weekend-day>a,.tv-weekend-guide-link a{color:#276646;font-size:12px;font-weight:800}
+.tv-weekend-day>a{display:inline-block;margin:15px 0 0}
+.tv-weekend-tools{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
+.tv-weekend-tools button{padding:12px 15px;border-radius:7px;background:#e4edda;color:#22523a;font-size:12px;font-weight:800;border:1px solid #c0d4b5}
+.tv-weekend-status{min-height:20px;font-size:12px;color:#276746}
+.tv-weekend-empty{color:#6b7e70;font-size:13px;line-height:1.8}
+.tv-weekend-library{margin:90px 0;padding:35px;border:1px solid #d6e6ce;border-radius:12px}
+.tv-weekend-library h2,.tv-weekend-editorial h2,.tv-weekend-cities h2,.tv-weekend-faq h2{font-size:clamp(29px,3.5vw,47px);letter-spacing:-.052em;margin:12px 0}
+.tv-weekend-library p{color:#59725b;line-height:1.7}
+.tv-weekend-saved-list{display:grid;gap:12px;margin-top:25px}
+.tv-weekend-saved{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:14px;border:1px solid #dce6da;border-radius:8px}
+.tv-weekend-saved strong{font-size:15px}.tv-weekend-saved span{font-size:12px;color:#5b735e;flex:1;min-width:140px}
+.tv-weekend-saved button{border:1px solid #c0d4b7;background:#e3eeda;border-radius:7px;padding:10px 13px;font-size:12px;font-weight:800}
+.tv-weekend-saved button.tv-weekend-remove{background:#fff;color:#9a4343;border-color:#d7bfbd}
+.tv-weekend-editorial{background:#183f31;color:#fff;border-radius:15px;padding:clamp(30px,5vw,65px)}
+.tv-weekend-editorial p{color:#d8e5d7;line-height:1.8;max-width:780px}
+.tv-weekend-editorial .cl-section-kicker{color:#cbefa7}
+.tv-weekend-editorial-links{display:flex;flex-wrap:wrap;gap:11px;margin-top:24px}
+.tv-weekend-editorial-links a{background:#e9f2d8;color:#1c4e33;text-decoration:none;padding:13px 15px;border-radius:7px;font-size:12px;font-weight:800}
+.tv-weekend-cities{padding:60px 0}
+.tv-weekend-cities>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tv-weekend-cities a{display:flex;flex-direction:column;gap:8px;background:#e5ecdd;padding:22px;border-radius:11px;text-decoration:none;min-height:148px}
+.tv-weekend-cities a strong{font-size:22px;letter-spacing:-.035em}.tv-weekend-cities a small{color:#607c65;text-transform:capitalize}
+.tv-weekend-cities a span{font-size:12px;color:#286144;font-weight:800;margin-top:auto}
+.tv-weekend-faq{max-width:900px;padding:25px 0}
+.tv-weekend-faq details{padding:18px 0;border-bottom:1px solid #cddfce}
+.tv-weekend-faq summary{font-weight:800;cursor:pointer}.tv-weekend-faq p,.tv-weekend-fineprint{line-height:1.8;color:#5a725e;font-size:14px}
+@media(max-width:960px){.tv-weekend-columns{grid-template-columns:1fr}.tv-weekend-filters{position:static}.tv-weekend-cities>div{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){.tv-weekend-layout{padding:17px 16px 70px}.tv-weekend-hero{padding:45px 0 30px}.tv-weekend-hero h1{font-size:51px}
+.tv-weekend-cities>div{grid-template-columns:repeat(2,minmax(0,1fr))}.tv-weekend-library{padding:25px 18px;margin:55px 0}.tv-weekend-editorial{padding:30px 25px}
+.tv-weekend-saved span{flex:0 0 100%}.tv-weekend-tools button{flex:1}}
+@media print{.cl-header,.cl-footer,.tv-weekend-filters,.tv-weekend-library,.tv-weekend-editorial,.tv-weekend-cities,.tv-weekend-faq,.tv-weekend-tools,.tv-cookie-banner,.tv-privacy-banner{display:none!important}.tv-weekend-columns{display:block}.tv-weekend-outcome{border:0;box-shadow:none}.tv-weekend-place-links{display:none}.tv-weekend-layout{padding:0}}
