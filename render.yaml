@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: troviora
+    runtime: static
+    repo: https://github.com/elantojord9-debug/zayvero-web
+    branch: troviora-static
+    buildCommand: echo 'Prebuilt Troviora static site'
+    staticPublishPath: public
+    domains:
+      - troviora.com
