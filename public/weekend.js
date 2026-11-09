@@ -32,7 +32,7 @@ function eligibility(p,opts){
  if(opts.interest==="outdoors"&& !p.outdoors)return false;
  if(opts.interest==="culture"&&p.outdoors)return false;
  if(opts.interest==="family"&&!p.family)return false;
- if(opts.interest==="pets"&&!p.outdoors)return false;
+ if(opts.interest==="pets"&&!p.petVerified)return false;
  return true;
 }
 function rank(p,opts){
@@ -59,7 +59,7 @@ function render(){
  h.textContent=city.name+" weekend planner";
  summary.textContent=picks.length+" "+(picks.length===1?"place":"places")+" across "+opts.days+" "+(opts.days===1?"day":"days")+" · "+budget+" ideas. Check operators for actual dates, fees and open hours.";
  out.replaceChildren();
- const warning=create("p","tv-weekend-disclaimer",opts.interest==="pets"?"Outdoor places are NOT verified as pet-friendly. Check specific pet rules first.":opts.budget==="free"?"Free general admission does not include transport, parking or optional extras.":"These are suggestions only: Troviora has no current ticket prices and cannot verify that paid entries fit your budget.");
+ const warning=create("p","tv-weekend-disclaimer",opts.interest==="pets"?"Only locations with verified official on-leash dog rules are shown. Check policies again before traveling.":opts.budget==="free"?"Free general admission does not include transport, parking or optional extras.":"These are suggestions only: Troviora has no current ticket prices and cannot verify that paid entries fit your budget.");
  out.append(warning);
  for(let day=0;day<opts.days;day++){
   const section=create("section","tv-weekend-day");const box=create("div","tv-weekend-day-head");

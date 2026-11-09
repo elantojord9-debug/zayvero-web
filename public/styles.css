@@ -812,3 +812,14 @@ a:focus-visible,button:focus-visible{outline:3px solid #a8c273;outline-offset:3p
 .cl-spot .cl-spot-price{background:#e8f1df;border-left:3px solid #80a66e;padding:9px 12px;color:#1f5738}
 .cl-spot .cl-spot-address strong,.cl-spot .cl-spot-price strong{font-weight:800}
 .cl-spot .cl-spot-visit-note{font-size:12px;color:#667a68}
+
+/* Family and verified dog policy tags for Troviora city directory cards */
+.tv-spot-tags{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 9px}
+.tv-spot-tag{display:inline-flex;align-items:center;padding:6px 11px;border-radius:24px;font-size:11px;font-weight:800;line-height:1.3;border:1px solid transparent}
+.tv-spot-family{background:#e8f1dd;color:#31593c;border-color:#c4d9b1}
+.tv-spot-pet{background:#e5f2f4;color:#185e70;border-color:#badce3}
+.tv-spot-pet-note{padding:11px 14px;background:#eff6ec;border-left:3px solid #6a9c68;line-height:1.7;font-size:12px}
+.tv-spot-pet-note a{font-weight:800;color:#245b3a}
+.tv-admission-free{color:#266342;font-weight:800}
+.tv-admission-paid{color:#775932;font-weight:800}
+@media(max-width:600px){.tv-spot-tag{font-size:10px}.tv-spot-tags{gap:6px}}
